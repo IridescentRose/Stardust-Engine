@@ -1,4 +1,5 @@
-# Stardust-Engine
+![Stardust Engine](./2661a32c-7c4a-45ed-855d-8ea976470a8f_200x200.png)
+
 Mission: A brand new, easy to use, and beautiful game engine for the PSP (with possible multiplatform support).
 
 ## Project Phase
