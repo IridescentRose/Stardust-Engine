@@ -1,6 +1,6 @@
 ![Stardust Engine](./stardustLogo.png)
 
-### Project Mission: A brand new, easy to use, and beautiful game engine for the PSP.
+Mission: A brand new, easy to use, and beautiful game engine for the PSP.
 
 ## Project Phase
 The engine is currently in planning and will be moving to development on 3/3/2020.
