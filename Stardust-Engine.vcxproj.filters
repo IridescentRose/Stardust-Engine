@@ -26,5 +26,11 @@
     <ClInclude Include="include\Platform\Platform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="libs\include\pspmath.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Math\MathFuncs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

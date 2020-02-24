@@ -42,7 +42,9 @@
     <ClCompile Include="src\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Math\MathFuncs.h" />
     <ClInclude Include="include\Platform\Platform.h" />
+    <ClInclude Include="libs\include\pspmath.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
