@@ -1,9 +1,12 @@
 #include <Platform/Platform.h>
 
+#if CURRENT_PLATFORM == PLATFORM_PSP
 #include <psppower.h>
 #include <stdlib.h>
 #include <pspkernel.h>
 #include <time.h>
+#include <pspmath.h>
+#endif
 
 namespace Stardust::Platform {
 #if CURRENT_PLATFORM == PLATFORM_PSP
@@ -47,6 +50,8 @@ namespace Stardust::Platform {
 		SetupCallbacks();
 		scePowerSetClockFrequency(333, 333, 166);
 		srand(time(NULL));
+
+		vfpu_srand(time(NULL));
 	}
 
 	void exitPlatform()
