@@ -1,0 +1,24 @@
+TARGET = Stardust-Engine-Demo
+OBJS = 
+
+INCDIR = $(PSPPATH)/include
+INCDIR += ./include ./libs/include
+CFLAGS = -O3 -g3 --stackmpreferred-boundary=4 -ffast-math -fno-rtti -fno-exceptions
+CXXFLAGS = -std=gnu++17
+ASFLAGS = $(CFLAGS)
+
+BUILD_PRX = 1
+PSP_FW_VERSION=500
+PSP_LARGE_MEMORY = 0
+
+LIBDIR += ./libs/lib/
+LDFLAGS =
+LIBS=  -lpspaudiolib -lpspaudio -lpspaudiocodec -lz -lpspgum -lpspgu -lstdc++ -lpsprtc -lpspctrl -lm -lpspvfpu -lpspsdk -lpsppower -lpsphttp -lpspmath #Intrafont, PNG, Zlib, JSON, etc.
+
+EXTRA_TARGETS = EBOOT.PBP
+PSP_EBOOT_TITLE = Stardust
+PSP_EBOOT_ICON = NULL
+PSP_EBOOT_PIC1 = NULL
+
+PSPSDK=$(shell psp-config --pspsdk-path)
+include $(PSPSDK)/lib/build.mak
