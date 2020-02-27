@@ -1,10 +1,11 @@
 TARGET = Stardust-Engine-Demo
 OBJS = src/Platform/Platform.o \
+src/Math/Frustum.o \
 src/Main.o
 
 INCDIR = $(PSPPATH)/include
 INCDIR += ./include ./libs/include
-CFLAGS = -O3 -g3 -mpreferred-stack-boundary=4 -ffast-math -fno-rtti -fno-exceptions 
+CFLAGS = -Weffc++ -O3 -g3 -mpreferred-stack-boundary=4 -ffast-math -fno-rtti -fno-exceptions 
 CXXFLAGS = -std=gnu++17
 ASFLAGS = $(CFLAGS)
 

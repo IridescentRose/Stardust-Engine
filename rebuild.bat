@@ -1,2 +1,4 @@
-clean.bat
-build.bat
+PATH=c:\pspsdk\bin;%cd%;
+make clean
+make
+pause
