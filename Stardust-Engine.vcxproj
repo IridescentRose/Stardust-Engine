@@ -32,17 +32,24 @@
     <NMakeCleanCommandLine>clean.bat</NMakeCleanCommandLine>
     <NMakeReBuildCommandLine>rebuild.bat</NMakeReBuildCommandLine>
     <NMakePreprocessorDefinitions>NDEBUG;$(NMakePreprocessorDefinitions);CURRENT_PLATFORM=0</NMakePreprocessorDefinitions>
-    <IncludePath>C:\pspsdk\psp\sdk\include\libc;$(SolutionDir)libs\include;$(SolutionDir)include;C:\pspsdk\psp\sdk\include;C:\pspsdk\psp\include</IncludePath>
+    <IncludePath>C:\pspsdk\psp\sdk\include\libc;$(SolutionDir)libs\include;$(SolutionDir)include;C:\pspsdk\psp\sdk\include;C:\pspsdk\psp\include;$(IncludePath)</IncludePath>
     <AdditionalOptions>/std:c++latest</AdditionalOptions>
   </PropertyGroup>
   <ItemDefinitionGroup>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Math\Frustum.cpp" />
     <ClCompile Include="src\Platform\Platform.cpp" />
     <ClCompile Include="src\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Math\AABB.h" />
+    <ClInclude Include="include\Math\Frustum.h" />
     <ClInclude Include="include\Math\MathFuncs.h" />
+    <ClInclude Include="include\Math\Matrix.h" />
+    <ClInclude Include="include\Math\Quaternion.h" />
+    <ClInclude Include="include\Math\Ray.h" />
+    <ClInclude Include="include\Math\Vector.h" />
     <ClInclude Include="include\Platform\Platform.h" />
     <ClInclude Include="libs\include\pspmath.h" />
   </ItemGroup>
