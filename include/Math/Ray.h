@@ -6,7 +6,7 @@ namespace Stardust::Math {
 
 	class Ray2D {
 	public:
-		Ray2D(vec2 position, vec2 direction): m_pos(position), m_dir(direction) {
+		Ray2D(vec2 position, vec2 direction) : m_pos(position), m_dir(direction) {
 			m_newPos = m_pos;
 		}
 
@@ -22,6 +22,28 @@ namespace Stardust::Math {
 	private:
 		vec2 m_pos, m_dir;
 		vec2 m_newPos;
+
+	};
+
+
+	class Ray {
+	public:
+		Ray(vec3 position, vec3 direction) : m_pos(position), m_dir(direction) {
+			m_newPos = m_pos;
+		}
+
+		//Number of steps
+		inline void step(float multiplier) {
+			m_newPos += m_dir * multiplier;
+		}
+
+		inline vec3 getEnd() {
+			return m_newPos;
+		}
+
+	private:
+		vec3 m_pos, m_dir;
+		vec3 m_newPos;
 
 	};
 }

@@ -10,7 +10,7 @@ namespace Stardust::Math {
 		vec2 extent; //Bounds
 	};
 
-	struct AABB3D {
+	struct AABB {
 		vec3 offset; //Lower Left Front Corner
 		vec3 extent; //Bounds
 	};
@@ -18,7 +18,7 @@ namespace Stardust::Math {
 	inline bool collided2D(const AABB2D& aabb, const vec2& v) {
 		return (v.x > aabb.offset.x&& v.x < (aabb.extent + aabb.offset).x && v.y > aabb.offset.y&& v.y < (aabb.extent + aabb.offset).y);
 	}
-	inline bool collided3D(const AABB3D& aabb, const vec3& v) {
+	inline bool collided(const AABB& aabb, const vec3& v) {
 		return (v.x > aabb.offset.x&& v.x < (aabb.extent + aabb.offset).x && v.y > aabb.offset.y&& v.y < (aabb.extent + aabb.offset).y && v.z > aabb.offset.z&& v.z < (aabb.extent + aabb.offset).z);
 	}
 }
