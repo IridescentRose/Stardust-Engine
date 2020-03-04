@@ -34,4 +34,6 @@ namespace Stardust::Utilities {
 		return total;
 	}
 
+	Timer g_AppTimer;
+
 }

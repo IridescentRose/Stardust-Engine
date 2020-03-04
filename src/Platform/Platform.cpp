@@ -1,4 +1,6 @@
 #include <Platform/Platform.h>
+#include <Utilities/Timer.h>
+#include <Utilities/Logger.h>
 
 #if CURRENT_PLATFORM == PLATFORM_PSP
 #include <psppower.h>
@@ -50,13 +52,20 @@ namespace Stardust::Platform {
 		SetupCallbacks();
 		scePowerSetClockFrequency(333, 333, 166);
 		srand(time(NULL));
-
 		vfpu_srand(time(NULL));
+
+		Utilities::g_AppTimer.reset();
+		Utilities::g_AppTimer.deltaTime();
+
+		Utilities::g_Logger = new Utilities::Logger();
+		Utilities::g_Logger->log("Stardust-Engine Initialized!");
+
 	}
 
 	void exitPlatform()
 	{
 		sceKernelDelayThread(1000000);
+		delete Utilities::g_Logger;
 		sceKernelExitGame();
 	}
 
