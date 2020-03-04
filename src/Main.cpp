@@ -15,6 +15,7 @@ PSP_HEAP_SIZE_KB(-1024);
 
 #include <Utilities/Timer.h>
 #include <Utilities/Logger.h>
+#include <Utilities/Input.h>
 
 using namespace Stardust;
 
@@ -23,6 +24,11 @@ int main() {
 	Platform::initPlatform();
 
 	Utilities::g_Logger->log("Hello World!");
+	Utilities::updateInputs();
+
+	while (!Utilities::KeyPressed(PSP_CTRL_START)) {
+		Utilities::updateInputs();
+	}
 
 	Platform::exitPlatform();
 
