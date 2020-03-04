@@ -13,6 +13,8 @@ PSP_HEAP_SIZE_KB(-1024);
 #endif
 
 
+#include <Utilities/Timer.h>
+
 using namespace Stardust;
 
 int main() {
@@ -20,7 +22,8 @@ int main() {
 	Platform::initPlatform();
 
 	pspDebugScreenInit();
-	pspDebugScreenPrintf("VFPU RAND: %f", vfpu_randf(0.0f, 100.0f));
+
+
 	sceKernelDelayThread(1000000);
 
 	Platform::exitPlatform();

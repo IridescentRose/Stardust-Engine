@@ -56,6 +56,7 @@ namespace Stardust::Platform {
 
 	void exitPlatform()
 	{
+		sceKernelDelayThread(1000000);
 		sceKernelExitGame();
 	}
 
