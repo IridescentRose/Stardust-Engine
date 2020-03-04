@@ -1,6 +1,7 @@
 #include <Platform/Platform.h>
 #include <Utilities/Timer.h>
 #include <Utilities/Logger.h>
+#include <Utilities/JSON.h>
 
 #if CURRENT_PLATFORM == PLATFORM_PSP
 #include <psppower.h>
