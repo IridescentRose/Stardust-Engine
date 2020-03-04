@@ -38,13 +38,16 @@
   <ItemDefinitionGroup>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Events\Events.cpp" />
     <ClCompile Include="src\Math\Frustum.cpp" />
     <ClCompile Include="src\Platform\Platform.cpp" />
     <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\Utilities\Input.cpp" />
     <ClCompile Include="src\Utilities\Logger.cpp" />
     <ClCompile Include="src\Utilities\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Events\Events.h" />
     <ClInclude Include="include\Math\AABB.h" />
     <ClInclude Include="include\Math\Frustum.h" />
     <ClInclude Include="include\Math\MathFuncs.h" />
@@ -53,8 +56,11 @@
     <ClInclude Include="include\Math\Ray.h" />
     <ClInclude Include="include\Math\Vector.h" />
     <ClInclude Include="include\Platform\Platform.h" />
+    <ClInclude Include="include\Utilities\Input.h" />
+    <ClInclude Include="include\Utilities\JSON.h" />
     <ClInclude Include="include\Utilities\Logger.h" />
     <ClInclude Include="include\Utilities\Timer.h" />
+    <ClInclude Include="include\Utilities\UUID.h" />
     <ClInclude Include="libs\include\pspmath.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
