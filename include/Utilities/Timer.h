@@ -30,6 +30,8 @@ namespace Stardust::Utilities {
 
 		u32 tickResolution;
 #endif
-
+		
 	};
+
+	extern Timer g_AppTimer;
 }

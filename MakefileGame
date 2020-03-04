@@ -2,6 +2,7 @@ TARGET = Stardust-Engine-Demo
 OBJS = src/Platform/Platform.o \
 src/Math/Frustum.o \
 src/Utilities/Timer.o \
+src/Utilities/Logger.o \
 src/Main.o
 
 INCDIR = $(PSPPATH)/include

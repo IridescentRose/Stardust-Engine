@@ -14,6 +14,7 @@ PSP_HEAP_SIZE_KB(-1024);
 
 
 #include <Utilities/Timer.h>
+#include <Utilities/Logger.h>
 
 using namespace Stardust;
 
@@ -21,10 +22,7 @@ int main() {
 
 	Platform::initPlatform();
 
-	pspDebugScreenInit();
-
-
-	sceKernelDelayThread(1000000);
+	Utilities::g_Logger->log("Hello World!");
 
 	Platform::exitPlatform();
 
