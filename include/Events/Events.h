@@ -39,4 +39,6 @@ namespace Stardust::Events {
 		
 		
 	};
+
+	extern EventBus g_EventBus;
 }

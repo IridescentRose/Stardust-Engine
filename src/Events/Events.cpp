@@ -43,4 +43,5 @@ namespace Stardust::Events {
 
 		eventList.clear();
 	}
+	EventBus g_EventBus;
 }

@@ -55,6 +55,7 @@
     <ClInclude Include="include\Math\Quaternion.h" />
     <ClInclude Include="include\Math\Ray.h" />
     <ClInclude Include="include\Math\Vector.h" />
+    <ClInclude Include="include\Network\NetworkTypes.h" />
     <ClInclude Include="include\Platform\Platform.h" />
     <ClInclude Include="include\Utilities\Input.h" />
     <ClInclude Include="include\Utilities\JSON.h" />

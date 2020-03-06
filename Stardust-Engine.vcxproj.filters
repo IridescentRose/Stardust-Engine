@@ -83,5 +83,8 @@
     <ClInclude Include="include\Utilities\UUID.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Network\NetworkTypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
