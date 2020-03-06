@@ -23,11 +23,13 @@
 #endif
 
 namespace Stardust::Network {
+
 #if CURRENT_PLATFORM == PLATFORM_PSP
 	NetworkDriver::NetworkDriver()
 	{
+		m_Socket = Socket();
 	}
-	void NetworkDriver::Init() {
+	bool NetworkDriver::Init() {
 		sceUtilityLoadNetModule(PSP_NET_MODULE_HTTP);
 		sceUtilityLoadNetModule(PSP_NET_MODULE_PARSEHTTP);
 		sceUtilityLoadNetModule(PSP_NET_MODULE_PARSEURI);
@@ -53,10 +55,7 @@ namespace Stardust::Network {
 		if (result < 0) {
 			sceKernelExitGame();
 		}
-	}
 
-	//TODO: Connect with dialog box!
-	bool NetworkDriver::Connect() {
 		int result = sceNetApctlConnect(1);	//Connects to your first (primary) internet connection.
 
 		//Displays connection status
@@ -89,6 +88,13 @@ namespace Stardust::Network {
 		sceUtilityUnloadNetModule(PSP_NET_MODULE_INET);
 		sceUtilityUnloadNetModule(PSP_NET_MODULE_COMMON);
 	}
+
+#endif
+
+	bool NetworkDriver::Connect(unsigned short port, const char* ip) {
+		return m_Socket.Connect(port, ip);
+	}
+
 	void NetworkDriver::AddPacket(PacketOut* p)
 	{
 		packetQueue.push(p);
@@ -120,10 +126,8 @@ namespace Stardust::Network {
 			}
 
 			//Send over socket
-
-			//m_Socket.send(endByteBuffer.size(), endByteBuffer.data());
+			m_Socket.Send(endByteBuffer.size(), endByteBuffer.data());
 		}
 	}
-#endif
 
 }

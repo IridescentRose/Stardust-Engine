@@ -40,6 +40,8 @@
   <ItemGroup>
     <ClCompile Include="src\Events\Events.cpp" />
     <ClCompile Include="src\Math\Frustum.cpp" />
+    <ClCompile Include="src\Network\NetworkDriver.cpp" />
+    <ClCompile Include="src\Network\Socket.cpp" />
     <ClCompile Include="src\Platform\Platform.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Utilities\Input.cpp" />
@@ -55,7 +57,10 @@
     <ClInclude Include="include\Math\Quaternion.h" />
     <ClInclude Include="include\Math\Ray.h" />
     <ClInclude Include="include\Math\Vector.h" />
+    <ClInclude Include="include\Network\NetworkDriver.h" />
+    <ClInclude Include="include\Network\NetworkSerialization.h" />
     <ClInclude Include="include\Network\NetworkTypes.h" />
+    <ClInclude Include="include\Network\Socket.h" />
     <ClInclude Include="include\Platform\Platform.h" />
     <ClInclude Include="include\Utilities\Input.h" />
     <ClInclude Include="include\Utilities\JSON.h" />
