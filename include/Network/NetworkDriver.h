@@ -1,8 +1,11 @@
 #pragma once
 #include <Network/NetworkSerialization.h>
 #include <Network/Socket.h>
+#include <queue>
+#include <map>
 
 namespace Stardust::Network {
+	typedef int (*PacketHandler)(PacketIn*);
 
 	class NetworkDriver {
 	public:
@@ -16,7 +19,15 @@ namespace Stardust::Network {
 		void ClearPacketQueue();
 		void SendPackets();
 
+		void ReceivePacket();
+		void HandlePackets();
+
+		void AddPacketHandler(int id, PacketHandler h);
+		void ClearPacketHandlers();
+
 		std::queue<PacketOut*> packetQueue;
+		std::queue<PacketIn*> unhandledPackets;
+		std::map<int, PacketHandler> packetHandlers;
 
 	private:
 		Socket m_Socket;

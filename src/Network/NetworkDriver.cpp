@@ -56,7 +56,7 @@ namespace Stardust::Network {
 			sceKernelExitGame();
 		}
 
-		int result = sceNetApctlConnect(1);	//Connects to your first (primary) internet connection.
+		result = sceNetApctlConnect(1);	//Connects to your first (primary) internet connection.
 
 		//Displays connection status
 		int err;
@@ -128,6 +128,33 @@ namespace Stardust::Network {
 			//Send over socket
 			m_Socket.Send(endByteBuffer.size(), endByteBuffer.data());
 		}
+	}
+
+	void NetworkDriver::ReceivePacket()
+	{
+		PacketIn p = m_Socket.Recv();
+		unhandledPackets.push(&p);
+	}
+
+	void NetworkDriver::HandlePackets()
+	{
+		while(!unhandledPackets.empty()){
+
+			if (packetHandlers.find(unhandledPackets.front()->ID) != packetHandlers.end()) {
+				packetHandlers[unhandledPackets.front()->ID](unhandledPackets.front());
+			}
+
+		}
+	}
+
+	void NetworkDriver::AddPacketHandler(int id, PacketHandler h)
+	{
+		packetHandlers.emplace(id, h);
+	}
+
+	void NetworkDriver::ClearPacketHandlers()
+	{
+		packetHandlers.clear();
 	}
 
 }

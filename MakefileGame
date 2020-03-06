@@ -5,6 +5,8 @@ src/Utilities/Timer.o \
 src/Utilities/Logger.o \
 src/Utilities/Input.o \
 src/Events/Events.o \
+src/Network/NetworkDriver.o \
+src/Network/Socket.o \
 src/Main.o
 
 INCDIR = $(PSPPATH)/include

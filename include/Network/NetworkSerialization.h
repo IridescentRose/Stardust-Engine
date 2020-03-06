@@ -94,8 +94,11 @@ namespace Stardust::Network {
 		int size = decodeVarInt(p);
 
 		for (int i = 0; i < size; i++) {
-			res.append((const char*)p.bytes[p.pos++]);
+			char a = (char)p.bytes[p.pos++];
+			res.append(&a);
 		}
+
+		return res;
 	}
 
 	inline void encodeFloat(float v, PacketOut& p) {

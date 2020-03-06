@@ -42,7 +42,36 @@ namespace Stardust::Network {
 		send(m_socket, buffer, size, 0);
 	}
 
-	byte* Socket::Recv()
+	PacketIn Socket::Recv()
 	{
+		PacketIn pIn;
+
+		std::vector<byte> len;
+		byte newByte;
+		recv(m_socket, &newByte, 1, 0);
+		
+		while (newByte & 128) {
+			len.push_back(newByte);
+			recv(m_socket, &newByte, 1, 0);
+		}
+		len.push_back(newByte);
+
+		//We now have the length stored in len
+		int length = decodeVarInt(len);
+
+		int totalTaken = 0;
+
+		byte *b = new byte[length];
+		totalTaken += recv(m_socket, b, length, 0);
+
+		for (int i = 0; i < length; i++) {
+			pIn.bytes.push_back(b[i]);
+		}
+
+		pIn.pos = 0;
+
+		pIn.ID = decodeShort(pIn);
+
+		return pIn;
 	}
 }
