@@ -4,15 +4,19 @@
 namespace Stardust::Network {
 	typedef unsigned char byte;
 
-	typedef std::vector<byte> PacketOut;
+	struct PacketOut {
+		short ID;
+		std::vector<byte> bytes;
+	};
 	struct PacketIn {
+		short ID;
 		short int pos;
 		std::vector<byte> bytes;
 	};
 
 	inline std::vector<byte> encodeVarInt(int value) {
 		std::vector<byte> vec;
-		
+
 		while (value > 127) {
 			vec.push_back(((byte)(value & 127)) | 128);
 
@@ -20,6 +24,17 @@ namespace Stardust::Network {
 		}
 		vec.push_back((byte)value & 127);
 		return vec;
+	}
+
+	inline void encodeVarInt(int value, std::vector<byte>& p) {
+		
+
+		while (value > 127) {
+			p.push_back(((byte)(value & 127)) | 128);
+
+			value >> 7;
+		}
+		p.push_back((byte)value & 127);
 	}
 
 	inline int decodeVarInt(std::vector<byte> input) {
