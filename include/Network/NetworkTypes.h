@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <Utilities/Logger.h>
 
 namespace Stardust::Network {
 	typedef unsigned char byte;
