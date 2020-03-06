@@ -1,6 +1,20 @@
 #pragma once
+#include <Platform/Platform.h>
 #include <string>
 #include <fstream>
+
+#include <sstream>
+
+#if CURRENT_PLATFORM == PLATFORM_PSP
+namespace std {
+	template < typename T > std::string to_string(const T& n)
+	{
+		std::ostringstream stm;
+		stm << n;
+		return stm.str();
+	}
+}
+#endif
 
 
 namespace Stardust::Utilities {
@@ -21,6 +35,8 @@ namespace Stardust::Utilities {
 		void flushLog();
 
 		void log(std::string message, LoggerLevel level = LOGGER_LEVEL_INFO);
+
+		int currentLevel;
 	private:
 		std::ofstream m_file;
 	};

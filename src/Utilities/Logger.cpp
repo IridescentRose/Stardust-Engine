@@ -3,6 +3,7 @@
 namespace Stardust::Utilities {
 	Logger::Logger(std::string path) {
 		m_file = std::ofstream(path);
+		currentLevel = 0;
 	}
 	
 	Logger::~Logger() {
@@ -14,7 +15,9 @@ namespace Stardust::Utilities {
 	}
 
 	void Logger::log(std::string message, LoggerLevel level) {
-		
+		if (level < currentLevel)
+			return;
+
 		switch (level) {
 		case LOGGER_LEVEL_TRACE: {
 			m_file << "[TRACE]: ";
