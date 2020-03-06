@@ -44,22 +44,22 @@ namespace Stardust::Network {
 		result = sceNetInit(128 * 1024, 42, 0, 42, 0); //Creates the network manager with a buffer
 		if (result < 0) { //These If Blocks close the game on an error
 
-			Utilities::g_Logger->log("Failed sceNetInit");
+			Utilities::g_Logger->log("Failed sceNetInit", Utilities::LOGGER_LEVEL_WARN);
 			return false;
 		}
 		result = sceNetInetInit(); //Initializes Inet
 		if (result < 0) {
-			Utilities::g_Logger->log("Failed sceInetInit");
+			Utilities::g_Logger->log("Failed sceInetInit", Utilities::LOGGER_LEVEL_WARN);
 			return false;
 		}
 		result = sceNetApctlInit(0x10000, 48); //Initializes Access Point Control
 		if (result < 0) {
-			Utilities::g_Logger->log("Failed sceNetApctlInit");
+			Utilities::g_Logger->log("Failed sceNetApctlInit", Utilities::LOGGER_LEVEL_WARN);
 			return false;
 		}
 		result = sceNetResolverInit(); //Initializes DNS resolver (unused)
 		if (result < 0) {
-			Utilities::g_Logger->log("Failed sceNetResolverInit");
+			Utilities::g_Logger->log("Failed sceNetResolverInit", Utilities::LOGGER_LEVEL_WARN);
 			return false;
 		}
 
@@ -139,7 +139,7 @@ namespace Stardust::Network {
 				endByteBuffer.push_back(packetQueue.front()->bytes[x]);
 			}
 
-			Utilities::g_Logger->log("Sending packet with ID: " + std::to_string(packetQueue.front()->ID));
+			Utilities::g_Logger->log("Sending packet with ID: " + std::to_string(packetQueue.front()->ID), Utilities::LOGGER_LEVEL_DEBUG);
 			//Send over socket
 			m_Socket.Send(endByteBuffer.size(), endByteBuffer.data());
 

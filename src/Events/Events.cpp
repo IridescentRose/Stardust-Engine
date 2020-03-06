@@ -1,4 +1,5 @@
 #include <Events/Events.h>
+#include <Utilities/Logger.h>
 
 namespace Stardust::Events {
 	EventBus::EventBus()
@@ -23,14 +24,17 @@ namespace Stardust::Events {
 	}
 	void EventBus::addEventHandler(int e_type, EventHandler h)
 	{
+		Utilities::g_Logger->log("Added event handler for ID: " + std::to_string(e_type));
 		eventListeners.emplace(e_type, h);
 	}
 	void EventBus::deleteListener(int e)
 	{
+		Utilities::g_Logger->log("Removed event handler for ID: " + std::to_string(e));
 		eventListeners.erase(eventListeners.find(e));
 	}
 	void EventBus::clearEventHandlers()
 	{
+		Utilities::g_Logger->log("Cleared All Event Handlers");
 		eventListeners.clear();
 	}
 	void EventBus::propagate()

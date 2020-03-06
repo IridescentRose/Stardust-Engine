@@ -19,15 +19,6 @@
 #include <sys/socket.h>
 #include <unistd.h> 
 #include <queue>
-#include <sstream>
-namespace std{
-	template < typename T > std::string to_string( const T& n )
-	    {
-	        std::ostringstream stm ;
-	        stm << n ;
-	        return stm.str() ;
-	   }
-}
 #endif
 
 namespace Stardust::Network {
@@ -93,8 +84,8 @@ namespace Stardust::Network {
 
 		pIn.ID = decodeShort(pIn);
 
-		Utilities::g_Logger->log("Received Packet!");
-		Utilities::g_Logger->log("Packet ID: " + std::to_string(pIn.ID));
+		Utilities::g_Logger->log("Received Packet!", Utilities::LOGGER_LEVEL_DEBUG);
+		Utilities::g_Logger->log("Packet ID: " + std::to_string(pIn.ID), Utilities::LOGGER_LEVEL_DEBUG);
 
 		return pIn;
 	}
