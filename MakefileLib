@@ -1,0 +1,31 @@
+TARGET = Stardust
+OBJS = src/Platform/Platform.o \
+src/Math/Frustum.o \
+src/Utilities/Timer.o \
+src/Utilities/Logger.o \
+src/Utilities/Input.o \
+src/Events/Events.o \
+src/Network/NetworkDriver.o \
+src/Network/Socket.o \
+
+alib = lib/libstardust.a
+
+INCDIR = $(PSPPATH)/include
+INCDIR += ./include ./libs/include
+CFLAGS = -O3 -g3 -mpreferred-stack-boundary=4 -ffast-math -fno-rtti -fno-exceptions -gdwarf-2
+CXXFLAGS = -std=gnu++17
+ASFLAGS = $(CFLAGS)
+
+BUILD_PRX = 1
+PSP_FW_VERSION=500
+PSP_LARGE_MEMORY = 0
+
+LIBDIR += ./libs/lib/
+LDFLAGS =
+LIBS=  -lpspaudiolib -lpspaudio -lpspaudiocodec -lz -lpspgum -lpspgu -lstdc++ -lpsprtc -lpspctrl -lm -lpspvfpu -lpspsdk -lpsppower -lpsphttp -lpspmath -ljson #Intrafont, PNG, Zlib, JSON, etc.
+
+$(alib): $(OBJS)
+	$(AR) rcs $@ $^
+
+PSPSDK=$(shell psp-config --pspsdk-path)
+include $(PSPSDK)/lib/build.mak

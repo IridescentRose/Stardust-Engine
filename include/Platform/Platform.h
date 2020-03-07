@@ -15,7 +15,7 @@ namespace Stardust::Platform {
 	/*
 	Init Platform performs all needed platform initialization code
 	*/
-	void initPlatform();
+	void initPlatform(const char* appName = "APP");
 
 	/*
 	Exit Platform performs all needed platform exit code (this is for forced exits)

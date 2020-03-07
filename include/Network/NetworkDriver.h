@@ -32,4 +32,6 @@ namespace Stardust::Network {
 	private:
 		Socket m_Socket;
 	};
+
+	extern NetworkDriver g_NetworkDriver;
 }
