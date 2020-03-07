@@ -24,17 +24,17 @@ namespace Stardust::Events {
 	}
 	void EventBus::addEventHandler(int e_type, EventHandler h)
 	{
-		Utilities::g_Logger->log("Added event handler for ID: " + std::to_string(e_type));
+		Utilities::detail::core_Logger->log("Added event handler for ID: " + std::to_string(e_type));
 		eventListeners.emplace(e_type, h);
 	}
 	void EventBus::deleteListener(int e)
 	{
-		Utilities::g_Logger->log("Removed event handler for ID: " + std::to_string(e));
+		Utilities::detail::core_Logger->log("Removed event handler for ID: " + std::to_string(e));
 		eventListeners.erase(eventListeners.find(e));
 	}
 	void EventBus::clearEventHandlers()
 	{
-		Utilities::g_Logger->log("Cleared All Event Handlers");
+		Utilities::detail::core_Logger->log("Cleared All Event Handlers");
 		eventListeners.clear();
 	}
 	void EventBus::propagate()

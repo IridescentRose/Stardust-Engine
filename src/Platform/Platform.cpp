@@ -49,7 +49,7 @@ namespace Stardust::Platform {
 	}
 
 
-	void initPlatform() {
+	void initPlatform(const char* appName) {
 		SetupCallbacks();
 		scePowerSetClockFrequency(333, 333, 166);
 		srand(time(NULL));
@@ -58,15 +58,20 @@ namespace Stardust::Platform {
 		Utilities::g_AppTimer.reset();
 		Utilities::g_AppTimer.deltaTime();
 
-		Utilities::g_Logger = new Utilities::Logger();
-		Utilities::g_Logger->log("Stardust-Engine Initialized!");
+		Utilities::detail::core_Logger = new Utilities::Logger("CORE");
+		Utilities::detail::core_Logger->log("Stardust-Engine Initialized!");
+		Utilities::detail::core_Logger->log("Platform Initialized!");
+
+		Utilities::app_Logger = new Utilities::Logger(appName, std::string(appName) + "_log.log");
+		Utilities::app_Logger->log("Application Start!");
 
 	}
 
 	void exitPlatform()
 	{
 		sceKernelDelayThread(1000000);
-		delete Utilities::g_Logger;
+		delete Utilities::detail::core_Logger;
+		delete Utilities::app_Logger;
 		sceKernelExitGame();
 	}
 

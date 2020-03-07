@@ -24,7 +24,7 @@
 namespace Stardust::Network {
 	bool Socket::Connect(unsigned short port, const char* ip)
 	{
-		Utilities::g_Logger->log("Opening Connection [" + std::string(ip) + "]" + "@" + std::to_string(ip) + "!", Utilities::LOGGER_LEVEL_INFO);
+		Utilities::detail::core_Logger->log("Opening Connection [" + std::string(ip) + "]" + "@" + std::to_string(port) + "!", Utilities::LOGGER_LEVEL_INFO);
 		m_socket = socket(PF_INET, SOCK_STREAM, 0);
 		struct sockaddr_in name;
 		name.sin_family = AF_INET;
@@ -34,14 +34,14 @@ namespace Stardust::Network {
 		bool b = (connect(m_socket, (struct sockaddr*) & name, sizeof(name)) >= 0);
 
 		if (!b) {
-			Utilities::g_Logger->log("Failed to open a connection!", Utilities::LOGGER_LEVEL_WARN);
+			Utilities::detail::core_Logger->log("Failed to open a connection! (Is the server open?)", Utilities::LOGGER_LEVEL_WARN);
 		}
 
 		return b;
 	}
 	void Socket::Close()
 	{
-		Utilities::g_Logger->log("Closing socket!");
+		Utilities::detail::core_Logger->log("Closing socket!");
 		close(m_socket);
 	}
 
@@ -49,8 +49,8 @@ namespace Stardust::Network {
 	{
 		int res = send(m_socket, buffer, size, 0);
 		if (res < 0) {
-			Utilities::g_Logger->log("Failed to send a packet!", Utilities::LOGGER_LEVEL_WARN);
-			Utilities::g_Logger->log("Packet Size: " + std::to_string(size), Utilities::LOGGER_LEVEL_WARN);
+			Utilities::detail::core_Logger->log("Failed to send a packet!", Utilities::LOGGER_LEVEL_WARN);
+			Utilities::detail::core_Logger->log("Packet Size: " + std::to_string(size), Utilities::LOGGER_LEVEL_WARN);
 		}
 	}
 
@@ -84,8 +84,8 @@ namespace Stardust::Network {
 
 		pIn.ID = decodeShort(pIn);
 
-		Utilities::g_Logger->log("Received Packet!", Utilities::LOGGER_LEVEL_DEBUG);
-		Utilities::g_Logger->log("Packet ID: " + std::to_string(pIn.ID), Utilities::LOGGER_LEVEL_DEBUG);
+		Utilities::detail::core_Logger->log("Received Packet!", Utilities::LOGGER_LEVEL_DEBUG);
+		Utilities::detail::core_Logger->log("Packet ID: " + std::to_string(pIn.ID), Utilities::LOGGER_LEVEL_DEBUG);
 
 		return pIn;
 	}

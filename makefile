@@ -4,9 +4,8 @@ all: build_game
 clean_all: clean_game
 clean: clean_game
 
-build_libs:
-	make -C 3libs/noisepp -f Makefile all
-	make -C 3libs/libpspmath -f Makefile all
+build_lib:
+	make -f MakefileLib
 	
 build_game:
 	make -f MakefileGame all

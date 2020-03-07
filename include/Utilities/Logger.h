@@ -2,7 +2,6 @@
 #include <Platform/Platform.h>
 #include <string>
 #include <fstream>
-
 #include <sstream>
 
 #if CURRENT_PLATFORM == PLATFORM_PSP
@@ -29,7 +28,7 @@ namespace Stardust::Utilities {
 
 	class Logger {
 	public:
-		Logger(std::string path = "stardust_log.log");
+		Logger(std::string name, std::string path = "stardust_log.log");
 		~Logger();
 
 		void flushLog();
@@ -39,7 +38,11 @@ namespace Stardust::Utilities {
 		int currentLevel;
 	private:
 		std::ofstream m_file;
+		std::string m_name;
 	};
 
-	extern Logger* g_Logger;
+	namespace detail {
+		extern Logger* core_Logger;
+	}
+	extern Logger* app_Logger;
 }

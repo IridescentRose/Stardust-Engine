@@ -76,7 +76,7 @@ namespace Stardust::Network {
 	}
 
 	inline void encodeString(std::string str, PacketOut& p) {
-		std::vector<byte> prePend = encodeVarInt(str.size());
+		std::vector<byte> prePend = encodeVarInt(str.size() + 1);
 
 		for (int i = 0; i < prePend.size(); i++) {
 			p.bytes.push_back(prePend[i]);

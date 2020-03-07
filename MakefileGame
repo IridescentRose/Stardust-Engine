@@ -1,12 +1,5 @@
 TARGET = Stardust-Engine-Demo
-OBJS = src/Platform/Platform.o \
-src/Math/Frustum.o \
-src/Utilities/Timer.o \
-src/Utilities/Logger.o \
-src/Utilities/Input.o \
-src/Events/Events.o \
-src/Network/NetworkDriver.o \
-src/Network/Socket.o \
+OBJS = src/Utilities/Common.o \
 src/Main.o
 
 INCDIR = $(PSPPATH)/include
@@ -21,7 +14,7 @@ PSP_LARGE_MEMORY = 0
 
 LIBDIR += ./libs/lib/
 LDFLAGS =
-LIBS=  -lpspaudiolib -lpspaudio -lpspaudiocodec -lz -lpspgum -lpspgu -lstdc++ -lpsprtc -lpspctrl -lm -lpspvfpu -lpspsdk -lpsppower -lpsphttp -lpspmath -ljson #Intrafont, PNG, Zlib, JSON, etc.
+LIBS=  -lpspaudiolib -lpspaudio -lpspaudiocodec -lz -lpspgum -lpspgu -lstdc++ -lpsprtc -lpspctrl -lm -lpspvfpu -lpspsdk -lpsppower -lpsphttp -lpspmath #Intrafont, PNG, Zlib, JSON, etc.
 
 EXTRA_TARGETS = EBOOT.PBP
 PSP_EBOOT_TITLE = Stardust
