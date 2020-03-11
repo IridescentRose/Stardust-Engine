@@ -1,33 +1,13 @@
 #include <Platform/Platform.h>
 #include <Network/NetworkDriver.h>
 
-#if CURRENT_PLATFORM == PLATFORM_PSP
-#include <pspkernel.h>
-#include <pspdebug.h>
-#include <pspdisplay.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <sys/select.h>
-#include <string.h>
-#include <pspnet.h>
-#include <psputility.h>
-#include <pspnet_inet.h>
-#include <pspnet_apctl.h>
-#include <pspnet_resolver.h>
-#include <psphttp.h>
-#include <pspsdk.h>
-#include <pspwlan.h>
-#include <sys/socket.h>
-#include <unistd.h> 
-#include <queue>
-#endif
-
 namespace Stardust::Network {
 
 #if CURRENT_PLATFORM == PLATFORM_PSP
 	NetworkDriver::NetworkDriver()
 	{
 		m_Socket = Socket();
+		thr = new Utilities::Thread(ReceiveThread);
 	}
 	bool NetworkDriver::Init() {
 
@@ -75,14 +55,17 @@ namespace Stardust::Network {
 				Utilities::detail::core_Logger->log("Failed to autoconnect!");
 				return false;
 			}
-			if (state == 4)
+			if (state == 4) {
 				return true;  // connected!
+			}
 
 			sceKernelDelayThread(1000 * 50); //50 MS Delay;
 		}
 	}
 
 	void NetworkDriver::Cleanup() {
+		thr->Kill();
+
 		//NET
 		sceNetApctlTerm();
 		sceNetResolverTerm();
@@ -102,17 +85,21 @@ namespace Stardust::Network {
 #endif
 
 	bool NetworkDriver::Connect(unsigned short port, const char* ip) {
-		return m_Socket.Connect(port, ip);
+		bool res = m_Socket.Connect(port, ip);
+		if (connect)
+			thr->Start(0);
+
+		return res;
 	}
 
 	void NetworkDriver::AddPacket(PacketOut* p)
 	{
-		Utilities::detail::core_Logger->log("Clearing Packet Queue");
+		Utilities::detail::core_Logger->log("Clearing Packet Queue", Utilities::LOGGER_LEVEL_DEBUG);
 		packetQueue.push(p);
 	}
 	void NetworkDriver::ClearPacketQueue()
 	{
-		Utilities::detail::core_Logger->log("Clearing Packet Queue");
+		Utilities::detail::core_Logger->log("Clearing Packet Queue", Utilities::LOGGER_LEVEL_DEBUG);
 		for (int i = 0; i < packetQueue.size(); i++) {
 			delete packetQueue.front();
 			packetQueue.pop();
@@ -157,7 +144,7 @@ namespace Stardust::Network {
 
 	void NetworkDriver::HandlePackets()
 	{
-		Utilities::detail::core_Logger->log("Handling Packets...");
+		Utilities::detail::core_Logger->log("Handling Packets...", Utilities::LOGGER_LEVEL_TRACE);
 
 		while(!unhandledPackets.empty()){
 
@@ -179,6 +166,18 @@ namespace Stardust::Network {
 		Utilities::detail::core_Logger->log("Clearing Packet Handlers");
 		packetHandlers.clear();
 	}
+
+#if CURRENT_PLATFORM == PLATFORM_PSP
+	int NetworkDriver::ReceiveThread(SceSize args, void* argp)
+	{
+		while (0) {
+			g_NetworkDriver.ReceivePacket();
+			sceKernelDelayThread(1000 * 50);
+		}
+		
+		return 0;
+	}
+#endif
 
 	NetworkDriver g_NetworkDriver;
 }
