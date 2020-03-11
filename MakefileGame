@@ -1,6 +1,13 @@
 TARGET = Stardust-Engine-Demo
-OBJS = src/Utilities/Common.o \
-src/Main.o
+OBJS = src/Platform/Platform.o \
+src/Math/Frustum.o \
+src/Utilities/Timer.o \
+src/Utilities/Logger.o \
+src/Utilities/Input.o \
+src/Utilities/Thread.o \
+src/Events/Events.o \
+src/Network/NetworkDriver.o \
+src/Network/Socket.o \
 
 INCDIR = $(PSPPATH)/include
 INCDIR += ./include ./libs/include

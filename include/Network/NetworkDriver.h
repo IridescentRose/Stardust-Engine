@@ -1,8 +1,10 @@
 #pragma once
 #include <Network/NetworkSerialization.h>
+#include <Platform/Platform.h>
 #include <Network/Socket.h>
 #include <queue>
 #include <map>
+#include <Utilities/Thread.h>
 
 namespace Stardust::Network {
 	typedef int (*PacketHandler)(PacketIn*);
@@ -31,6 +33,11 @@ namespace Stardust::Network {
 
 	private:
 		Socket m_Socket;
+
+#if CURRENT_PLATFORM == PLATFORM_PSP
+		static int ReceiveThread(SceSize args, void* argp);
+#endif
+		Utilities::Thread* thr;
 	};
 
 	extern NetworkDriver g_NetworkDriver;
