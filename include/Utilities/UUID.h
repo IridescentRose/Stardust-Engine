@@ -7,7 +7,7 @@ namespace Stardust::Utilities {
 
     const std::string CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
-    UUID generateUUID() {
+    inline UUID generateUUID() {
         UUID uuid = std::string(36, ' ');
         int rnd = std::rand();
         int r = 0;

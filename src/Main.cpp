@@ -23,7 +23,7 @@ int main() {
 
 	Platform::initPlatform();
 
-	Utilities::g_Logger->log("Hello World!");
+	Utilities::app_Logger->log("Hello World!");
 	Utilities::updateInputs();
 
 	while (!Utilities::KeyPressed(PSP_CTRL_START)) {
