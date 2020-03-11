@@ -8,6 +8,7 @@ src/Utilities/Thread.o \
 src/Events/Events.o \
 src/Network/NetworkDriver.o \
 src/Network/Socket.o \
+src/Core/Core.o \
 
 alib = lib/libstardust.a
 
