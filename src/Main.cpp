@@ -16,19 +16,26 @@ PSP_HEAP_SIZE_KB(-1024);
 #include <Utilities/Timer.h>
 #include <Utilities/Logger.h>
 #include <Utilities/Input.h>
+#include <Profiler/Profiler.h>
 
 using namespace Stardust;
 
 int main() {
 
 	Platform::initPlatform();
+	Profiling::Profiler pf("Test");
 
-	Utilities::app_Logger->log("Hello World!");
-	Utilities::updateInputs();
 
-	while (!Utilities::KeyPressed(PSP_CTRL_START)) {
-		Utilities::updateInputs();
+	pf.beginProfileMethod();
+	for(int i = 0; i < 30; i++) {
+		pf.beginProfileSubMethod();
+		Utilities::app_Logger->log("Hello World!");
+		sceKernelDelayThread(rand() % 50 * 1000);
+		pf.endProfileSubMethod("TESTING!", "Log");
 	}
+	pf.endProfileMethod("TESTING!");
+
+	pf.outputStats();
 
 	Platform::exitPlatform();
 
