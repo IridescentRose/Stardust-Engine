@@ -45,6 +45,7 @@
     <ClCompile Include="src\Network\Socket.cpp" />
     <ClCompile Include="src\Platform\Platform.cpp" />
     <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\Profiler\Profiler.cpp" />
     <ClCompile Include="src\Utilities\Input.cpp" />
     <ClCompile Include="src\Utilities\Logger.cpp" />
     <ClCompile Include="src\Utilities\Thread.cpp" />
@@ -65,6 +66,7 @@
     <ClInclude Include="include\Network\NetworkTypes.h" />
     <ClInclude Include="include\Network\Socket.h" />
     <ClInclude Include="include\Platform\Platform.h" />
+    <ClInclude Include="include\Profiler\Profiler.h" />
     <ClInclude Include="include\Utilities\Input.h" />
     <ClInclude Include="include\Utilities\JSON.h" />
     <ClInclude Include="include\Utilities\Logger.h" />
