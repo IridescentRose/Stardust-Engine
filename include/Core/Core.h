@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <Utilities/UUID.h>
+#include <Utilities/JSON.h>
 
 namespace Stardust::Core {
 
@@ -26,6 +27,17 @@ namespace Stardust::Core {
 			name = "GameObject";
 			tags.clear();
 			layer = LAYER_DEFAULT;
+			parent = NULL;
+			child.clear();
+		}
+
+		GameObject(Utilities::UUID i) {
+			id = id;
+			name = "GameObject";
+			tags.clear();
+			layer = LAYER_DEFAULT;
+			parent = NULL;
+			child.clear();
 		}
 
 		inline Utilities::UUID getUUID() {
@@ -76,18 +88,66 @@ namespace Stardust::Core {
 			for (int i = 0; i < components.size(); i++) {
 				components[i].Update();
 			}
+
+			for (GameObject obj : child) {
+				obj.Update();
+			}
 		}
 		inline void Draw() {
 			for (int i = 0; i < components.size(); i++) {
 				components[i].Draw();
 			}
+
+			for (GameObject obj : child) {
+				obj.Draw();
+			}
 		}
 
+		inline void AddChild(GameObject c) {
+			child.push_back(c);
+			child[0].parent = this;
+		}
+		inline void ClearChild() {
+			child.clear();
+		}
+
+		GameObject* parent;
+		std::vector<GameObject> child;
+
+		Utilities::UUID id;
 	private:
 		std::string name;
 		std::vector<std::string> tags;
 		std::vector<Component> components;
 		int layer;
-		Utilities::UUID id;
 	};
+
+	class Scene {
+	public:
+		Scene();
+		Scene(std::string file);
+		~Scene();
+
+		void loadScene(std::string file);
+		void saveScene(std::string file);
+
+		void Update();
+		void Draw();
+
+		void AddObject(GameObject& obj);
+		void ClearObjects();
+
+		inline void setName(std::string n) {
+			name = n;
+		}
+
+		inline std::string getName() {
+			return name;
+		}
+
+	private:
+		std::string name;
+		std::vector<GameObject> objects;
+	};
+
 }
