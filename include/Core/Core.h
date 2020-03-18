@@ -10,9 +10,9 @@ namespace Stardust::Core {
 		Component();
 		~Component();
 
-		void Init();
-		void Update();
-		void Draw();
+		virtual void Init();
+		virtual void Update();
+		virtual void Draw();
 
 	};
 

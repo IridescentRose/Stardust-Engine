@@ -52,6 +52,7 @@
     <ClCompile Include="src\Utilities\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Audio\AudioClip.h" />
     <ClInclude Include="include\Core\Core.h" />
     <ClInclude Include="include\Events\Events.h" />
     <ClInclude Include="include\Math\AABB.h" />

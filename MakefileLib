@@ -1,6 +1,12 @@
 TARGET = Stardust
 OBJS = src/Platform/Platform.o \
 src/Math/Frustum.o \
+src/Audio/sound_utils/audio.o \
+src/Audio/sound_utils/bgm.o \
+src/Audio/sound_utils/media.o \
+src/Audio/sound_utils/pgeWav.o \
+src/Audio/sound_utils/vfsFile.o \
+src/Audio/sound_utils/VirtualFile.o \
 src/Utilities/Timer.o \
 src/Utilities/Logger.o \
 src/Utilities/Input.o \

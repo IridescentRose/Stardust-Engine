@@ -9,6 +9,8 @@
 #include <pspkernel.h>
 #include <time.h>
 #include <pspmath.h>
+#include <Audio/sound_utils/oslib.h>
+#include <Audio/sound_utils/audio.h>
 #endif
 
 namespace Stardust::Platform {
@@ -65,14 +67,22 @@ namespace Stardust::Platform {
 		Utilities::app_Logger = new Utilities::Logger(appName, std::string(appName) + "_log.log");
 		Utilities::app_Logger->log("Application Start!");
 
+		oslInitAudio();
+
 	}
 
 	void exitPlatform()
 	{
 		sceKernelDelayThread(1000000);
+		oslDeinitAudio();
 		delete Utilities::detail::core_Logger;
 		delete Utilities::app_Logger;
 		sceKernelExitGame();
+	}
+
+	void platformUpdate()
+	{
+		oslAudioVSync();
 	}
 
 #endif

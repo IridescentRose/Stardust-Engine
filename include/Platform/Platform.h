@@ -43,4 +43,9 @@ namespace Stardust::Platform {
 	Exit Platform performs all needed platform exit code (this is for forced exits)
 	*/
 	void exitPlatform();
+
+	/*
+	Performs all per frame operations
+	*/
+	void platformUpdate();
 }
