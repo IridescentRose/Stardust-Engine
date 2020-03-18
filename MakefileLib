@@ -7,6 +7,7 @@ src/Audio/sound_utils/media.o \
 src/Audio/sound_utils/pgeWav.o \
 src/Audio/sound_utils/vfsFile.o \
 src/Audio/sound_utils/VirtualFile.o \
+src/Audio/AudioClip.o \
 src/Utilities/Timer.o \
 src/Utilities/Logger.o \
 src/Utilities/Input.o \
@@ -16,6 +17,9 @@ src/Network/NetworkDriver.o \
 src/Network/Socket.o \
 src/Core/Core.o \
 src/Profiler/Profiler.o \
+src/Profiler/Profiler.o \
+src/Graphics/RendererCore.o \
+src/Graphics/vram.o \
 
 alib = lib/libstardust.a
 

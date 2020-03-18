@@ -3,7 +3,7 @@
 namespace Stardust::Audio {
 	AudioClip::AudioClip(std::string path, bool b)
 	{
-		snd = oslLoadSoundFile(path.c_str, b ? OSL_FMT_STREAM : OSL_FMT_NONE);
+		snd = oslLoadSoundFile(path.c_str(), b ? OSL_FMT_STREAM : OSL_FMT_NONE);
 	}
 	AudioClip::~AudioClip()
 	{
