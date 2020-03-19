@@ -48,6 +48,7 @@
     <ClCompile Include="src\Core\Core.cpp" />
     <ClCompile Include="src\Events\Events.cpp" />
     <ClCompile Include="src\Graphics\RendererCore.cpp" />
+    <ClCompile Include="src\Graphics\TextureUtil.cpp" />
     <ClCompile Include="src\Math\Frustum.cpp" />
     <ClCompile Include="src\Network\NetworkDriver.cpp" />
     <ClCompile Include="src\Network\Socket.cpp" />
@@ -71,6 +72,7 @@
     <ClInclude Include="include\Events\Events.h" />
     <ClInclude Include="include\Graphics\RendererCore.h" />
     <ClInclude Include="include\Graphics\RenderTypes.h" />
+    <ClInclude Include="include\Graphics\TextureUtil.h" />
     <ClInclude Include="include\Math\AABB.h" />
     <ClInclude Include="include\Math\Frustum.h" />
     <ClInclude Include="include\Math\MathFuncs.h" />
