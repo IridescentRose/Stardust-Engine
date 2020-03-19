@@ -46,6 +46,8 @@ namespace Stardust::Graphics {
 
         void RenderToTexture(Texture* tex);
 
+        void Blit(int sx, int sy, int sw, int sh, int dx, int dy, int slice);
+
     private:
         unsigned int clearColor;
 

@@ -16,6 +16,11 @@ namespace Stardust::Graphics {
 		unsigned int color;
 		float x, y, z;
 	}__attribute__((packed)) Vertex;
+	typedef struct
+	{
+		float u, v;
+		float x, y, z;
+	}__attribute__((packed)) TextureVertex;
 
 	class Texture {
 	public:

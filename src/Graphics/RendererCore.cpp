@@ -92,4 +92,30 @@ namespace Stardust::Graphics {
 		sceGuOffset(2048 - (tex->width / 2), 2048 - (tex->height / 2));
 		sceGuViewport(2048, 2048, tex->width, tex->height);
 	}
+	void RendererCore::Blit(int sx, int sy, int sw, int sh, int dx, int dy, int slice)
+	{
+		int start, end;
+
+		// blit maximizing the use of the texture-cache
+
+		for (start = sx, end = sx + sw; start < end; start += slice, dx += slice)
+		{
+			TextureVertex* vertices = (TextureVertex*)sceGuGetMemory(2 * sizeof(TextureVertex));
+			int width = (start + slice) < end ? slice : end - start;
+
+			vertices[0].u = start;
+			vertices[0].v = sy;
+			vertices[0].x = dx;
+			vertices[0].y = dy;
+			vertices[0].z = 0;
+
+			vertices[1].u = start + width;
+			vertices[1].v = sy + sh;
+			vertices[1].x = dx + width;
+			vertices[1].y = dy + sh;
+			vertices[1].z = 0;
+
+			sceGuDrawArray(GU_SPRITES, GU_TEXTURE_16BIT | GU_VERTEX_16BIT | GU_TRANSFORM_2D, 2, 0, vertices);
+		}
+	}
 }
