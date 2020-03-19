@@ -38,8 +38,16 @@
   <ItemDefinitionGroup>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Audio\AudioClip.cpp" />
+    <ClCompile Include="src\Audio\sound_utils\audio.c" />
+    <ClCompile Include="src\Audio\sound_utils\bgm.c" />
+    <ClCompile Include="src\Audio\sound_utils\media.c" />
+    <ClCompile Include="src\Audio\sound_utils\pgeWav.c" />
+    <ClCompile Include="src\Audio\sound_utils\vfsFile.c" />
+    <ClCompile Include="src\Audio\sound_utils\VirtualFile.c" />
     <ClCompile Include="src\Core\Core.cpp" />
     <ClCompile Include="src\Events\Events.cpp" />
+    <ClCompile Include="src\Graphics\RendererCore.cpp" />
     <ClCompile Include="src\Math\Frustum.cpp" />
     <ClCompile Include="src\Network\NetworkDriver.cpp" />
     <ClCompile Include="src\Network\Socket.cpp" />
@@ -53,8 +61,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Audio\AudioClip.h" />
+    <ClInclude Include="include\Audio\sound_utils\audio.h" />
+    <ClInclude Include="include\Audio\sound_utils\bgm.h" />
+    <ClInclude Include="include\Audio\sound_utils\oslib.h" />
+    <ClInclude Include="include\Audio\sound_utils\pgeWav.h" />
+    <ClInclude Include="include\Audio\sound_utils\readwav.h" />
+    <ClInclude Include="include\Audio\sound_utils\VirtualFile.h" />
     <ClInclude Include="include\Core\Core.h" />
     <ClInclude Include="include\Events\Events.h" />
+    <ClInclude Include="include\Graphics\RendererCore.h" />
+    <ClInclude Include="include\Graphics\RenderTypes.h" />
     <ClInclude Include="include\Math\AABB.h" />
     <ClInclude Include="include\Math\Frustum.h" />
     <ClInclude Include="include\Math\MathFuncs.h" />
