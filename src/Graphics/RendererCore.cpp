@@ -85,4 +85,11 @@ namespace Stardust::Graphics {
 		sceDisplayWaitVblankStart();
 		sceGuSwapBuffers();
 	}
+	void RendererCore::RenderToTexture(Texture* tex)
+	{
+		sceGuDrawBufferList(GU_PSM_8888, (void*)tex->data, tex->width);
+
+		sceGuOffset(2048 - (tex->width / 2), 2048 - (tex->height / 2));
+		sceGuViewport(2048, 2048, tex->width, tex->height);
+	}
 }

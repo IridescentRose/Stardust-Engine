@@ -20,7 +20,11 @@
 
 #endif
 
+#include <Graphics/RenderTypes.h>
+
 namespace Stardust::Graphics {
+
+    class Texture;
 
     class RendererCore {
     public:
@@ -39,6 +43,8 @@ namespace Stardust::Graphics {
 
         void BeginCommands(bool dialog = false);
         void EndCommands(bool dialog = false);
+
+        void RenderToTexture(Texture* tex);
 
     private:
         unsigned int clearColor;
