@@ -138,20 +138,23 @@ namespace Stardust::Network {
 
 	void NetworkDriver::ReceivePacket()
 	{
-		PacketIn p = m_Socket.Recv();
-		unhandledPackets.push(&p);
+		PacketIn* p = m_Socket.Recv();
+		unhandledPackets.push(p);
 	}
 
 	void NetworkDriver::HandlePackets()
 	{
 		Utilities::detail::core_Logger->log("Handling Packets...", Utilities::LOGGER_LEVEL_TRACE);
+		
+		int len = unhandledPackets.size();
+		for(int i = 0; i < len; i++){
+			PacketIn* p = unhandledPackets.front();
 
-		while(!unhandledPackets.empty()){
-
-			if (packetHandlers.find(unhandledPackets.front()->ID) != packetHandlers.end()) {
-				packetHandlers[unhandledPackets.front()->ID](unhandledPackets.front());
+			if (packetHandlers.find(p->ID) != packetHandlers.end()) {
+				packetHandlers[p->ID](p);
 			}
-
+			delete p;
+			unhandledPackets.pop();
 		}
 	}
 

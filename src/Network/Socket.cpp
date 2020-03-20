@@ -54,9 +54,9 @@ namespace Stardust::Network {
 		}
 	}
 
-	PacketIn Socket::Recv()
+	PacketIn* Socket::Recv()
 	{
-		PacketIn pIn;
+		PacketIn* pIn = new PacketIn();
 
 		std::vector<byte> len;
 		byte newByte;
@@ -71,21 +71,26 @@ namespace Stardust::Network {
 		//We now have the length stored in len
 		int length = decodeVarInt(len);
 
+		Utilities::detail::core_Logger->log("LENGTH: " + std::to_string(length), Utilities::LOGGER_LEVEL_DEBUG);
+
 		int totalTaken = 0;
 
 		byte *b = new byte[length];
+		for(int i = 0; i < length; i++){
+			b[i] = 0;
+		}
 		totalTaken += recv(m_socket, b, length, 0);
 
 		for (int i = 0; i < length; i++) {
-			pIn.bytes.push_back(b[i]);
+			pIn->bytes.push_back(b[i]);
 		}
 
-		pIn.pos = 0;
+		pIn->pos = 0;
 
-		pIn.ID = decodeShort(pIn);
+		pIn->ID = decodeShort(*pIn);
 
 		Utilities::detail::core_Logger->log("Received Packet!", Utilities::LOGGER_LEVEL_DEBUG);
-		Utilities::detail::core_Logger->log("Packet ID: " + std::to_string(pIn.ID), Utilities::LOGGER_LEVEL_DEBUG);
+		Utilities::detail::core_Logger->log("Packet ID: " + std::to_string(pIn->ID), Utilities::LOGGER_LEVEL_DEBUG);
 
 		return pIn;
 	}
