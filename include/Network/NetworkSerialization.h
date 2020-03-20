@@ -93,10 +93,12 @@ namespace Stardust::Network {
 
 		int size = decodeVarInt(p);
 
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < size - 1; i++) { //Don't include null char
 			char a = (char)p.bytes[p.pos++];
-			res.append(&a);
+			res += a;
 		}
+
+		p.pos++;//Skip null char
 
 		return res;
 	}
