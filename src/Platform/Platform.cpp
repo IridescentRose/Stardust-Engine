@@ -2,6 +2,7 @@
 #include <Utilities/Timer.h>
 #include <Utilities/Logger.h>
 #include <Utilities/JSON.h>
+#include <Graphics/RendererCore.h>
 
 #if CURRENT_PLATFORM == PLATFORM_PSP
 #include <psppower.h>
@@ -68,7 +69,7 @@ namespace Stardust::Platform {
 		Utilities::app_Logger->log("Application Start!");
 
 		oslInitAudio();
-
+		Graphics::g_RenderCore.Init();
 	}
 
 	void exitPlatform()

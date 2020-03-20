@@ -1,5 +1,6 @@
 #include <Platform/Platform.h>
 #include <Network/NetworkDriver.h>
+#include <Graphics/Dialogs.h>
 
 namespace Stardust::Network {
 
@@ -42,25 +43,8 @@ namespace Stardust::Network {
 			Utilities::detail::core_Logger->log("Failed sceNetResolverInit", Utilities::LOGGER_LEVEL_WARN);
 			return false;
 		}
-
-		result = sceNetApctlConnect(1);	//Connects to your first (primary) internet connection.
-
-		//Displays connection status
-		int err;
-		while (1) {
-			int state;
-			err = sceNetApctlGetState(&state);
-			if (err != 0)
-			{
-				Utilities::detail::core_Logger->log("Failed to autoconnect!");
-				return false;
-			}
-			if (state == 4) {
-				return true;  // connected!
-			}
-
-			sceKernelDelayThread(1000 * 50); //50 MS Delay;
-		}
+		
+		return Graphics::ShowNetworkDialog();
 	}
 
 	void NetworkDriver::Cleanup() {

@@ -59,4 +59,6 @@ namespace Stardust::Graphics {
         void* _frameBuffer;
     };
 
+    extern RendererCore g_RenderCore;
+
 }
