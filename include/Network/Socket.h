@@ -12,7 +12,7 @@ namespace Stardust::Network {
 
 
 		void Send(size_t size, byte* buffer);
-		PacketIn Recv();
+		PacketIn* Recv();
 	private:
 		int m_socket;
 	};
