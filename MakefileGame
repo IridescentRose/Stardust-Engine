@@ -20,6 +20,7 @@ src/Profiler/Profiler.o \
 src/Graphics/RendererCore.o \
 src/Graphics/vram.o \
 src/Graphics/TextureUtil.o \
+src/Graphics/2D/SpriteBase.o \
 src/Main.o
 
 INCDIR = $(PSPPATH)/include
