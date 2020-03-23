@@ -38,32 +38,39 @@ namespace Stardust::Network {
 		p.push_back((byte)value & 127);
 	}
 
-	inline int decodeVarInt(std::vector<byte> input) {
-		int ret = 0;
+	inline unsigned int decodeVarInt(std::vector<byte> input) {
+		unsigned int result = 0;
+  		unsigned int bits = 0;
 
-		for (int i = 0; i < input.size(); i++) {
-			ret |= (input[i] & 127) << (7 * i);
+		int pos = 0;
+		
+		while (input[pos] & 0x80) {
+    		byte b = input[pos];
+    		result += ((b & 0x7F) << bits);
+    		pos++;
+    		bits += 7;
+  		}
+		  
+  		byte b = input[pos++];
+  		result += ((b & 0x7F) << bits);
 
-			if (!input[i] & 128) {
-				break;
-			}
-		}
-
-		return ret;
+		return result;
 	}
 
-	inline int decodeVarInt(PacketIn& p) {
-		int ret = 0;
+	inline unsigned int decodeVarInt(PacketIn& p) {
+		unsigned int result = 0;
+  		unsigned int bits = 0;
+		
+		while (p.bytes[p.pos] & 0x80) {
+    		byte b = p.bytes[p.pos];
+    		result += ((b & 0x7F) << bits);
+    		p.pos++;
+    		bits += 7;
+  		}
 
-		for (int i = p.pos; i < p.bytes.size(); i++) {
-			p.pos++;
-			ret |= (p.bytes[i] & 127) << (7 * i);
+  		byte b = p.bytes[p.pos++];
+  		result += ((b & 0x7F) << bits);
 
-			if (!p.bytes[i] & 128) {
-				break;
-			}
-		}
-
-		return ret;
+		return result;
 	}
 }

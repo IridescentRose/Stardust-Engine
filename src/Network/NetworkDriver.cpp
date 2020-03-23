@@ -1,5 +1,6 @@
 #include <Platform/Platform.h>
 #include <Network/NetworkDriver.h>
+#include <Graphics/Dialogs.h>
 
 namespace Stardust::Network {
 
@@ -42,25 +43,8 @@ namespace Stardust::Network {
 			Utilities::detail::core_Logger->log("Failed sceNetResolverInit", Utilities::LOGGER_LEVEL_WARN);
 			return false;
 		}
-
-		result = sceNetApctlConnect(1);	//Connects to your first (primary) internet connection.
-
-		//Displays connection status
-		int err;
-		while (1) {
-			int state;
-			err = sceNetApctlGetState(&state);
-			if (err != 0)
-			{
-				Utilities::detail::core_Logger->log("Failed to autoconnect!");
-				return false;
-			}
-			if (state == 4) {
-				return true;  // connected!
-			}
-
-			sceKernelDelayThread(1000 * 50); //50 MS Delay;
-		}
+		
+		return Graphics::ShowNetworkDialog();
 	}
 
 	void NetworkDriver::Cleanup() {
@@ -138,20 +122,23 @@ namespace Stardust::Network {
 
 	void NetworkDriver::ReceivePacket()
 	{
-		PacketIn p = m_Socket.Recv();
-		unhandledPackets.push(&p);
+		PacketIn* p = m_Socket.Recv();
+		unhandledPackets.push(p);
 	}
 
 	void NetworkDriver::HandlePackets()
 	{
 		Utilities::detail::core_Logger->log("Handling Packets...", Utilities::LOGGER_LEVEL_TRACE);
+		
+		int len = unhandledPackets.size();
+		for(int i = 0; i < len; i++){
+			PacketIn* p = unhandledPackets.front();
 
-		while(!unhandledPackets.empty()){
-
-			if (packetHandlers.find(unhandledPackets.front()->ID) != packetHandlers.end()) {
-				packetHandlers[unhandledPackets.front()->ID](unhandledPackets.front());
+			if (packetHandlers.find(p->ID) != packetHandlers.end()) {
+				packetHandlers[p->ID](p);
 			}
-
+			delete p;
+			unhandledPackets.pop();
 		}
 	}
 

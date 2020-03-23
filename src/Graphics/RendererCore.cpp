@@ -118,4 +118,6 @@ namespace Stardust::Graphics {
 			sceGuDrawArray(GU_SPRITES, GU_TEXTURE_16BIT | GU_VERTEX_16BIT | GU_TRANSFORM_2D, 2, 0, vertices);
 		}
 	}
+
+	RendererCore g_RenderCore;
 }
