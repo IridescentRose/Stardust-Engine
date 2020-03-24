@@ -18,6 +18,8 @@ PSP_HEAP_SIZE_KB(-1024);
 #include <Utilities/Input.h>
 #include <Profiler/Profiler.h>
 
+#include <Graphics/UI/UIBase.h>
+
 using namespace Stardust;
 
 int main() {

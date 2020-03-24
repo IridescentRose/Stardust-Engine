@@ -28,7 +28,7 @@ namespace Stardust::Graphics::Render2D {
 
 		Texture* tex;
 		TextureVertex* vertices;
-
+		bool noTex;
 		float scaleX, scaleY;
 		float posX, posY;
 		int width, height;
