@@ -1,4 +1,5 @@
 #pragma once
+#include <Utilities/JSON.h>
 #include <Graphics/2D/SpriteBase.h>
 #include <string>
 #include <map>
@@ -94,6 +95,7 @@ namespace Stardust::Graphics::UI {
 
 		virtual void Draw() = 0;
 		virtual void Update() = 0;
+		virtual void loadFromJson(Json::Value v) = 0;
 	};
 
 	class Canvas {
