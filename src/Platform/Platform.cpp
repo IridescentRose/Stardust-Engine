@@ -83,6 +83,7 @@ namespace Stardust::Platform {
 
 	void platformUpdate()
 	{
+		VirtualFileInit();
 		oslAudioVSync();
 	}
 

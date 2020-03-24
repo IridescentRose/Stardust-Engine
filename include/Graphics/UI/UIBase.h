@@ -122,7 +122,7 @@ namespace Stardust::Graphics::UI {
 			f(f, uiElements);
 		}
 		inline void Draw() {
-			auto f = [](auto&& self, std::vector<UIElement*> elements) -> void
+			auto f = [](auto&& self, const std::vector<UIElement*>& elements) -> void
 			{
 				for (auto e : elements) {
 					e->Draw();
