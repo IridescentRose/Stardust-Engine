@@ -3,6 +3,7 @@
 namespace Stardust::Graphics::Render2D {
 	Sprite::Sprite()
 	{
+		noTex = true;
 		red = green = blue = alpha = 255;
 	}
 
@@ -20,6 +21,7 @@ namespace Stardust::Graphics::Render2D {
 	Sprite::Sprite(Texture* texture)
 	{
 		tex = texture;
+		noTex = false;
 
 		//generate wertices
 		vertices = (TextureVertex*)memalign(16, 4 * sizeof(TextureVertex));
@@ -45,6 +47,7 @@ namespace Stardust::Graphics::Render2D {
 	Sprite::Sprite(Texture* texture, int startW, int startH, int endW, int endH)
 	{
 		tex = texture;
+		noTex = texture == NULL;
 
 		//generate wertices
 		vertices = (TextureVertex*)memalign(16, 4 * sizeof(TextureVertex));
@@ -73,6 +76,7 @@ namespace Stardust::Graphics::Render2D {
 	Sprite::Sprite(Texture* texture, int startW, int startH, int endW, int endH, bool obr)
 	{
 		tex = texture;
+		noTex = texture == NULL;
 
 		//generate wertices
 		vertices = (TextureVertex*)memalign(16, 4 * sizeof(TextureVertex));
@@ -152,14 +156,18 @@ namespace Stardust::Graphics::Render2D {
 		ScePspFVector3 loc = { posX,posY,0.0f };
 		sceGumTranslate(&loc);
 
-		sceGuEnable(GU_TEXTURE_2D);
-
+		
 		sceGuColor(GU_RGBA(red, green, blue, alpha));
-		tex->bindTexture(GU_NEAREST, GU_NEAREST, true);
+
+		if (!noTex) {
+			sceGuEnable(GU_TEXTURE_2D);
+			tex->bindTexture(GU_NEAREST, GU_NEAREST, true);
+		}
 
 		sceGumDrawArray(GU_TRIANGLE_STRIP, GU_TEXTURE_32BITF | GU_VERTEX_32BITF | GU_TRANSFORM_3D, 4, 0, vertices);
-
-		sceGuDisable(GU_TEXTURE_2D);
+		if (!noTex)
+			sceGuDisable(GU_TEXTURE_2D);
+		
 		sceGumPopMatrix();
 	}
 
