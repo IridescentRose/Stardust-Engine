@@ -95,6 +95,8 @@ namespace Stardust::Graphics::UI {
 
 		virtual void Draw() = 0;
 		virtual void Update() = 0;
+
+	protected:
 		virtual void loadFromJson(Json::Value v) = 0;
 	};
 
@@ -162,6 +164,32 @@ namespace Stardust::Graphics::UI {
 	private:
 		std::vector<UIElement*> uiElements;
 		std::map<std::string, ActionListener> listeners;
+	};
+
+	class UIBase : public UIElement {
+	public:
+		UIBase() {
+			type = "undefined";
+		}
+		~UIBase() {
+
+		}
+
+	protected:
+		inline virtual void loadFromJson(Json::Value v) override {
+			anchor = { v["anchor"]["x"].asInt(), v["anchor"]["y"].asInt() };
+			position = { v["position"]["x"].asInt(), v["position"]["y"].asInt() };
+			size = { v["size"]["x"].asInt(), v["size"]["y"].asInt() };
+			type = v["type"].asString();
+			color = { v["color"]["red"].asInt() ,v["color"]["green"].asInt() , v["color"]["blue"].asInt(), v["color"]["alpha"].asInt() };
+		}
+
+		std::string type;
+
+	public:
+		inline void load(Json::Value v) {
+			loadFromJson(v);
+		}
 	};
 
 	extern Canvas* g_Canvas;
