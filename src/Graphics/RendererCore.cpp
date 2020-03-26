@@ -119,5 +119,19 @@ namespace Stardust::Graphics {
 		}
 	}
 
+#ifdef MC_PSP
+	void RendererCore::InitDebugFont()
+	{
+	}
+
+	void RendererCore::SetFontStyle(float size, unsigned int color, unsigned int shadowColor, unsigned int options, float angle)
+	{
+	}
+
+	void RendererCore::DebugPrint(int x, int y, const char* message, ...)
+	{
+	}
+#endif
+
 	RendererCore g_RenderCore;
 }
