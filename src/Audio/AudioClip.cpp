@@ -12,7 +12,7 @@ namespace Stardust::Audio {
 
 	void AudioClip::Play(int c)
 	{
-		oslPlaySound(snd, 0);
+		oslPlaySound(snd, c);
 	}
 	void AudioClip::Pause()
 	{

@@ -3,7 +3,7 @@
 Mission: A brand new, easy to use, and beautiful game engine for the PSP.
 
 ## Project Phase
-The engine is currently in planning and will be moving to development on 3/3/2020.
+The engine is currently in rapid development.
 
 ## The Engine
 The engine aims to be designed similar in architecture to Unity3D and features many similarities. Many of these similarities include GameObjects, Components, and Extensible Scripting. 
@@ -16,19 +16,19 @@ The third option is a highly performant and fast C++ API that can be used for co
 
 The engine is broken up into multiple submodules that make up the engine, and the following are those key sub-components:
 
-- Math
-- Utilities
-- Events
-- Networking
-- Core Engine
-- Scene Management
-- Scripting
-- Profiling
-- Audio
-- Rendering
-- Sprites
-- 2D Lighting
-- UI
+- Math - Done
+- Utilities - Done
+- Events - Done
+- Networking - Done
+- Core Engine - Done
+- Scene Management - Done
+- Scripting - Postponed
+- Profiling - Done
+- Audio - Done
+- Rendering - Done
+- Sprites - Postponed
+- 2D Lighting - Postponed
+- UI - In progress
 - 2D Controllers
 - 2D Physics
 - Animations
@@ -41,5 +41,5 @@ The engine is broken up into multiple submodules that make up the engine, and th
 - Editor
 
 ## Schedule
-While not much is known, since development hasn't started, and won't kick off until 3/3/2020, it is estimated that completion will come in early fall of 2020, but that is subject to change. After a few weeks, this will be updated with a full roadmap.
+While not much is known, since development hasn't started, and won't kick off until 3/3/2020, it is estimated that completion will come in early summer of 2020, but that is subject to change. After a few weeks, this will be updated with a full roadmap.
 

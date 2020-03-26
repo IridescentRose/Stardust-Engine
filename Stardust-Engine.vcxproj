@@ -78,6 +78,7 @@
     <ClInclude Include="include\Graphics\RendererCore.h" />
     <ClInclude Include="include\Graphics\RenderTypes.h" />
     <ClInclude Include="include\Graphics\TextureUtil.h" />
+    <ClInclude Include="include\Graphics\UI\UIBase.h" />
     <ClInclude Include="include\Math\AABB.h" />
     <ClInclude Include="include\Math\Frustum.h" />
     <ClInclude Include="include\Math\MathFuncs.h" />
