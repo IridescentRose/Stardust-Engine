@@ -17,7 +17,7 @@
 #include <psptypes.h>
 #include <pspge.h>
 #include <psputils.h>
-
+#include <stdarg.h>
 #endif
 
 #include <Graphics/RenderTypes.h>
