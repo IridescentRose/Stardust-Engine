@@ -18,6 +18,7 @@
 #include <pspge.h>
 #include <psputils.h>
 #include <stdarg.h>
+#include <intraFont.h>
 #endif
 
 #include <Graphics/RenderTypes.h>
