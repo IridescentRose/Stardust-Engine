@@ -68,6 +68,7 @@ namespace Stardust::Platform {
 		Utilities::app_Logger = new Utilities::Logger(appName, std::string(appName) + "_log.log");
 		Utilities::app_Logger->log("Application Start!");
 
+		VirtualFileInit();
 		oslInitAudio();
 		Graphics::g_RenderCore.Init();
 	}
