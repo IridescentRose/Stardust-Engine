@@ -1,9 +1,9 @@
 ![Stardust Engine](./stardustLogo.png)
 
-Mission: A brand new, easy to use, and beautiful game engine for the PSP.
+Mission: A brand new, easy to use, fast, Unity-like game engine for the PSP.
 
 ## Project Phase
-The engine is currently in rapid development.
+The engine is currently in rapid development. As such, there is no documentation and things are subject to change. The project is compilable and is being used in multiple projects including Minecraft-PSP and PSP-Chat (among others). The current API is very data driven and relies on programmers to fill the gaps between artwork, data, and more. The majority of features of this engine are somewhat self-explanatory, but still require documentation.
 
 ## The Engine
 The engine aims to be designed similar in architecture to Unity3D and features many similarities. Many of these similarities include GameObjects, Components, and Extensible Scripting. 
