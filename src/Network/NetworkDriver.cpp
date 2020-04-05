@@ -44,6 +44,7 @@ namespace Stardust::Network {
 			return false;
 		}
 		
+		//thr->Start();
 		return Graphics::ShowNetworkDialog();
 	}
 

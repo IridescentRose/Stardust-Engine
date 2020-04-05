@@ -38,7 +38,7 @@ PSP_LARGE_MEMORY = 0
 
 LIBDIR += ./libs/lib/
 LDFLAGS =
-LIBS=-ljson -lpng -lpspaudiolib -lpspaudio -lpspaudiocodec -lz -lpspgum -lpspgu -lstdc++ -lpsprtc -lpspctrl -lm -lpspvfpu -lpspsdk -lpsppower -lpsphttp -lpspmath  #Intrafont, PNG, Zlib, JSON, etc.
+LIBS= -lintraFont -ljson -lpng -lpspaudiolib -lpspaudio -lpspaudiocodec -lz -lpspgum -lpspgu -lstdc++ -lpsprtc -lpspctrl -lm -lpspvfpu -lpspsdk -lpsppower -lpsphttp -lpspmath  #Intrafont, PNG, Zlib, JSON, etc.
 
 $(alib): $(OBJS)
 	$(AR) rcs $@ $^

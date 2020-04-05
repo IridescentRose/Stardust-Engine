@@ -1,16 +1,25 @@
+#include <map>
 #include <Utilities/Input.h>
 #include <Math/MathFuncs.h>
-#include <cmath>
 
 namespace Stardust::Utilities {
 	SceCtrlData oldPadData;
 	SceCtrlData newPadData;
+	std::map<std::string, int> mymap;
+	std::map<std::string, ActionHandler> handles;
 
 
 	void updateInputs()
 	{
 		oldPadData = newPadData;
 		sceCtrlReadBufferPositive(&newPadData, 1);
+
+		for (auto& [key, but] : mymap) {
+			if (KeyHold(but) || KeyPressed(but)) {
+				handles[key](KeyHold(but));
+			}
+		}
+
 	}
 	bool KeyPressed(int key)
 	{
@@ -68,5 +77,31 @@ namespace Stardust::Utilities {
 			return 1.0f;
 		}
 		return 0.0f;
+	}
+
+
+	void addActionKeyPair(std::string action, int key)
+	{
+		mymap.emplace(action, key);
+	}
+	
+	void clearActionKeyPairs()
+	{
+		mymap.clear();
+	}
+
+	void setActionKeyPair(std::string action, int key)
+	{
+		mymap[action] = key;
+	}
+	
+	void addActionHandler(std::string action, ActionHandler handler)
+	{
+		handles.emplace(action, handler);
+	}
+
+	void clearActionHandlers()
+	{
+		handles.clear();
 	}
 }

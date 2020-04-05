@@ -12,6 +12,7 @@
 #define PSP_CTRL_ANALOG_Y 0x5
 
 #endif
+#include <string>
 
 namespace Stardust::Utilities {
 
@@ -26,4 +27,14 @@ namespace Stardust::Utilities {
 	*/
 	float KeyStrength(int key);
 
+	void addActionKeyPair(std::string action, int key);
+	void clearActionKeyPairs();
+
+	void setActionKeyPair(std::string action, int key);
+
+
+	typedef void (*ActionHandler)(bool);
+
+	void addActionHandler(std::string action, ActionHandler handler);
+	void clearActionHandlers();
 }
