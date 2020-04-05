@@ -36,8 +36,8 @@ namespace Stardust::Graphics {
         void Clear();
 
 #if CURRENT_PLATFORM == PLATFORM_PSP
-        inline void SetClearColor(float r, float g, float b, float a) {
-            clearColor = GU_COLOR(r, g, b, a);
+        inline void SetClearColor(int r, int g, int b, int a) {
+            clearColor = GU_RGBA(r, g, b, a);
             sceGuClearColor(clearColor);
         }
 #endif

@@ -58,6 +58,7 @@ namespace Stardust::Platform {
 		srand(time(NULL));
 		vfpu_srand(time(NULL));
 
+
 		Utilities::g_AppTimer.reset();
 		Utilities::g_AppTimer.deltaTime();
 
@@ -71,6 +72,10 @@ namespace Stardust::Platform {
 		VirtualFileInit();
 		oslInitAudio();
 		Graphics::g_RenderCore.Init();
+
+		#ifdef MC_PSP
+		Graphics::g_RenderCore.InitDebugFont();
+		#endif
 	}
 
 	void exitPlatform()
