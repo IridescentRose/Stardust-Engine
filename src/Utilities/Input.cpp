@@ -16,7 +16,7 @@ namespace Stardust::Utilities {
 
 		for (auto& [key, but] : mymap) {
 			if (KeyHold(but) || KeyPressed(but)) {
-				handles[key](KeyHold(but));
+				handles[key](KeyHold(but), KeyStrength(but));
 			}
 		}
 

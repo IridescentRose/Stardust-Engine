@@ -33,7 +33,11 @@ namespace Stardust::Utilities {
 	void setActionKeyPair(std::string action, int key);
 
 
-	typedef void (*ActionHandler)(bool);
+	/**
+	* Bool - Held?
+	* Float - Strength
+	*/
+	typedef void (*ActionHandler)(bool, float);
 
 	void addActionHandler(std::string action, ActionHandler handler);
 	void clearActionHandlers();
