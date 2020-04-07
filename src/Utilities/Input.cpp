@@ -1,6 +1,8 @@
 #include <map>
 #include <Utilities/Input.h>
 #include <Math/MathFuncs.h>
+#include <json/json.h>
+#include <fstream>
 
 namespace Stardust::Utilities {
 	SceCtrlData oldPadData;
@@ -173,5 +175,46 @@ namespace Stardust::Utilities {
 	}
 
 		return "Unbound";
+	}
+	void LoadConfiguration(std::string path)
+	{
+		mymap.clear();
+		std::fstream file(path);
+
+		Json::Value root;
+
+		file >> root;
+		file.close();
+
+		Json::Value listen = root["listeners"];
+
+		for (int i = 0; i < listen.size(); i++) {
+			Json::Value temp = listen[i];
+			std::string str = temp["name"].asString();
+			int but = temp["button"].asInt();
+
+			mymap.emplace(str, but);
+		}
+	}
+	void SaveConfiguration(std::string path)
+	{
+		std::fstream file(path, std::ios::trunc);
+
+		Json::Value v;
+
+		Json::Value v2(Json::arrayValue);
+
+		for (const auto& [str, but] : mymap) {
+			Json::Value temp;
+			temp["name"] = str.c_str();
+			temp["button"] = but;
+
+			v2.append(temp);
+		}
+
+		v["listeners"] = v2;
+
+		file << v;
+		file.close();
 	}
 }

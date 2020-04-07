@@ -43,4 +43,7 @@ namespace Stardust::Utilities {
 	void clearActionHandlers();
 
 	std::string toString(int but);
+
+	void LoadConfiguration(std::string path);
+	void SaveConfiguration(std::string path);
 }
