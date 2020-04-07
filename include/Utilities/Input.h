@@ -41,4 +41,6 @@ namespace Stardust::Utilities {
 
 	void addActionHandler(std::string action, ActionHandler handler);
 	void clearActionHandlers();
+
+	std::string toString(int but);
 }
