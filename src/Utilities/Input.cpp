@@ -29,7 +29,9 @@ float getY()
 
 		for (auto& [key, but] : mymap) {
 			if (KeyHold(but) || KeyPressed(but)) {
-				handles[key](KeyHold(but), KeyStrength(but));
+				if(handles.find(key) != handles.end()){
+					handles[key](KeyHold(but), KeyStrength(but));
+				}
 			}
 		}
 
@@ -190,6 +192,7 @@ float getY()
 	void LoadConfiguration(std::string path)
 	{
 		mymap.clear();
+		handles.clear();
 		std::fstream file(path);
 
 		Json::Value root;
