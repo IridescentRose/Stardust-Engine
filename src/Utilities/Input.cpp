@@ -104,4 +104,74 @@ namespace Stardust::Utilities {
 	{
 		handles.clear();
 	}
+	std::string toString(int but)
+	{
+		switch(but){
+		case PSP_CTRL_ANALOG_X:
+			return "Analog X";
+
+			break;
+
+		case PSP_CTRL_ANALOG_Y:
+			return "Analog Y";
+
+			break;
+
+		case PSP_CTRL_DOWN:
+			return "Down";
+
+			break;
+		case PSP_CTRL_UP:
+			return "Up";
+
+			break;
+		case PSP_CTRL_LEFT:
+			return "Left";
+
+			break;
+		case PSP_CTRL_RIGHT:
+			return "Right";
+
+			break;
+
+
+		case PSP_CTRL_CROSS:
+			return "Cross";
+
+			break;
+		case PSP_CTRL_CIRCLE:
+			return "Circle";
+
+			break;
+		case PSP_CTRL_TRIANGLE:
+			return "Triangle";
+
+			break;
+		case PSP_CTRL_SQUARE:
+			return "Square";
+
+			break;
+
+
+		case PSP_CTRL_RTRIGGER:
+			return "RTrigger";
+
+			break;
+		case PSP_CTRL_LTRIGGER:
+			return "LTrigger";
+
+			break;
+		case PSP_CTRL_SELECT:
+			return "Select";
+
+			break;
+		case PSP_CTRL_START:
+			return "Start";
+
+			break;
+
+	}
+
+		return "Unbound";
+	}
 }
