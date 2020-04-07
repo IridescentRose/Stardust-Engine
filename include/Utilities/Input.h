@@ -48,4 +48,6 @@ namespace Stardust::Utilities {
 	void SaveConfiguration(std::string path);
 
 	int buttonFromAction(std::string);
+
+	int nextAction();
 }
