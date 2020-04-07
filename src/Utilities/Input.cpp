@@ -217,4 +217,8 @@ namespace Stardust::Utilities {
 		file << v;
 		file.close();
 	}
+
+	int buttonFromAction(std::string s){
+		return mymap[s];
+	}
 }
