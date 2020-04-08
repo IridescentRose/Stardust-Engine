@@ -44,7 +44,7 @@ namespace Stardust::Network {
 			return false;
 		}
 		
-		//thr->Start();
+		
 		return Graphics::ShowNetworkDialog();
 	}
 
@@ -71,8 +71,11 @@ namespace Stardust::Network {
 
 	bool NetworkDriver::Connect(unsigned short port, const char* ip) {
 		bool res = m_Socket.Connect(port, ip);
-		if (connect)
+
+		if (res){
+			m_Socket.SetBlock(false);
 			thr->Start(0);
+		}
 
 		return res;
 	}

@@ -19,6 +19,7 @@
 #include <sys/socket.h>
 #include <unistd.h> 
 #include <queue>
+#include <fcntl.h>
 #endif
 
 namespace Stardust::Network {
@@ -45,6 +46,16 @@ namespace Stardust::Network {
 		close(m_socket);
 	}
 
+	bool Socket::SetBlock(bool blocking)
+	{
+		int flags = fcntl(m_socket, F_GETFL, 0);
+		if (flags == -1) return false;
+		flags = blocking ? (flags & ~O_NONBLOCK) : (flags | O_NONBLOCK);
+		return (fcntl(m_socket, F_SETFL, flags) == 0) ? true : false;
+
+		return false;
+	}
+
 	void Socket::Send(size_t size, byte* buffer)
 	{
 		int res = send(m_socket, buffer, size, 0);
@@ -60,38 +71,59 @@ namespace Stardust::Network {
 
 		std::vector<byte> len;
 		byte newByte;
-		recv(m_socket, &newByte, 1, 0);
+		int res = recv(m_socket, &newByte, 1, 0);
 		
-		while (newByte & 128) {
+		if (res > -1) {
+
+			while (newByte & 128) {
+				if(res > -1){
+					len.push_back(newByte);
+					res = recv(m_socket, &newByte, 1, 0);
+				}
+				else {
+					sceKernelDelayThread(300);
+				}
+			}
 			len.push_back(newByte);
-			recv(m_socket, &newByte, 1, 0);
+
+			//We now have the length stored in len
+			int length = decodeVarInt(len);
+
+			Utilities::detail::core_Logger->log("LENGTH: " + std::to_string(length), Utilities::LOGGER_LEVEL_DEBUG);
+
+			int totalTaken = 0;
+
+			byte *b = new byte[length];
+			for(int i = 0; i < length; i++){
+				b[i] = 0;
+			}
+			
+			while (totalTaken < length) {
+				int res = recv(m_socket, b, length, 0);
+				if(res > -1){
+					totalTaken += res;
+				}
+				else {
+					sceKernelDelayThread(300);
+				}
+			}
+			
+
+			for (int i = 0; i < length; i++) {
+				pIn->bytes.push_back(b[i]);
+			}
+
+			pIn->pos = 0;
+
+			pIn->ID = decodeShort(*pIn);
+
+			Utilities::detail::core_Logger->log("Received Packet!", Utilities::LOGGER_LEVEL_DEBUG);
+			Utilities::detail::core_Logger->log("Packet ID: " + std::to_string(pIn->ID), Utilities::LOGGER_LEVEL_DEBUG);
+
+			return pIn;
 		}
-		len.push_back(newByte);
-
-		//We now have the length stored in len
-		int length = decodeVarInt(len);
-
-		Utilities::detail::core_Logger->log("LENGTH: " + std::to_string(length), Utilities::LOGGER_LEVEL_DEBUG);
-
-		int totalTaken = 0;
-
-		byte *b = new byte[length];
-		for(int i = 0; i < length; i++){
-			b[i] = 0;
+		else {
+			return NULL;
 		}
-		totalTaken += recv(m_socket, b, length, 0);
-
-		for (int i = 0; i < length; i++) {
-			pIn->bytes.push_back(b[i]);
-		}
-
-		pIn->pos = 0;
-
-		pIn->ID = decodeShort(*pIn);
-
-		Utilities::detail::core_Logger->log("Received Packet!", Utilities::LOGGER_LEVEL_DEBUG);
-		Utilities::detail::core_Logger->log("Packet ID: " + std::to_string(pIn->ID), Utilities::LOGGER_LEVEL_DEBUG);
-
-		return pIn;
 	}
 }
