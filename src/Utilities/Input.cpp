@@ -1,8 +1,10 @@
 #include <map>
 #include <Utilities/Input.h>
+#include <Utilities/Timer.h>
 #include <Math/MathFuncs.h>
 #include <json/json.h>
 #include <fstream>
+#include <iostream>
 
 namespace Stardust::Utilities {
 	SceCtrlData oldPadData;
@@ -10,6 +12,15 @@ namespace Stardust::Utilities {
 	std::map<std::string, int> mymap;
 	std::map<std::string, ActionHandler> handles;
 
+float getX()
+{
+	return (((float)newPadData.Lx - 122.5f) / 122.5f); //Range of +/- 1.0f
+}
+
+float getY()
+{
+	return (((float)newPadData.Ly - 122.5f) / 122.5f); //Range of +/- 1.0f
+}
 
 	void updateInputs()
 	{
@@ -18,7 +29,9 @@ namespace Stardust::Utilities {
 
 		for (auto& [key, but] : mymap) {
 			if (KeyHold(but) || KeyPressed(but)) {
-				handles[key](KeyHold(but), KeyStrength(but));
+				if(handles.find(key) != handles.end()){
+					handles[key](KeyHold(but), KeyStrength(but));
+				}
 			}
 		}
 
@@ -179,6 +192,7 @@ namespace Stardust::Utilities {
 	void LoadConfiguration(std::string path)
 	{
 		mymap.clear();
+		handles.clear();
 		std::fstream file(path);
 
 		Json::Value root;
@@ -217,4 +231,83 @@ namespace Stardust::Utilities {
 		file << v;
 		file.close();
 	}
+
+	int buttonFromAction(std::string s){
+		return mymap[s];
+	}
+
+	int nextAction()
+{
+
+	Utilities::Timer t;
+	t = Utilities::Timer();
+
+	float delay = 0.1f;
+
+	delay = 1.0f;
+	while (delay > 0) {
+		delay -= t.deltaTime();
+		updateInputs();
+	}
+
+	while (true) {
+		updateInputs();
+
+		//check each button
+		if (KeyHold(PSP_CTRL_UP)) {
+			return PSP_CTRL_UP;
+		}
+
+		if (KeyHold(PSP_CTRL_DOWN)) {
+			return PSP_CTRL_DOWN;
+		}
+		if (KeyHold(PSP_CTRL_LEFT)) {
+			return PSP_CTRL_LEFT;
+		}
+		if (KeyHold(PSP_CTRL_RIGHT)) {
+			return PSP_CTRL_RIGHT;
+		}
+
+		if (KeyHold(PSP_CTRL_TRIANGLE)) {
+			return PSP_CTRL_TRIANGLE;
+		}
+		if (KeyHold(PSP_CTRL_CROSS)) {
+			return PSP_CTRL_CROSS;
+		}
+		if (KeyHold(PSP_CTRL_SQUARE)) {
+			return PSP_CTRL_SQUARE;
+		}
+		if (KeyHold(PSP_CTRL_CIRCLE)) {
+			return PSP_CTRL_CIRCLE;
+		}
+
+		if (KeyHold(PSP_CTRL_LTRIGGER)) {
+			return PSP_CTRL_LTRIGGER;
+		}
+		if (KeyHold(PSP_CTRL_RTRIGGER)) {
+			return PSP_CTRL_RTRIGGER;
+		}
+		if (KeyHold(PSP_CTRL_SELECT)) {
+			return PSP_CTRL_SELECT;
+		}
+		if (KeyHold(PSP_CTRL_START)) {
+			return PSP_CTRL_START;
+		}
+
+		if (getX() >= 0.5f) {
+			return (int)PSP_CTRL_ANALOG_X;
+		}
+		if (getY() >= 0.5f) {
+			return (int)PSP_CTRL_ANALOG_Y;
+		}
+		if (getX() <= -0.5f) {
+			return (int)PSP_CTRL_ANALOG_X;
+		}
+		if (getY() <= -0.5f) {
+			return (int)PSP_CTRL_ANALOG_Y;
+		}
+	}
+
+	return (int)0;
+}
 }
