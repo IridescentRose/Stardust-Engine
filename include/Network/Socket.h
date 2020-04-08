@@ -9,7 +9,7 @@ namespace Stardust::Network {
 		bool Connect(unsigned short port, const char* ip);
 		void Close();
 
-
+		bool SetBlock(bool blocking);
 
 		void Send(size_t size, byte* buffer);
 		PacketIn* Recv();
