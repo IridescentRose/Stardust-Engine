@@ -127,7 +127,9 @@ namespace Stardust::Network {
 	void NetworkDriver::ReceivePacket()
 	{
 		PacketIn* p = m_Socket.Recv();
-		unhandledPackets.push(p);
+		if (p != NULL) {
+			unhandledPackets.push(p);
+		}
 	}
 
 	void NetworkDriver::HandlePackets()
@@ -161,7 +163,7 @@ namespace Stardust::Network {
 #if CURRENT_PLATFORM == PLATFORM_PSP
 	int NetworkDriver::ReceiveThread(SceSize args, void* argp)
 	{
-		while (0) {
+		while (1) {
 			g_NetworkDriver.ReceivePacket();
 			sceKernelDelayThread(1000 * 50);
 		}
