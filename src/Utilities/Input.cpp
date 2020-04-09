@@ -39,12 +39,12 @@ float getY()
 	bool KeyPressed(int key)
 	{
 		if (key == PSP_CTRL_ANALOG_X) {
-			if (abs(((float)newPadData.Lx - 122.5f) / 122.5f) > 0) {
+			if (abs(((float)newPadData.Lx - 122.5f) / 122.5f) > 0.2f) {
 				return true;
 			}
 		}
-		if (key == PSP_CTRL_ANALOG_X) {
-			if (abs(((float)newPadData.Ly - 122.5f) / 122.5f) > 0) {
+		if (key == PSP_CTRL_ANALOG_Y) {
+			if (abs(((float)newPadData.Ly - 122.5f) / 122.5f) > 0.2f) {
 				return true;
 			}
 		}
