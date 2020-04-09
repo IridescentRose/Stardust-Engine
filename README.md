@@ -43,40 +43,18 @@ The engine is broken up into multiple submodules that make up the engine, and th
 ## Schedule
 The schedule is work in progress and has changed MANY times, but we are now very far ahead in development.
 
-Current Schedule: ~5 weeks ahead
-* 20w13 - UI
-* 20w14 - Sprites and 2D
-* 20w15 - 2D Controllers
-* 20w16 - 2D Physics
-* 20w17 - Animation System
-* 20w18 - 3D Rendering
-* 20w19 - 3D Lighting
-* 20w20 - 3D Physics
+Current Schedule: ~3 weeks ahead
+* 20w15 - UI
+* 20w16 - Sprites and 2D
+* 20w16 - 2D Controllers
+* 20w17 - 2D Physics
+* 20w18 - Animation System
+* 20w19 - 3D Rendering
+* 20w20 - 3D Lighting
 * 20w21 - 3D Physics
-* 20w22 - 3D Controllers
-* 20w23 - Particles (2D & 3D)
-* 20w24 - Post Processing
-* 20w25 - Scripting
-* 20w26 -> 20w30 - Editor
-
-Old Schedule:
-* 20w10 - Events & Networking
-* 20w11 - Core Engine / Scene Management
-* 20w12 - Scripting
-* 20w13 - Profiling
-* 20w14 - Audio
-* 20w15 - Rendering
-* 20w16 - Rendering & Sprites
-* 20w17 - 2D Lighting
-* 20w18 - UI
-* 20w19 - 2D Controllers
-* 20w20 - 2D Physics
-* 20w21 - Animation System
-* 20w22 - 3D Rendering
-* 20w23 - 3D Lighting
-* 20w24 - 3D Physics
-* 20w25 - 3D Physics
-* 20w26 - 3D Controllers
-* 20w27 - Particles (2D & 3D)
-* 20w28 - Post Processing
-* 20w29 -> 20w35 - Editor
+* 20w22 - 3D Physics
+* 20w23 - 3D Controllers
+* 20w24 - Particles (2D & 3D)
+* 20w25 - Post Processing
+* 20w26 - Scripting
+* 20w27 -> 20w31 - Editor
