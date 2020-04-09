@@ -44,7 +44,7 @@ namespace Stardust::Network {
 			return false;
 		}
 		
-		//thr->Start();
+		
 		return Graphics::ShowNetworkDialog();
 	}
 
@@ -71,8 +71,11 @@ namespace Stardust::Network {
 
 	bool NetworkDriver::Connect(unsigned short port, const char* ip) {
 		bool res = m_Socket.Connect(port, ip);
-		if (connect)
+
+		if (res){
+			m_Socket.SetBlock(false);
 			thr->Start(0);
+		}
 
 		return res;
 	}
@@ -124,7 +127,9 @@ namespace Stardust::Network {
 	void NetworkDriver::ReceivePacket()
 	{
 		PacketIn* p = m_Socket.Recv();
-		unhandledPackets.push(p);
+		if (p != NULL) {
+			unhandledPackets.push(p);
+		}
 	}
 
 	void NetworkDriver::HandlePackets()
@@ -158,7 +163,7 @@ namespace Stardust::Network {
 #if CURRENT_PLATFORM == PLATFORM_PSP
 	int NetworkDriver::ReceiveThread(SceSize args, void* argp)
 	{
-		while (0) {
+		while (1) {
 			g_NetworkDriver.ReceivePacket();
 			sceKernelDelayThread(1000 * 50);
 		}
