@@ -39,12 +39,12 @@ float getY()
 	bool KeyPressed(int key)
 	{
 		if (key == PSP_CTRL_ANALOG_X) {
-			if (abs(((float)newPadData.Lx - 122.5f) / 122.5f) > 0.2f) {
+			if (getX() > 0.3f || getX() < -0.3f) {
 				return true;
 			}
 		}
 		if (key == PSP_CTRL_ANALOG_Y) {
-			if (abs(((float)newPadData.Ly - 122.5f) / 122.5f) > 0.2f) {
+			if (getY() > 0.3f || getY() < -0.3f) {
 				return true;
 			}
 		}
@@ -62,12 +62,12 @@ float getY()
 	bool KeyHold(int key)
 	{
 		if (key == PSP_CTRL_ANALOG_X) {
-			if (abs(((float)newPadData.Lx - 122.5f) / 122.5f) > 0) {
+			if (getX() > 0.3f || getX() < -0.3f) {
 				return true;
 			}
 		}
 		if (key == PSP_CTRL_ANALOG_Y) {
-			if (abs(((float)newPadData.Ly - 122.5f) / 122.5f) > 0) {
+			if (getY() > 0.3f || getY() < -0.3f) {
 				return true;
 			}
 		}
@@ -82,10 +82,10 @@ float getY()
 	float KeyStrength(int key)
 	{
 		if (key == PSP_CTRL_ANALOG_X) {
-			return ((float)newPadData.Lx - 122.5f) / 122.5f;
+			return getX();
 		}
 		if (key == PSP_CTRL_ANALOG_Y) {
-			return ((float)newPadData.Ly - 122.5f) / 122.5f;
+			return getY();
 		}
 
 		if (KeyHold(key)) {
