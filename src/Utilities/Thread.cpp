@@ -12,16 +12,16 @@ namespace Stardust::Utilities {
 	}
 	void Thread::Start(void* arg)
 	{
+		detail::core_Logger->log("Starting A Stardust Helper Thread!");
 #if CURRENT_PLATFORM == PLATFORM_PSP
 		sceKernelStartThread(thr, 1, arg);
 #endif
-		detail::core_Logger->log("Starting A Stardust Helper Thread!");
 	}
 	void Thread::Kill()
 	{
+		detail::core_Logger->log("Killing A Stardust Helper Thread!");
 #if CURRENT_PLATFORM == PLATFORM_PSP
 		sceKernelTerminateDeleteThread(thr);
 #endif
-		detail::core_Logger->log("Killing A Stardust Helper Thread!");
 	}
 }
