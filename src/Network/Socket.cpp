@@ -73,10 +73,10 @@ namespace Stardust::Network {
 		byte newByte;
 		int res = recv(m_socket, &newByte, 1, 0);
 		
-		if (res > -1) {
+		if (res > 0) {
 
 			while (newByte & 128) {
-				if(res > -1){
+				if(res > 0){
 					len.push_back(newByte);
 					res = recv(m_socket, &newByte, 1, 0);
 				}
@@ -100,7 +100,7 @@ namespace Stardust::Network {
 			
 			while (totalTaken < length) {
 				int res = recv(m_socket, b, length, 0);
-				if(res > -1){
+				if(res > 0){
 					totalTaken += res;
 				}
 				else {
