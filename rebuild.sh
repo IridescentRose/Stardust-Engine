@@ -1,5 +1,4 @@
-PATH=c:\pspsdk\bin;%cd%;
 make clean
-make
+make -j16
 make build_lib
 pause
