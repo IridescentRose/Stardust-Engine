@@ -29,7 +29,7 @@ int main() {
 	
 	Graphics::Texture* texExample = Graphics::TextureUtil::LoadPng("./test.png", true);
 
-#define TESTING_NUMBER 4000
+#define TESTING_NUMBER 1024
 
 	Graphics::Render2D::Sprite2* spr[TESTING_NUMBER];
 
