@@ -85,6 +85,18 @@ namespace Stardust::Graphics {
 		sceDisplayWaitVblankStart();
 		sceGuSwapBuffers();
 	}
+	void RendererCore::Set2DMode()
+	{
+		sceGumMatrixMode(GU_PROJECTION);
+		sceGumLoadIdentity();
+		sceGumOrtho(0, 480, 272, 0, -30, 30);
+
+		sceGumMatrixMode(GU_VIEW);
+		sceGumLoadIdentity();
+
+		sceGumMatrixMode(GU_MODEL);
+		sceGumLoadIdentity();
+	}
 	void RendererCore::RenderToTexture(Texture* tex)
 	{
 		sceGuDrawBufferList(GU_PSM_8888, (void*)tex->data, tex->width);
@@ -118,7 +130,7 @@ namespace Stardust::Graphics {
 			sceGuDrawArray(GU_SPRITES, GU_TEXTURE_16BIT | GU_VERTEX_16BIT | GU_TRANSFORM_2D, 2, 0, vertices);
 		}
 	}
-
+	 
 #ifdef MC_PSP
 	void RendererCore::InitDebugFont()
 	{

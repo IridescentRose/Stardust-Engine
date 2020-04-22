@@ -87,6 +87,9 @@
     <ClCompile Include="src\Graphics\vram.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Graphics\2D\SpriteAdvanced.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Platform\Platform.h">
@@ -195,6 +198,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Graphics\UI\UIBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Graphics\2D\SpriteAdvanced.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

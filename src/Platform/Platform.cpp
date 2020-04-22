@@ -3,6 +3,7 @@
 #include <Utilities/Logger.h>
 #include <Utilities/JSON.h>
 #include <Graphics/RendererCore.h>
+#include <Utilities/Input.h>
 
 #if CURRENT_PLATFORM == PLATFORM_PSP
 #include <psppower.h>
@@ -90,6 +91,7 @@ namespace Stardust::Platform {
 	void platformUpdate()
 	{
 		VirtualFileInit();
+		Utilities::updateInputs();
 		oslAudioVSync();
 	}
 

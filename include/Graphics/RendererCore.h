@@ -45,6 +45,8 @@ namespace Stardust::Graphics {
         void BeginCommands(bool dialog = false);
         void EndCommands(bool dialog = false);
 
+        void Set2DMode();
+
         void RenderToTexture(Texture* tex);
 
         void Blit(int sx, int sy, int sw, int sh, int dx, int dy, int slice);
@@ -69,7 +71,7 @@ namespace Stardust::Graphics {
     private:
         unsigned int clearColor;
 
-        char list[0x20000] __attribute__((aligned(64)));
+        char list[0x100000] __attribute__((aligned(64)));
 
         void* _fbp0;
         void* _fbp1;

@@ -21,6 +21,7 @@ src/Graphics/RendererCore.o \
 src/Graphics/vram.o \
 src/Graphics/TextureUtil.o \
 src/Graphics/2D/SpriteBase.o \
+src/Graphics/2D/SpriteAdvanced.o \
 src/Graphics/Dialogs.o \
 src/Main.o
 
@@ -32,11 +33,11 @@ ASFLAGS = $(CFLAGS)
 
 BUILD_PRX = 1
 PSP_FW_VERSION=500
-PSP_LARGE_MEMORY = 0
+PSP_LARGE_MEMORY = 1
 
 LIBDIR += ./libs/lib/
 LDFLAGS =
-LIBS= -lintraFont -lpng -ljson -lpspaudiolib -lpspaudio -lpspaudiocodec -lz -lpspgum -lpspgu -lstdc++ -lpsprtc -lpspctrl -lm -lpspvfpu -lpspsdk -lpsppower -lpsphttp -lpspmath #Intrafont, PNG, Zlib, JSON, etc.
+LIBS= -lintraFont -lperf -lpng -ljson -lpspaudiolib -lpspaudio -lpspaudiocodec -lz -lpspgum -lpspgu -lstdc++ -lpsprtc -lpspctrl -lm -lpspvfpu -lpspsdk -lpsppower -lpsphttp -lpspmath #Intrafont, PNG, Zlib, JSON, etc.
 
 EXTRA_TARGETS = EBOOT.PBP
 PSP_EBOOT_TITLE = Stardust
