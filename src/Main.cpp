@@ -65,7 +65,13 @@ int main() {
 		for (int i = 0; i < TESTING_NUMBER; i++) {
 			spr[i]->draw();
 		}
+		for (int i = 0; i < TESTING_NUMBER; i++) {
+			spr[i]->position(rand() % 480, rand() % 272);
+		}
 
+		for (int i = 0; i < TESTING_NUMBER; i++) {
+			spr[i]->setColor(rand() % 255, rand() % 255, rand() % 255, 255);
+		}
 		
 		Graphics::g_RenderCore.EndCommands();
 		PFL_EndCPURecord();
