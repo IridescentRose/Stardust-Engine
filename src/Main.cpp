@@ -16,7 +16,7 @@ PSP_HEAP_SIZE_KB(-1024);
 #include <Utilities/Timer.h>
 #include <Utilities/Logger.h>
 #include <Utilities/Input.h>
-#include <Graphics/2D/SpriteAdvanced.h>
+#include <Graphics/2D/SpriteAnimated.h>
 #include <perflib.h>
 
 using namespace Stardust;
@@ -27,16 +27,16 @@ int main() {
 
 	PFL_Init(false);
 	
-	Graphics::Texture* texExample = Graphics::TextureUtil::LoadPng("./test.png", true);
+	Graphics::Texture* texExample = Graphics::TextureUtil::LoadPng("./fire_layer_0.png", true);
 
-#define TESTING_NUMBER 1024
+#define TESTING_NUMBER 4096
 
-	Graphics::Render2D::Sprite2* spr[TESTING_NUMBER];
+	Graphics::Render2D::SpriteAnimated* spr[TESTING_NUMBER];
 
 	srand(time(0));
 
 	for (int i = 0; i < TESTING_NUMBER; i++) {
-		spr[i] = new Graphics::Render2D::Sprite2(texExample, { 16, 16 });
+		spr[i] = new Graphics::Render2D::SpriteAnimated(texExample, { 16, 16 }, 32);
 	}
 
 
@@ -57,6 +57,10 @@ int main() {
 		PFL_BeginCPURecord();
 		Graphics::g_RenderCore.BeginCommands();
 		Graphics::g_RenderCore.Clear();
+
+		for (int i = 0; i < TESTING_NUMBER; i++) {
+			spr[i]->tickPhase();
+		}
 
 		for (int i = 0; i < TESTING_NUMBER; i++) {
 			spr[i]->draw();

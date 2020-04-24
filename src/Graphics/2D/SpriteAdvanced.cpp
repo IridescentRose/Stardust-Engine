@@ -133,7 +133,7 @@ void Stardust::Graphics::Render2D::Sprite2::setLayer(int l)
 void Stardust::Graphics::Render2D::Sprite2::draw()
 {
 	sceGumPushMatrix();
-	sceGuDisable(GU_CULL_FACE);
+	sceGuEnable(GU_BLEND);
 
 	ScePspFVector3 scal = { scaleFactor.x, scaleFactor.y, 1.0f };
 	sceGumScale(&scal);
@@ -148,5 +148,6 @@ void Stardust::Graphics::Render2D::Sprite2::draw()
 
 	sceGumDrawArray(GU_SPRITES, GU_TEXTURE_32BITF | GU_VERTEX_32BITF | GU_TRANSFORM_3D, 2, 0, vertices);
 
+	sceGuDisable(GU_BLEND);
 	sceGumPopMatrix();
 }

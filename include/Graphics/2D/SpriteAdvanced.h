@@ -21,7 +21,7 @@ namespace Stardust::Graphics::Render2D {
 
 		void draw();
 
-	private:
+	protected:
 		glm::vec2 offset;
 		glm::vec2 extent;
 		glm::vec2 scaleFactor;
