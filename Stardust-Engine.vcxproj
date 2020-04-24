@@ -48,6 +48,7 @@
     <ClCompile Include="src\Core\Core.cpp" />
     <ClCompile Include="src\Events\Events.cpp" />
     <ClCompile Include="src\Graphics\2D\SpriteAdvanced.cpp" />
+    <ClCompile Include="src\Graphics\2D\SpriteAnimated.cpp" />
     <ClCompile Include="src\Graphics\2D\SpriteBase.cpp" />
     <ClCompile Include="src\Graphics\Dialogs.cpp" />
     <ClCompile Include="src\Graphics\RendererCore.cpp" />
@@ -75,6 +76,7 @@
     <ClInclude Include="include\Core\Core.h" />
     <ClInclude Include="include\Events\Events.h" />
     <ClInclude Include="include\Graphics\2D\SpriteAdvanced.h" />
+    <ClInclude Include="include\Graphics\2D\SpriteAnimated.h" />
     <ClInclude Include="include\Graphics\2D\SpriteBase.h" />
     <ClInclude Include="include\Graphics\Dialogs.h" />
     <ClInclude Include="include\Graphics\RendererCore.h" />
