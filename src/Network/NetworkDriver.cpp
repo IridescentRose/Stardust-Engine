@@ -72,6 +72,8 @@ namespace Stardust::Network {
 	bool NetworkDriver::Connect(unsigned short port, const char* ip) {
 		bool res = m_Socket.Connect(port, ip);
 
+
+		thr->Kill(); //Check
 		if (res){
 			//m_Socket.SetBlock(false);
 			thr->Start(0);
