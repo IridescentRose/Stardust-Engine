@@ -164,6 +164,7 @@ namespace Stardust::Network {
 	int NetworkDriver::ReceiveThread(SceSize args, void* argp)
 	{
 		while (1) {
+			g_NetworkDriver.SendPackets();
 			g_NetworkDriver.ReceivePacket();
 			Utilities::detail::core_Logger->log("Trying to Receive Packets!", Utilities::LOGGER_LEVEL_TRACE);
 			sceKernelDelayThread(1000 * 50);
