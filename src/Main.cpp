@@ -28,11 +28,11 @@ int main() {
 	PFL_Init(false);
 	PFL_SetTargetFrameRate(60);
 	
-	Graphics::Texture* texExample = Graphics::TextureUtil::LoadPng("./test.png", true);
+	Graphics::Texture* texExample = Graphics::TextureUtil::LoadPng("./terrain_atlas.png", true);
 
-#define TESTING_NUMBER 19000
+#define TESTING_NUMBER 1000
 
-	Graphics::TextureAtlas* tileAtlas = new Graphics::TextureAtlas(1);
+	Graphics::TextureAtlas* tileAtlas = new Graphics::TextureAtlas(32);
 
 	Graphics::Render2D::Tilemap* tmap = new Graphics::Render2D::Tilemap(tileAtlas, texExample);
 
@@ -40,8 +40,8 @@ int main() {
 		Graphics::Render2D::Tile* t = new Graphics::Render2D::Tile();
 		t->offset = { rand() % 480, rand() % 272 };
 		t->extent = { 16, 16 };
-		t->rgba = GU_RGBA(rand() % 255, rand() % 255, rand() % 255, 255);
-		t->texIndex = 1;
+		t->rgba = 0xFFFFFFFF;
+		t->texIndex = rand() % 512;
 
 		tmap->addTile(t);
 	}
