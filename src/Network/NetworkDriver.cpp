@@ -74,7 +74,7 @@ namespace Stardust::Network {
 
 		if (res){
 			//m_Socket.SetBlock(false);
-			//thr->Start(0);
+			thr->Start(0);
 		}
 
 		return res;
