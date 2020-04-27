@@ -73,7 +73,7 @@ namespace Stardust::Network {
 		bool res = m_Socket.Connect(port, ip);
 
 		if (res){
-			m_Socket.SetBlock(false);
+			//m_Socket.SetBlock(false);
 			//thr->Start(0);
 		}
 

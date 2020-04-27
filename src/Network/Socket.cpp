@@ -75,23 +75,23 @@ namespace Stardust::Network {
 		
 		if (res > 0) {
 
-			while (newByte & 128) {
-				if(res > 0){
-					len.push_back(newByte);
-					res = recv(m_socket, &newByte, 1, 0);
-				}
-				else {
-					sceKernelDelayThread(300);
-				}
+		while (newByte & 128) {
+			if(res > 0){
+				len.push_back(newByte);
+				res = recv(m_socket, &newByte, 1, 0);
 			}
-			len.push_back(newByte);
+			else {
+				sceKernelDelayThread(300);
+			}
+		}
+		len.push_back(newByte);
 
-			//We now have the length stored in len
-			int length = decodeVarInt(len);
+		//We now have the length stored in len
+		int length = decodeVarInt(len);
 
-			Utilities::detail::core_Logger->log("LENGTH: " + std::to_string(length), Utilities::LOGGER_LEVEL_DEBUG);
+		Utilities::detail::core_Logger->log("LENGTH: " + std::to_string(length), Utilities::LOGGER_LEVEL_DEBUG);
 
-			int totalTaken = 0;
+		int totalTaken = 0;
 
 			byte *b = new byte[length];
 			for(int i = 0; i < length; i++){
