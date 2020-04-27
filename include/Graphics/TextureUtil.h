@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include <malloc.h>
 #include <png.h>
+#include <array>
 #include <pspdebug.h>
 #include <pspgu.h>
 #include <pspgum.h>
@@ -109,5 +110,15 @@ namespace Stardust::Graphics {
 
 		static Texture* LoadPng(std::string fileName, bool vram = false);
 		static Texture* LoadPng(const char* filename, int ColorMode, int Swizzle, bool Vram);
+	};
+
+	class TextureAtlas {
+	public:
+		TextureAtlas(short tileSide);
+
+		std::array<float, 8> getTexture(int index);
+
+	private:
+		short sideCount;
 	};
 }
