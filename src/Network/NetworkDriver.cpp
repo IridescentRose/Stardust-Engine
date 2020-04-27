@@ -69,14 +69,13 @@ namespace Stardust::Network {
 
 #endif
 
-	bool NetworkDriver::Connect(unsigned short port, const char* ip) {
+	bool NetworkDriver::Connect(unsigned short port, const char* ip, bool threaded) {
 		bool res = m_Socket.Connect(port, ip);
 
-
-		thr->Kill(); //Check
-		if (res){
-			//m_Socket.SetBlock(false);
+		if (threaded && res) {
+			thr->Kill(); //Check
 			thr->Start(0);
+			sceKernelDelayThread(50 * 1000);
 		}
 
 		return res;
@@ -168,6 +167,8 @@ namespace Stardust::Network {
 		while (1) {
 			g_NetworkDriver.SendPackets();
 			g_NetworkDriver.ReceivePacket();
+			g_NetworkDriver.HandlePackets();
+
 			Utilities::detail::core_Logger->log("Trying to Receive Packets!", Utilities::LOGGER_LEVEL_TRACE);
 			sceKernelDelayThread(1000 * 50);
 		}

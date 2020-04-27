@@ -14,7 +14,7 @@ namespace Stardust::Network {
 		
 		NetworkDriver();
 		bool Init();
-		bool Connect(unsigned short port, const char* ip);
+		bool Connect(unsigned short port, const char* ip, bool threaded);
 		void Cleanup();
 
 		void AddPacket(PacketOut* p);
