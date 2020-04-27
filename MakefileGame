@@ -23,6 +23,7 @@ src/Graphics/TextureUtil.o \
 src/Graphics/2D/SpriteBase.o \
 src/Graphics/2D/SpriteAdvanced.o \
 src/Graphics/2D/SpriteAnimated.o \
+src/Graphics/2D/Tilemap.o \
 src/Graphics/Dialogs.o \
 src/Main.o
 
