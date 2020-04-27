@@ -99,8 +99,8 @@ namespace Stardust::Network {
 
 		Utilities::detail::core_Logger->log("Sending Network Packet Queue");
 		std::vector<byte> endByteBuffer;
-
-		for (int i = 0; i < packetQueue.size(); i++) {
+		int len = packetQueue.size();
+		for (int i = 0; i < len; i++) {
 			endByteBuffer.clear();
 
 			int packetLength = packetQueue.front()->bytes.size() + 2;
