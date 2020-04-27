@@ -30,7 +30,7 @@ int main() {
 	
 	Graphics::Texture* texExample = Graphics::TextureUtil::LoadPng("./test.png", true);
 
-#define TESTING_NUMBER 16384
+#define TESTING_NUMBER 19000
 
 	Graphics::TextureAtlas* tileAtlas = new Graphics::TextureAtlas(1);
 
