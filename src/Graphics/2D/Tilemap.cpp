@@ -34,8 +34,8 @@ namespace Stardust::Graphics::Render2D {
 		for (auto t : m_Tiles) {
 			std::array<float, 8> coords = m_Atlas->getTexture(t->texIndex);
 
-			vertices.push_back({ coords[0], coords[1], t->rgba, t->offset.x, t->offset.y , 0.f });
-			vertices.push_back({ coords[4], coords[5], t->rgba, t->offset.x + t->extent.x, t->offset.y + t->extent.y, 0.f });
+			vertices.push_back({ coords[0], coords[1], t->rgba, t->offset.x, t->offset.y , t->layer });
+			vertices.push_back({ coords[4], coords[5], t->rgba, t->offset.x + t->extent.x, t->offset.y + t->extent.y, t->layer });
 		}
 	}
 
@@ -45,6 +45,7 @@ namespace Stardust::Graphics::Render2D {
 		sceGuEnable(GU_TEXTURE_2D);
 
 		texRef->bindTexture(0, 0, true);
+
 		sceGumDrawArray(GU_SPRITES, GU_TEXTURE_32BITF | GU_COLOR_8888 | GU_VERTEX_32BITF | GU_TRANSFORM_3D, vertices.size(), 0, vertices.data());
 
 		sceGuDisable(GU_BLEND);

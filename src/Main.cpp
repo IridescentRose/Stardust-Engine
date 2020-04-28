@@ -41,6 +41,7 @@ int main() {
 		t->offset = { rand() % 480, rand() % 272 };
 		t->extent = { 16, 16 };
 		t->rgba = 0xFFFFFFFF;
+		t->layer = rand() % 60 - 30;
 		t->texIndex = rand() % 512;
 
 		tmap->addTile(t);

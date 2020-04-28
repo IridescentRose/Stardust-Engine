@@ -2,11 +2,13 @@
 #include "SpriteAdvanced.h"
 
 namespace Stardust::Graphics::Render2D {
+
 	struct Tile {
 		glm::vec2 offset;
 		glm::vec2 extent;
 
 		short texIndex;
+		char layer;
 		unsigned int rgba;
 	};
 
