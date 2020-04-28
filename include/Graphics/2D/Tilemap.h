@@ -3,12 +3,20 @@
 
 namespace Stardust::Graphics::Render2D {
 
+	enum TileRotations {
+		TILE_ROTATION_CW_0 = 0,
+		TILE_ROTATION_CW_90 = 2,
+		TILE_ROTATION_CW_180 = 4,
+		TILE_ROTATION_CW_270 = 6,
+	};
+
 	struct Tile {
 		glm::vec2 offset;
 		glm::vec2 extent;
 
 		short texIndex;
 		char layer;
+		char rotation;
 		unsigned int rgba;
 	};
 
