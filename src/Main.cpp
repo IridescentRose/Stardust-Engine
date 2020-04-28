@@ -16,7 +16,7 @@ PSP_HEAP_SIZE_KB(-1024);
 #include <Utilities/Timer.h>
 #include <Utilities/Logger.h>
 #include <Utilities/Input.h>
-#include <Graphics/2D/Tilemap.h>
+#include <Graphics/2D/TilemapAnim.h>
 #include <perflib.h>
 
 using namespace Stardust;
@@ -34,16 +34,20 @@ int main() {
 
 	Graphics::TextureAtlas* tileAtlas = new Graphics::TextureAtlas(32);
 
-	Graphics::Render2D::Tilemap* tmap = new Graphics::Render2D::Tilemap(tileAtlas, texExample);
+	Graphics::Render2D::TilemapAnim* tmap = new Graphics::Render2D::TilemapAnim(tileAtlas, texExample);
 
 	for (int i = 0; i < TESTING_NUMBER; i++) {
-		Graphics::Render2D::Tile* t = new Graphics::Render2D::Tile();
+		Graphics::Render2D::TileAnim* t = new Graphics::Render2D::TileAnim();
 		t->offset = { rand() % 480, rand() % 272 };
 		t->extent = { 16, 16 };
 		t->rgba = 0xFFFFFFFF;
 		t->layer = rand() % 60 - 30;
 		t->rotation = 6;
 		t->texIndex = rand() % 512;
+		t->isAnim = true;
+		t->animLength = 4;
+		t->tickNumber = 0;
+		t->indexStart = rand() % 508;
 
 		tmap->addTile(t);
 	}
@@ -56,12 +60,21 @@ int main() {
 
 	float readingTime = 0.0f;
 	int fps = 0;
+	int lastTime = 0;
 
 	while (!Utilities::KeyPressed(PSP_CTRL_START)) {
 
 		PFL_BeginCPURecord();
 		Graphics::g_RenderCore.BeginCommands();
 		Graphics::g_RenderCore.Clear();
+
+		int current = readingTime * 4.0;
+
+		if (current != lastTime) {
+
+			tmap->tickAnimation();
+			lastTime = current;
+		}
 
 		tmap->drawMap();
 		
