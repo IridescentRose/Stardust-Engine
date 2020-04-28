@@ -34,8 +34,14 @@ namespace Stardust::Graphics::Render2D {
 		for (auto t : m_Tiles) {
 			std::array<float, 8> coords = m_Atlas->getTexture(t->texIndex);
 
-			vertices.push_back({ coords[0], coords[1], t->rgba, t->offset.x, t->offset.y , t->layer });
-			vertices.push_back({ coords[4], coords[5], t->rgba, t->offset.x + t->extent.x, t->offset.y + t->extent.y, t->layer });
+			if(t->rotation == 0 || t->rotation == 4){
+				vertices.push_back({ coords[(0 + t->rotation) % 8], coords[(1 + t->rotation) % 8], t->rgba, t->offset.x, t->offset.y , t->layer });
+				vertices.push_back({ coords[(4 + t->rotation) % 8], coords[(5 + t->rotation) % 8], t->rgba, t->offset.x + t->extent.x, t->offset.y + t->extent.y, t->layer });
+			}
+			else {
+				vertices.push_back({ coords[(0 + t->rotation) % 8], coords[(1 + t->rotation) % 8], t->rgba, t->offset.x + t->extent.x, t->offset.y , t->layer });
+				vertices.push_back({ coords[(4 + t->rotation) % 8], coords[(5 + t->rotation) % 8], t->rgba, t->offset.x, t->offset.y + t->extent.y, t->layer });
+			}
 		}
 	}
 

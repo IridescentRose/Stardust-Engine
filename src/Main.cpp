@@ -42,6 +42,7 @@ int main() {
 		t->extent = { 16, 16 };
 		t->rgba = 0xFFFFFFFF;
 		t->layer = rand() % 60 - 30;
+		t->rotation = 6;
 		t->texIndex = rand() % 512;
 
 		tmap->addTile(t);
