@@ -99,6 +99,9 @@
     <ClCompile Include="src\Graphics\2D\TilemapAnim.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Graphics\2D\CharacterSprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Platform\Platform.h">
@@ -219,6 +222,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Graphics\2D\TilemapAnim.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Graphics\2D\CharacterSprite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

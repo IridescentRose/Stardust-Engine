@@ -47,6 +47,7 @@
     <ClCompile Include="src\Audio\sound_utils\VirtualFile.c" />
     <ClCompile Include="src\Core\Core.cpp" />
     <ClCompile Include="src\Events\Events.cpp" />
+    <ClCompile Include="src\Graphics\2D\CharacterSprite.cpp" />
     <ClCompile Include="src\Graphics\2D\SpriteAdvanced.cpp" />
     <ClCompile Include="src\Graphics\2D\SpriteAnimated.cpp" />
     <ClCompile Include="src\Graphics\2D\SpriteBase.cpp" />
@@ -77,6 +78,7 @@
     <ClInclude Include="include\Audio\sound_utils\VirtualFile.h" />
     <ClInclude Include="include\Core\Core.h" />
     <ClInclude Include="include\Events\Events.h" />
+    <ClInclude Include="include\Graphics\2D\CharacterSprite.h" />
     <ClInclude Include="include\Graphics\2D\SpriteAdvanced.h" />
     <ClInclude Include="include\Graphics\2D\SpriteAnimated.h" />
     <ClInclude Include="include\Graphics\2D\SpriteBase.h" />
