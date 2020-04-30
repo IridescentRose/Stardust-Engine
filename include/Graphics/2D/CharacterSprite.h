@@ -1,16 +1,36 @@
 #pragma once
-#include <Math/Vector.h>
-#include "TilemapAnim.h"
+#include "SpriteAdvanced.h"
 #include <Graphics/TextureUtil.h>
+#include <Math/Vector.h>
+#include <string>
+#include <map>
 
 namespace Stardust::Graphics::Render2D {
-	class CharacterSprite {
+
+	struct CharacterAnimInfo {
+		short indexStart;
+		short animLength;
+	};
+
+	class CharacterSprite : public Sprite2{
 	public:
 		CharacterSprite();
 		CharacterSprite(glm::vec2 characterSize, TextureAtlas* atlas, Texture* texture);
 
-		
-	private:
+		void tickPhase();
+		void setPhase(int i);
 
+		void addAnimEvent(std::string eventName, CharacterAnimInfo* info);
+		void clearAnimEvents();
+
+		void setDefaultAnimEvent(std::string eventName);
+		void triggerAnimEvent(std::string name);
+
+	private:
+		std::map<std::string, CharacterAnimInfo*> animationsInformation;
+		short currentIndex;
+		TextureAtlas* characterSpriteAtlas;
+		CharacterAnimInfo* defaultAnim;
+		CharacterAnimInfo* currentAnim;
 	};
 }
