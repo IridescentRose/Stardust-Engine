@@ -14,6 +14,5 @@ namespace Stardust::Graphics::Render2D {
 		char phaseNumber;
 		char phaseTotal;
 		bool horizontal;
-		typedef Sprite2 super;
 	};
 }

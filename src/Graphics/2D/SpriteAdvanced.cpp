@@ -133,6 +133,7 @@ void Stardust::Graphics::Render2D::Sprite2::setLayer(int l)
 void Stardust::Graphics::Render2D::Sprite2::draw()
 {
 	sceGumPushMatrix();
+	sceGuEnable(GU_ALPHA_TEST);
 	sceGuEnable(GU_BLEND);
 
 	ScePspFVector3 scal = { scaleFactor.x, scaleFactor.y, 1.0f };

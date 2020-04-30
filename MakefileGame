@@ -25,6 +25,7 @@ src/Graphics/2D/SpriteAdvanced.o \
 src/Graphics/2D/SpriteAnimated.o \
 src/Graphics/2D/Tilemap.o \
 src/Graphics/2D/TilemapAnim.o \
+src/Graphics/2D/CharacterSprite.o \
 src/Graphics/Dialogs.o \
 src/Main.o
 
