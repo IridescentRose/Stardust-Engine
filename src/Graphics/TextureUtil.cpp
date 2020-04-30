@@ -168,18 +168,23 @@ namespace Stardust::Graphics {
 	}
 	TextureAtlas::TextureAtlas(short tileSide)
 	{
-		sideCount = tileSide;
+		sideCount = { tileSide, tileSide };
+	}
+	TextureAtlas::TextureAtlas(glm::vec2 sideXY)
+	{
+		sideCount = sideXY;
 	}
 	std::array<float, 8> TextureAtlas::getTexture(int index)
 	{
-		int row = index / 32;
-		int column = index % 32;
+		int row = index / (int)sideCount.x;
+		int column = index % (int)sideCount.y;
 
-		float size = 1.f / ((float)sideCount);
-		float y = (float)row * size;
-		float x = (float)column * size;
-		float h = y + size;
-		float w = x + size;
+		float sizeX = 1.f / ((float)sideCount.x);
+		float sizeY = 1.f / ((float)sideCount.y);
+		float y = (float)row * sizeY;
+		float x = (float)column * sizeX;
+		float h = y + sizeY;
+		float w = x + sizeX;
 
 		return {
 			x, y,

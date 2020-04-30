@@ -4,6 +4,7 @@
 #include <vector>
 #include <Graphics/RenderTypes.h>
 #include <string.h>
+#include <Math/Vector.h>
 
 #define png_infopp_NULL (png_infopp)NULL
 #define int_p_NULL (int*)NULL
@@ -115,10 +116,11 @@ namespace Stardust::Graphics {
 	class TextureAtlas {
 	public:
 		TextureAtlas(short tileSide);
+		TextureAtlas(glm::vec2 sideXY);
 
 		std::array<float, 8> getTexture(int index);
 
 	private:
-		short sideCount;
+		glm::vec2 sideCount;
 	};
 }
