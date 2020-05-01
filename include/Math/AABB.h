@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <Math/Vector.h>
 
@@ -16,9 +16,19 @@ namespace Stardust::Math {
 	};
 
 	inline bool collided2D(const AABB2D& aabb, const vec2& v) {
-		return (v.x > aabb.offset.x&& v.x < (aabb.extent + aabb.offset).x && v.y > aabb.offset.y&& v.y < (aabb.extent + aabb.offset).y);
+		return (v.x > aabb.offset.x && v.x < (aabb.extent + aabb.offset).x && v.y > aabb.offset.y&& v.y < (aabb.extent + aabb.offset).y);
 	}
 	inline bool collided(const AABB& aabb, const vec3& v) {
 		return (v.x > aabb.offset.x&& v.x < (aabb.extent + aabb.offset).x && v.y > aabb.offset.y&& v.y < (aabb.extent + aabb.offset).y && v.z > aabb.offset.z&& v.z < (aabb.extent + aabb.offset).z);
+	}
+
+	inline bool AABBIntersect2D(const AABB2D& a, const AABB2D& b) {
+		//∀i∈x,y
+		if ((a.offset.x > (b.offset + b.extent).x || b.offset.x > (a.offset + a.extent).x)  && (a.offset.y > (b.offset + b.extent).y || b.offset.y > (a.offset + a.extent).y)) {
+			return false;
+		}
+		else {
+			return true;
+		}
 	}
 }
