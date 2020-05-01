@@ -36,9 +36,14 @@ namespace Stardust::Graphics::Render2D {
 
 		}
 
-	protected:
+		inline CharacterSprite* getCharacterSprite() {
+			return sprite;
+		}
+
 		glm::vec2 position;
 		glm::vec2 velocity;
+
+	protected:
 		CharacterSprite* sprite;
 		AnimationTickController* animController;
 	};

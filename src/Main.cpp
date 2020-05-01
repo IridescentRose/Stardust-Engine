@@ -2,7 +2,7 @@
 #include <Graphics/2D/TilemapAnim.h>
 #include <Graphics/2D/CharacterSprite.h>
 #include <Utilities/Input.h>
-#include <Graphics/2D/Controller2D.h>
+#include <Graphics/2D/TopDownController.h>
 #include <Utilities/Logger.h>
 PSP_MODULE_INFO("Stardust", 0, 1, 0);
 PSP_MAIN_THREAD_ATTR(THREAD_ATTR_VFPU | THREAD_ATTR_USER);
@@ -26,14 +26,21 @@ int main() {
 	info2->indexStart = 13 * 5;
 	info2->animLength = 4;
 
-	charSprite->addAnimEvent("walk", info2);
-	charSprite->setDefaultAnimEvent("walk");
-	charSprite->triggerAnimEvent("walk");
+	charSprite->addAnimEvent("walkLeft", info2);
+	charSprite->setDefaultAnimEvent("default");
+	charSprite->triggerAnimEvent("walkLeft");
 	charSprite->position(240, 136);
 	charSprite->setLayer(10);
 
-	Graphics::Render2D::Controller2D controller = Graphics::Render2D::Controller2D(charSprite);
+	Graphics::Render2D::TopDownController controller = Graphics::Render2D::TopDownController(charSprite, 64.0f);
+	Utilities::addActionKeyPair("walkLeft", PSP_CTRL_LEFT);
+	Utilities::addActionKeyPair("walkUp", PSP_CTRL_UP);
+	Utilities::addActionKeyPair("walkDown", PSP_CTRL_DOWN);
+	Utilities::addActionKeyPair("walkRight", PSP_CTRL_RIGHT);
+	controller.registerHandlers();
 	controller.setPosition({ 240, 136 });
+	controller.getAnimController()->setCharacterTickRateRelative(12);
+	controller.getAnimController()->setTickRate(8);
 
 	Graphics::g_RenderCore.Set2DMode();
 

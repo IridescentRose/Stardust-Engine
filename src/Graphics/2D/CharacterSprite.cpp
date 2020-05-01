@@ -68,9 +68,12 @@ namespace Stardust::Graphics::Render2D {
 
 	void CharacterSprite::triggerAnimEvent(std::string eventName)
 	{
+		
 		if (animationsInformation.find(eventName) != animationsInformation.end()) {
-			currentAnim = animationsInformation[eventName];
-			currentIndex = currentAnim->indexStart;
+			if (currentAnim != animationsInformation[eventName]) {
+				currentAnim = animationsInformation[eventName];
+				currentIndex = currentAnim->indexStart;
+			}
 		}
 		else {
 			currentAnim = defaultAnim;
