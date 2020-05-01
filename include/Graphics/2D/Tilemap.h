@@ -1,5 +1,6 @@
 #pragma once
 #include "SpriteAdvanced.h"
+#include <Math/AABB.h>
 
 namespace Stardust::Graphics::Render2D {
 
@@ -18,6 +19,7 @@ namespace Stardust::Graphics::Render2D {
 		char layer;
 		char rotation;
 		unsigned int rgba;
+		bool physics;
 	};
 
 	class Tilemap {
@@ -29,6 +31,8 @@ namespace Stardust::Graphics::Render2D {
 		void clearTiles();
 
 		void buildMap();
+
+		bool checkPhysics(const Math::AABB2D& aabb);
 
 		void drawMap();
 
