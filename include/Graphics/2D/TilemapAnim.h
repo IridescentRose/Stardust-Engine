@@ -17,7 +17,7 @@ namespace Stardust::Graphics::Render2D {
 
 		int addTile(TileAnim* t);
 		void updateTile(int tileNum, TileAnim* t);
-		void tickAnimation();
+		void tickPhase();
 		void clearTiles();
 
 		void buildMap();

@@ -2,7 +2,7 @@
 #include <Graphics/2D/TilemapAnim.h>
 #include <Graphics/2D/CharacterSprite.h>
 #include <Utilities/Input.h>
-
+#include <Utilities/Logger.h>
 PSP_MODULE_INFO("Stardust", 0, 1, 0);
 PSP_MAIN_THREAD_ATTR(THREAD_ATTR_VFPU | THREAD_ATTR_USER);
 PSP_HEAP_SIZE_KB(-1024);
@@ -11,6 +11,8 @@ using namespace Stardust;
 
 int main() {
 	Platform::initPlatform();
+
+	Utilities::app_Logger->log("STR");
 
 	Graphics::Texture* texExample = Graphics::TextureUtil::LoadPng("./terrain_atlas.png", true);
 	Graphics::TextureAtlas* tileAtlas = new Graphics::TextureAtlas(32);
@@ -53,13 +55,13 @@ int main() {
 	Graphics::g_RenderCore.Set2DMode();
 	int count = 0;
 
+	//Graphics::Render2D::addAnimatedCharacter(charSprite);
+	//Graphics::Render2D::addAnimatedObject(tmap);
+
 	while (!Utilities::KeyPressed(PSP_CTRL_START)) {
 		Graphics::g_RenderCore.BeginCommands();
 		Graphics::g_RenderCore.Clear();
 
-		if (count % 15 == 0) {
-			charSprite->tickPhase();
-		}
 		count++;
 
 		charSprite->draw();

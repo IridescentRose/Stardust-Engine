@@ -20,7 +20,7 @@ namespace Stardust::Graphics::Render2D {
 		delete m_Tiles[tileNum];
 		m_Tiles[tileNum] = t;
 	}
-	void TilemapAnim::tickAnimation()
+	void TilemapAnim::tickPhase()
 	{
 		for (int i = 0; i < m_Tiles.size(); i++) {
 			auto t = m_Tiles[i];

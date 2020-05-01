@@ -28,6 +28,7 @@ src/Graphics/2D/SpriteAnimated.o \
 src/Graphics/2D/Tilemap.o \
 src/Graphics/2D/TilemapAnim.o \
 src/Graphics/2D/CharacterSprite.o \
+src/Graphics/2D/AnimTickController.o \
 
 alib = lib/libstardust.a
 
