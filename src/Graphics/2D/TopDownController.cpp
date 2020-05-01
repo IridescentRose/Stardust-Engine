@@ -10,22 +10,31 @@ namespace Stardust::Graphics::Render2D {
 
 	void walkForward(bool, float)
 	{
-		tp->getCharacterSprite()->triggerAnimEvent("walkUp");
+		if(tp->getCharacterSprite()->getFacing() != CHARACTER_FACING_UP)
+			tp->getCharacterSprite()->setFacing(CHARACTER_FACING_UP);
+		tp->getCharacterSprite()->triggerAnimEvent("walk");
 		tp->velocity = { 0.0f, -tp->speed };
 	}
 	void walkBackward(bool, float)
 	{
-		tp->getCharacterSprite()->triggerAnimEvent("walkDown");
+		if (tp->getCharacterSprite()->getFacing() != CHARACTER_FACING_DOWN)
+			tp->getCharacterSprite()->setFacing(CHARACTER_FACING_DOWN);
+		tp->getCharacterSprite()->triggerAnimEvent("walk");
 		tp->velocity = { 0.0f, tp->speed };
 	}
 	void walkLeft(bool, float)
 	{
-		tp->getCharacterSprite()->triggerAnimEvent("walkLeft");
+		if (tp->getCharacterSprite()->getFacing() != CHARACTER_FACING_LEFT)
+			tp->getCharacterSprite()->setFacing(CHARACTER_FACING_LEFT);
+
+		tp->getCharacterSprite()->triggerAnimEvent("walk");
 		tp->velocity = { -tp->speed, 0.0f };
 	}
 	void walkRight(bool, float)
 	{
-		tp->getCharacterSprite()->triggerAnimEvent("walkRight");
+		if (tp->getCharacterSprite()->getFacing() != CHARACTER_FACING_RIGHT)
+			tp->getCharacterSprite()->setFacing(CHARACTER_FACING_RIGHT);
+		tp->getCharacterSprite()->triggerAnimEvent("walk");
 		tp->velocity = { tp->speed, 0.0f };
 	}
 

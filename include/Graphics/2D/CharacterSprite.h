@@ -7,9 +7,23 @@
 
 namespace Stardust::Graphics::Render2D {
 
+	enum CharacterFacingDirection {
+		CHARACTER_FACING_UP,
+		CHARACTER_FACING_DOWN,
+		CHARACTER_FACING_LEFT,
+		CHARACTER_FACING_RIGHT,
+	};
+
 	struct CharacterAnimInfo {
 		short indexStart;
 		short animLength;
+	};
+
+	struct CharacterDirectionalAnimInfo {
+		CharacterAnimInfo top;
+		CharacterAnimInfo down;
+		CharacterAnimInfo left;
+		CharacterAnimInfo right;
 	};
 
 	class CharacterSprite : public Sprite2{
@@ -17,10 +31,12 @@ namespace Stardust::Graphics::Render2D {
 		CharacterSprite();
 		CharacterSprite(glm::vec2 characterSize, TextureAtlas* atlas, Texture* texture);
 
+		void setFacing(char direction);
+
 		void tickPhase();
 		void setPhase(int i);
 
-		void addAnimEvent(std::string eventName, CharacterAnimInfo* info);
+		void addAnimEvent(std::string eventName, CharacterDirectionalAnimInfo* info);
 		void clearAnimEvents();
 
 		void setDefaultAnimEvent(std::string eventName);
@@ -28,11 +44,18 @@ namespace Stardust::Graphics::Render2D {
 
 		void draw();
 
+		inline char getFacing() {
+			return facing;
+		}
+
 	private:
-		std::map<std::string, CharacterAnimInfo*> animationsInformation;
+		std::map<std::string, CharacterDirectionalAnimInfo*> animationsInformation;
 		short currentIndex;
+		short indexEnd;
 		TextureAtlas* characterSpriteAtlas;
-		CharacterAnimInfo* defaultAnim;
-		CharacterAnimInfo* currentAnim;
+		CharacterDirectionalAnimInfo* defaultAnim;
+		CharacterDirectionalAnimInfo* currentAnim;
+
+		char facing;
 	};
 }

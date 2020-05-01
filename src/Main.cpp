@@ -17,18 +17,22 @@ int main() {
 	Graphics::TextureAtlas* charAtlas = new Graphics::TextureAtlas({13.0f, 13.0f});
 	Graphics::Render2D::CharacterSprite* charSprite = new Graphics::Render2D::CharacterSprite({ 40, 40 }, charAtlas, charTex);
 
-	Graphics::Render2D::CharacterAnimInfo* info = new Graphics::Render2D::CharacterAnimInfo();
-	info->indexStart = 13;
-	info->animLength = 3;
+	Graphics::Render2D::CharacterDirectionalAnimInfo* info = new Graphics::Render2D::CharacterDirectionalAnimInfo();
+	info->top = { 26, 1 };
+	info->down = { 0, 3 };
+	info->left = { 13, 3 };
+	info->right = { 39, 3 };
+
 	charSprite->addAnimEvent("default", info);
 
-	Graphics::Render2D::CharacterAnimInfo* info2 = new Graphics::Render2D::CharacterAnimInfo();
-	info2->indexStart = 13 * 5;
-	info2->animLength = 4;
+	Graphics::Render2D::CharacterDirectionalAnimInfo* info2 = new Graphics::Render2D::CharacterDirectionalAnimInfo();
+	info2->top = { 78, 4 };
+	info2->down = { 52, 4 };
+	info2->left = { 65, 4 };
+	info2->right = { 91, 4 };
 
-	charSprite->addAnimEvent("walkLeft", info2);
+	charSprite->addAnimEvent("walk", info2);
 	charSprite->setDefaultAnimEvent("default");
-	charSprite->triggerAnimEvent("walkLeft");
 	charSprite->position(240, 136);
 	charSprite->setLayer(10);
 

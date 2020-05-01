@@ -23,15 +23,74 @@ namespace Stardust::Graphics::Render2D {
 		anim->animLength = 0;
 		anim->indexStart = 0;
 
-		defaultAnim = anim;
+		defaultAnim = NULL;
+		facing = CHARACTER_FACING_UP;
+	}
+	void CharacterSprite::setFacing(char direction)
+	{
+		facing = direction;
+
+		switch (facing) {
+		case CHARACTER_FACING_UP: {
+			currentIndex = currentAnim->top.indexStart;
+			indexEnd = currentAnim->top.animLength + currentIndex;
+			break;
+		}
+		case CHARACTER_FACING_DOWN: {
+			currentIndex = currentAnim->down.indexStart;
+			indexEnd = currentAnim->down.animLength + currentIndex;
+			break;
+		}
+		case CHARACTER_FACING_LEFT: {
+			currentIndex = currentAnim->left.indexStart;
+			indexEnd = currentAnim->left.animLength + currentIndex;
+			break;
+		}
+		case CHARACTER_FACING_RIGHT: {
+			currentIndex = currentAnim->right.indexStart;
+			indexEnd = currentAnim->right.animLength + currentIndex;
+			break;
+		}
+		default: {
+			currentIndex = currentAnim->top.indexStart;
+			indexEnd = currentAnim->top.animLength + currentIndex;
+			break;
+		}
+		}
 	}
 	void CharacterSprite::tickPhase()
 	{
 		currentIndex++;
 
-		if (currentIndex >= currentAnim->indexStart + currentAnim->animLength) {
+		if (currentIndex >= indexEnd) {
 			currentAnim = defaultAnim;
-			currentIndex = defaultAnim->indexStart;
+			switch (facing) {
+			case CHARACTER_FACING_UP: {
+				currentIndex = currentAnim->top.indexStart;
+				indexEnd = currentAnim->top.animLength + currentIndex;
+				break;
+			}
+			case CHARACTER_FACING_DOWN: {
+				currentIndex = currentAnim->down.indexStart;
+				indexEnd = currentAnim->down.animLength + currentIndex;
+				break;
+			}
+			case CHARACTER_FACING_LEFT: {
+				currentIndex = currentAnim->left.indexStart;
+				indexEnd = currentAnim->left.animLength + currentIndex;
+				break;
+			}
+			case CHARACTER_FACING_RIGHT: {
+				currentIndex = currentAnim->right.indexStart;
+				indexEnd = currentAnim->right.animLength + currentIndex;
+				break;
+			}
+			default: {
+				currentIndex = currentAnim->top.indexStart;
+				indexEnd = currentAnim->top.animLength + currentIndex;
+				break;
+			}
+			}
 		}
 
 		setPhase(currentIndex);
@@ -46,7 +105,7 @@ namespace Stardust::Graphics::Render2D {
 		sceKernelDcacheWritebackInvalidateAll();
 
 	}
-	void CharacterSprite::addAnimEvent(std::string eventName, CharacterAnimInfo* info)
+	void CharacterSprite::addAnimEvent(std::string eventName, CharacterDirectionalAnimInfo* info)
 	{
 		animationsInformation.emplace(eventName, info);
 	}
@@ -72,12 +131,67 @@ namespace Stardust::Graphics::Render2D {
 		if (animationsInformation.find(eventName) != animationsInformation.end()) {
 			if (currentAnim != animationsInformation[eventName]) {
 				currentAnim = animationsInformation[eventName];
-				currentIndex = currentAnim->indexStart;
+
+
+				switch (facing) {
+				case CHARACTER_FACING_UP: {
+					currentIndex = currentAnim->top.indexStart;
+					indexEnd = currentAnim->top.animLength + currentIndex;
+					break;
+				}
+				case CHARACTER_FACING_DOWN: {
+					currentIndex = currentAnim->down.indexStart;
+					indexEnd = currentAnim->down.animLength + currentIndex;
+					break;
+				}
+				case CHARACTER_FACING_LEFT: {
+					currentIndex = currentAnim->left.indexStart;
+					indexEnd = currentAnim->left.animLength + currentIndex;
+					break;
+				}
+				case CHARACTER_FACING_RIGHT: {
+					currentIndex = currentAnim->right.indexStart;
+					indexEnd = currentAnim->right.animLength + currentIndex;
+					break;
+				}
+				default: {
+					currentIndex = currentAnim->top.indexStart;
+					indexEnd = currentAnim->top.animLength + currentIndex;
+					break;
+				}
+				}
 			}
 		}
 		else {
 			currentAnim = defaultAnim;
-			currentIndex = defaultAnim->indexStart;
+
+			switch (facing) {
+			case CHARACTER_FACING_UP: {
+				currentIndex = currentAnim->top.indexStart;
+				indexEnd = currentAnim->top.animLength + currentIndex;
+				break;
+			}
+			case CHARACTER_FACING_DOWN: {
+				currentIndex = currentAnim->down.indexStart;
+				indexEnd = currentAnim->down.animLength + currentIndex;
+				break;
+			}
+			case CHARACTER_FACING_LEFT: {
+				currentIndex = currentAnim->left.indexStart;
+				indexEnd = currentAnim->left.animLength + currentIndex;
+				break;
+			}
+			case CHARACTER_FACING_RIGHT: {
+				currentIndex = currentAnim->right.indexStart;
+				indexEnd = currentAnim->right.animLength + currentIndex;
+				break;
+			}
+			default: {
+				currentIndex = currentAnim->top.indexStart;
+				indexEnd = currentAnim->top.animLength + currentIndex;
+				break;
+			}
+			}
 		}
 	}
 	void CharacterSprite::draw()
