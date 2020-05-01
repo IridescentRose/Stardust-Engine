@@ -1,4 +1,5 @@
 #include <Graphics/2D/CharacterSprite.h>
+#include <Utilities/Logger.h>
 
 namespace Stardust::Graphics::Render2D {
 	CharacterSprite::CharacterSprite()
@@ -42,6 +43,8 @@ namespace Stardust::Graphics::Render2D {
 		vertices[0].v = coords[1];
 		vertices[1].u = coords[4];
 		vertices[1].v = coords[5];
+		sceKernelDcacheWritebackInvalidateAll();
+
 	}
 	void CharacterSprite::addAnimEvent(std::string eventName, CharacterAnimInfo* info)
 	{
@@ -73,5 +76,32 @@ namespace Stardust::Graphics::Render2D {
 			currentAnim = defaultAnim;
 			currentIndex = defaultAnim->indexStart;
 		}
+	}
+	void CharacterSprite::draw()
+	{
+		sceGumPushMatrix();
+		sceGuEnable(GU_ALPHA_TEST);
+		sceGuEnable(GU_BLEND);
+
+		ScePspFVector3 scal = { scaleFactor.x, scaleFactor.y, 1.0f };
+		sceGumScale(&scal);
+
+		ScePspFVector3 loc = { offset.x, offset.y, layer };
+		sceGumTranslate(&loc);
+
+		sceGuEnable(GU_TEXTURE_2D);
+		texRef->bindTexture(GU_NEAREST, GU_NEAREST, true);
+
+		sceGuColor(rgba);
+		std::array<float, 8> coords = characterSpriteAtlas->getTexture(currentIndex);
+		vertices[0].u = coords[0];
+		vertices[0].v = coords[1];
+		vertices[1].u = coords[4];
+		vertices[1].v = coords[5];
+
+		sceGumDrawArray(GU_SPRITES, GU_TEXTURE_32BITF | GU_VERTEX_32BITF | GU_TRANSFORM_3D, 2, 0, vertices);
+
+		sceGuDisable(GU_BLEND);
+		sceGumPopMatrix();
 	}
 }

@@ -31,6 +31,8 @@ namespace Stardust::Graphics::Render2D {
 		Utilities::Thread* thr;
 
 		volatile int rate;
+
+		volatile int count;
 		volatile int charRate;
 	};
 }

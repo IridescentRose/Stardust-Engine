@@ -2,6 +2,7 @@
 #include <Graphics/2D/TilemapAnim.h>
 #include <Graphics/2D/CharacterSprite.h>
 #include <Utilities/Input.h>
+#include <Graphics/2D/Controller2D.h>
 #include <Utilities/Logger.h>
 PSP_MODULE_INFO("Stardust", 0, 1, 0);
 PSP_MAIN_THREAD_ATTR(THREAD_ATTR_VFPU | THREAD_ATTR_USER);
@@ -11,12 +12,6 @@ using namespace Stardust;
 
 int main() {
 	Platform::initPlatform();
-
-	Utilities::app_Logger->log("STR");
-
-	Graphics::Texture* texExample = Graphics::TextureUtil::LoadPng("./terrain_atlas.png", true);
-	Graphics::TextureAtlas* tileAtlas = new Graphics::TextureAtlas(32);
-	Graphics::Render2D::TilemapAnim* tmap = new Graphics::Render2D::TilemapAnim(tileAtlas, texExample);
 
 	Graphics::Texture* charTex = Graphics::TextureUtil::LoadPng("./link.png");
 	Graphics::TextureAtlas* charAtlas = new Graphics::TextureAtlas({13.0f, 13.0f});
@@ -32,48 +27,26 @@ int main() {
 	info2->animLength = 4;
 
 	charSprite->addAnimEvent("walk", info2);
-
-	charSprite->setDefaultAnimEvent("default");
+	charSprite->setDefaultAnimEvent("walk");
 	charSprite->triggerAnimEvent("walk");
 	charSprite->position(240, 136);
 	charSprite->setLayer(10);
 
-	for (int i = 0; i < 1000; i++) {
-		Graphics::Render2D::TileAnim* t = new Graphics::Render2D::TileAnim();
-		t->offset = { rand() % 480, rand() % 272 };
-		t->extent = { 16, 16 };
-		t->rgba = 0xFFFFFFFF;
-		t->layer = 0;
-		t->texIndex = rand() % 512;
-		t->rotation = 0;
-		t->isAnim = false;
+	Graphics::Render2D::Controller2D controller = Graphics::Render2D::Controller2D(charSprite);
+	controller.setPosition({ 240, 136 });
 
-		tmap->addTile(t);
-	}
-
-	tmap->buildMap();
 	Graphics::g_RenderCore.Set2DMode();
-	int count = 0;
-
-	//Graphics::Render2D::addAnimatedCharacter(charSprite);
-	//Graphics::Render2D::addAnimatedObject(tmap);
 
 	while (!Utilities::KeyPressed(PSP_CTRL_START)) {
 		Graphics::g_RenderCore.BeginCommands();
 		Graphics::g_RenderCore.Clear();
-
-		count++;
-
-		charSprite->draw();
-		//tmap->drawMap();
+		
+		controller.update(0.016f);
+		controller.draw();
 		
 		Graphics::g_RenderCore.EndCommands();
 		Platform::platformUpdate();
 	}
-	
-	delete tmap;
-	delete texExample;
-	delete tileAtlas;
 
 	Platform::exitPlatform();
 	return 0;

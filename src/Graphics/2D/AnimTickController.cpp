@@ -7,6 +7,7 @@ namespace Stardust::Graphics::Render2D {
 		spriteAnims.clear();
 		tileMaps.clear();
 
+		count = 0;
 		rate = 20;
 		charRate = 20;
 
@@ -46,9 +47,9 @@ namespace Stardust::Graphics::Render2D {
 		charSprites.clear();
 	}
 
+
 	void AnimationTickController::tick()
 	{
-		int count = 0;
 		for (auto obj : charSprites) {
 			if (count % charRate == 0) {
 				obj->tickPhase();
@@ -64,5 +65,6 @@ namespace Stardust::Graphics::Render2D {
 				obj->tickPhase();
 			}
 		}
+		count++;
 	}
 }
