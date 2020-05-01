@@ -2,6 +2,7 @@
 #include <Graphics/TextureUtil.h>
 #include <Graphics/RenderTypes.h>
 #include <Math/Vector.h>
+#include <Math/AABB.h>
 
 namespace Stardust::Graphics::Render2D {
 	class Sprite2 {
@@ -19,7 +20,12 @@ namespace Stardust::Graphics::Render2D {
 		void setColor(int rgba);
 		void setLayer(int layer);
 
+		void setPhysics(bool p);
+
 		void draw();
+
+
+		bool checkPhysics(const Math::AABB2D& aabb);
 
 	protected:
 		glm::vec2 offset;
@@ -27,6 +33,7 @@ namespace Stardust::Graphics::Render2D {
 		glm::vec2 scaleFactor;
 
 		Texture* texRef;
+		bool physics;
 
 		int rgba;
 		int layer;

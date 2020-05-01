@@ -35,6 +35,7 @@ Stardust::Graphics::Render2D::Sprite2::Sprite2(Texture* tex)
 
 	rgba = 0xFFFFFFFF;
 	layer = 0;
+	physics = false;
 }
 
 Stardust::Graphics::Render2D::Sprite2::Sprite2(Texture* tex, glm::vec2 size)
@@ -63,6 +64,7 @@ Stardust::Graphics::Render2D::Sprite2::Sprite2(Texture* tex, glm::vec2 size)
 
 	rgba = 0xFFFFFFFF;
 	layer = 0;
+	physics = false;
 }
 
 Stardust::Graphics::Render2D::Sprite2::Sprite2(Texture* tex, glm::vec2 pos, glm::vec2 endPos)
@@ -91,6 +93,7 @@ Stardust::Graphics::Render2D::Sprite2::Sprite2(Texture* tex, glm::vec2 pos, glm:
 
 	rgba = 0xFFFFFFFF;
 	layer = 0;
+	physics = false;
 }
 
 void Stardust::Graphics::Render2D::Sprite2::position(float x, float y)
@@ -130,6 +133,11 @@ void Stardust::Graphics::Render2D::Sprite2::setLayer(int l)
 	layer = l;
 }
 
+void Stardust::Graphics::Render2D::Sprite2::setPhysics(bool p)
+{
+	physics = p;
+}
+
 void Stardust::Graphics::Render2D::Sprite2::draw()
 {
 	sceGumPushMatrix();
@@ -151,4 +159,13 @@ void Stardust::Graphics::Render2D::Sprite2::draw()
 
 	sceGuDisable(GU_BLEND);
 	sceGumPopMatrix();
+}
+
+bool Stardust::Graphics::Render2D::Sprite2::checkPhysics(const Math::AABB2D& aabb)
+{
+	if (physics) {
+		Math::AABB2D b = { offset, extent };
+		return Math::AABBIntersect2D(aabb, b);
+	}
+	return false;
 }
