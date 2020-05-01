@@ -1,16 +1,12 @@
 #pragma once
-#include <Core/Controller.h>
+#include "Controller2D.h"
 
 namespace Stardust::Graphics::Render2D{
-	class TopDownController : public Core::Controller2D {
+	class TopDownController : public Controller2D {
 	public:
+		TopDownController(CharacterSprite* s, float speed);
+		void registerHandlers();
 
-		void walkForward(bool, float) = 0;
-		void walkBackward(bool, float) = 0;
-		void walkLeft(bool, float) = 0;
-		void walkRight(bool, float) = 0;
-
-	private:
-
+		float speed;
 	};
 }
