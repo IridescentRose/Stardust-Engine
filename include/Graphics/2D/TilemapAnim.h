@@ -20,6 +20,8 @@ namespace Stardust::Graphics::Render2D {
 		void tickPhase();
 		void clearTiles();
 
+		bool checkPhysics(const Math::AABB2D& aabb);
+
 		void buildMap();
 
 		void drawMap();

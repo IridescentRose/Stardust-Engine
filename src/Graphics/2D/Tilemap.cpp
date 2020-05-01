@@ -45,6 +45,20 @@ namespace Stardust::Graphics::Render2D {
 		}
 	}
 
+	bool Tilemap::checkPhysics(const Math::AABB2D& aabb)
+	{
+		for (auto t : m_Tiles) {
+			if (t->physics) {
+				Math::AABB2D b = { t->offset, t->extent };
+				bool res = Math::AABBIntersect2D(aabb, b);
+
+				if (res)
+					return res;
+			}
+		}
+		return false;
+	}
+
 	void Tilemap::drawMap()
 	{
 		sceGuEnable(GU_BLEND);

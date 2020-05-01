@@ -24,7 +24,17 @@ namespace Stardust::Math {
 
 	inline bool AABBIntersect2D(const AABB2D& a, const AABB2D& b) {
 		//∀i∈x,y
-		if ((a.offset.x > (b.offset + b.extent).x || b.offset.x > (a.offset + a.extent).x)  && (a.offset.y > (b.offset + b.extent).y || b.offset.y > (a.offset + a.extent).y)) {
+		if ((a.offset.x > (b.offset + b.extent).x || b.offset.x > (a.offset + a.extent).x) && (a.offset.y > (b.offset + b.extent).y || b.offset.y > (a.offset + a.extent).y)) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+
+	inline bool AABBIntersect3D(const AABB& a, const AABB& b) {
+		//∀i∈x,y
+		if ((a.offset.x > (b.offset + b.extent).x || b.offset.x > (a.offset + a.extent).x) && (a.offset.y > (b.offset + b.extent).y || b.offset.y > (a.offset + a.extent).y) && (a.offset.z > (b.offset + b.extent).z || b.offset.z > (a.offset + a.extent).z)) {
 			return false;
 		}
 		else {
