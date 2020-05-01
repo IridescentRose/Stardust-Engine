@@ -26,6 +26,8 @@ namespace Stardust::Graphics::Render2D {
 		void setDefaultAnimEvent(std::string eventName);
 		void triggerAnimEvent(std::string name);
 
+		void draw();
+
 	private:
 		std::map<std::string, CharacterAnimInfo*> animationsInformation;
 		short currentIndex;
