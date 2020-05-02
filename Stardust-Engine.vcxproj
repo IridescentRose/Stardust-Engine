@@ -49,6 +49,7 @@
     <ClCompile Include="src\Events\Events.cpp" />
     <ClCompile Include="src\Graphics\2D\AnimTickController.cpp" />
     <ClCompile Include="src\Graphics\2D\CharacterSprite.cpp" />
+    <ClCompile Include="src\Graphics\2D\SideScrollerController.cpp" />
     <ClCompile Include="src\Graphics\2D\SpriteAdvanced.cpp" />
     <ClCompile Include="src\Graphics\2D\SpriteAnimated.cpp" />
     <ClCompile Include="src\Graphics\2D\SpriteBase.cpp" />
@@ -58,6 +59,9 @@
     <ClCompile Include="src\Graphics\Dialogs.cpp" />
     <ClCompile Include="src\Graphics\RendererCore.cpp" />
     <ClCompile Include="src\Graphics\TextureUtil.cpp" />
+    <ClCompile Include="src\Graphics\UI\Font.cpp" />
+    <ClCompile Include="src\Graphics\UI\UIButton.cpp" />
+    <ClCompile Include="src\Graphics\UI\UIText.cpp" />
     <ClCompile Include="src\Graphics\vram.c" />
     <ClCompile Include="src\Math\Frustum.cpp" />
     <ClCompile Include="src\Network\NetworkDriver.cpp" />
@@ -84,6 +88,7 @@
     <ClInclude Include="include\Graphics\2D\AnimTickController.h" />
     <ClInclude Include="include\Graphics\2D\CharacterSprite.h" />
     <ClInclude Include="include\Graphics\2D\Controller2D.h" />
+    <ClInclude Include="include\Graphics\2D\SideScrollerController.h" />
     <ClInclude Include="include\Graphics\2D\SpriteAdvanced.h" />
     <ClInclude Include="include\Graphics\2D\SpriteAnimated.h" />
     <ClInclude Include="include\Graphics\2D\SpriteBase.h" />
@@ -94,7 +99,10 @@
     <ClInclude Include="include\Graphics\RendererCore.h" />
     <ClInclude Include="include\Graphics\RenderTypes.h" />
     <ClInclude Include="include\Graphics\TextureUtil.h" />
+    <ClInclude Include="include\Graphics\UI\Font.h" />
     <ClInclude Include="include\Graphics\UI\UIBase.h" />
+    <ClInclude Include="include\Graphics\UI\UIButton.h" />
+    <ClInclude Include="include\Graphics\UI\UIText.h" />
     <ClInclude Include="include\Math\AABB.h" />
     <ClInclude Include="include\Math\Frustum.h" />
     <ClInclude Include="include\Math\MathFuncs.h" />
