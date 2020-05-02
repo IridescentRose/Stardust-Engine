@@ -46,6 +46,22 @@ int main() {
 	controller.getAnimController()->setCharacterTickRateRelative(12);
 	controller.getAnimController()->setTickRate(8);
 
+	Graphics::Render2D::Tilemap* tmap = new Graphics::Render2D::Tilemap(new Graphics::TextureAtlas(32), Graphics::TextureUtil::LoadPng("./terrain_atlas.png"));
+	Graphics::Render2D::Tile* tile = new Graphics::Render2D::Tile();
+	tile->offset = { 200, 100 };
+	tile->extent = { 16, 16 };
+	tile->rgba = 0xFFFFFFFF;
+	tile->layer = 0;
+	tile->rotation = 0;
+	tile->texIndex = 1;
+	tile->physics = true; 
+	
+	tmap->addTile(tile);
+	tmap->buildMap();
+	 
+	controller.addPhysicsTileMap(tmap);
+	 
+
 	Graphics::g_RenderCore.Set2DMode();
 
 	while (!Utilities::KeyPressed(PSP_CTRL_START)) {
@@ -54,6 +70,8 @@ int main() {
 		
 		controller.update(0.016f);
 		controller.draw();
+
+		tmap->drawMap();
 		
 		Graphics::g_RenderCore.EndCommands();
 		Platform::platformUpdate();

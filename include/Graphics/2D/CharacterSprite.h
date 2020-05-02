@@ -3,6 +3,7 @@
 #include <Graphics/TextureUtil.h>
 #include <Math/Vector.h>
 #include <string>
+#include <Utilities/Logger.h>
 #include <map>
 
 namespace Stardust::Graphics::Render2D {
@@ -43,6 +44,13 @@ namespace Stardust::Graphics::Render2D {
 		void triggerAnimEvent(std::string name);
 
 		void draw();
+
+
+		inline Math::AABB2D getAABB() {
+			Utilities::app_Logger->log("X: " + std::to_string(offset.x) + " Y: " + std::to_string(offset.y) + " W: " + std::to_string(extent.x) + " H: " + std::to_string(extent.y));
+
+			return { {offset.x, offset.y}, {extent.x, extent.y} };
+		}
 
 		inline char getFacing() {
 			return facing;

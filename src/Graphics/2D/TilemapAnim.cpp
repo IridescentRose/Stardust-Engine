@@ -51,8 +51,9 @@ namespace Stardust::Graphics::Render2D {
 	bool TilemapAnim::checkPhysics(const Math::AABB2D& aabb)
 	{
 		for (auto t : m_Tiles) {
+
 			if (t->physics) {
-				Math::AABB2D b = { t->offset, t->extent };
+				Math::AABB2D b = { {t->offset.x, t->offset.y + 272}, t->extent };
 				bool res = Math::AABBIntersect2D(aabb, b);
 
 				if (res)

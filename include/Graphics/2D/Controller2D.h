@@ -10,6 +10,9 @@ namespace Stardust::Graphics::Render2D {
 			sprite = s;
 			animController = new AnimationTickController();
 			animController->addAnimatedCharacter(sprite);
+			tmaps.clear();
+			tmap2s.clear();
+			sprts.clear();
 		}
 
 		inline void setPosition(glm::vec2 pos) {
@@ -18,9 +21,39 @@ namespace Stardust::Graphics::Render2D {
 		}
 
 		inline void update(float dt) {
-			position += velocity * dt;
-			velocity = { 0, 0 };
+			glm::vec2 newPos = position + velocity * dt;
+
+			doPhysics(newPos);
+
 			setPosition(position);
+		}
+
+		inline void doPhysics(glm::vec2 p) {
+			bool collide = false;
+
+			for (auto t : tmaps) {
+				if (collide)
+					break;
+				collide |= t->checkPhysics(sprite->getAABB());
+			}
+
+			for (auto t : tmap2s) {
+				if (collide)
+					break;
+				collide |= t->checkPhysics(sprite->getAABB());
+			}
+
+			for (auto t : sprts) {
+				if (collide)
+					break;
+				collide |= t->checkPhysics(sprite->getAABB());
+			}
+
+			if (!collide) {
+				position = p;
+			}
+
+			velocity = { 0, 0 };
 		}
 		
 		inline void draw() {
@@ -40,11 +73,31 @@ namespace Stardust::Graphics::Render2D {
 			return sprite;
 		}
 
+		inline void addPhysicsTileMap(Tilemap* tmap) {
+			tmaps.push_back(tmap);
+		}
+		inline void addPhysicsTileMap(TilemapAnim* tmap) {
+			tmap2s.push_back(tmap);
+		}
+		inline void addPhysicsSprite(Sprite2* sprt) {
+			sprts.push_back(sprt);
+		}
+
+		inline void clearPhysics() {
+			tmaps.clear();
+			tmap2s.clear();
+			sprts.clear();
+		}
+
 		glm::vec2 position;
 		glm::vec2 velocity;
 
 	protected:
 		CharacterSprite* sprite;
 		AnimationTickController* animController;
+		std::vector<Tilemap*> tmaps;
+		std::vector<TilemapAnim*> tmap2s;
+		std::vector<Sprite2*> sprts;
+
 	};
 }

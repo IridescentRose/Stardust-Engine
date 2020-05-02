@@ -1,4 +1,5 @@
 #include <Graphics/2D/Tilemap.h>
+#include <Utilities/Logger.h>
 
 namespace Stardust::Graphics::Render2D {
 	Tilemap::Tilemap(TextureAtlas* atlas, Texture* texture)
@@ -49,6 +50,7 @@ namespace Stardust::Graphics::Render2D {
 	{
 		for (auto t : m_Tiles) {
 			if (t->physics) {
+				Utilities::app_Logger->log("X: " + std::to_string(t->offset.x) + " Y: " + std::to_string(t->offset.y) + " W: " + std::to_string(t->extent.x) + " H: " + std::to_string(t->extent.y));
 				Math::AABB2D b = { t->offset, t->extent };
 				bool res = Math::AABBIntersect2D(aabb, b);
 

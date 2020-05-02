@@ -1,7 +1,7 @@
 #pragma once
+#include <Math/Vector.h>
 #include <Graphics/TextureUtil.h>
 #include <Graphics/RenderTypes.h>
-#include <Math/Vector.h>
 #include <Math/AABB.h>
 
 namespace Stardust::Graphics::Render2D {
@@ -24,6 +24,9 @@ namespace Stardust::Graphics::Render2D {
 
 		void draw();
 
+		inline Math::AABB2D getAABB() {
+			return { offset, extent };
+		}
 
 		bool checkPhysics(const Math::AABB2D& aabb);
 
