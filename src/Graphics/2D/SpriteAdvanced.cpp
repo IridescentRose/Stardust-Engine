@@ -67,11 +67,11 @@ Stardust::Graphics::Render2D::Sprite2::Sprite2(Texture* tex, glm::vec2 size)
 	physics = false;
 }
 
-Stardust::Graphics::Render2D::Sprite2::Sprite2(Texture* tex, glm::vec2 pos, glm::vec2 endPos)
+Stardust::Graphics::Render2D::Sprite2::Sprite2(Texture* tex, glm::vec2 pos, glm::vec2 size)
 {
 	vertices = (TextureVertex*)memalign(16, 2 * sizeof(TextureVertex));
 
-	extent = (endPos - pos) / 2.0f;
+	extent = size / 2.0f;
 	offset = pos / 2.0f;
 	scaleFactor = { 1, 1 };
 

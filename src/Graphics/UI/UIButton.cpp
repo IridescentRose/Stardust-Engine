@@ -47,7 +47,7 @@ namespace Stardust::Graphics::UI {
 	void UIButton::draw()
 	{
 		sprt->draw();
-		txt->setPosition(sprt->getPosition());
+		txt->setPosition({ sprt->getPosition().x * 2.0f - 4.0f, sprt->getPosition().y * 2.0f + 6.0f });
 		txt->draw();
 	}
 }
