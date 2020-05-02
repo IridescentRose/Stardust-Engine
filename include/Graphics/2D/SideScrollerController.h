@@ -4,7 +4,7 @@
 namespace Stardust::Graphics::Render2D {
 	class SideScrollerController : public Controller2D {
 	public:
-		SideScrollerController(CharacterSprite* s, float speed, float gravitySpeed, float jump);
+		SideScrollerController(CharacterSprite* s, float speed, float gravitySpeed, float jump, bool follow = true);
 		void registerHandlers();
 
 		void setGravity(float gravity);

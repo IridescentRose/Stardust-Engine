@@ -46,7 +46,7 @@ namespace Stardust::Graphics::Render2D {
 		Utilities::addActionHandler("walkRight", tdwalkRight);
 	}
 
-	TopDownController::TopDownController(CharacterSprite* s, float ss) : Controller2D(s)
+	TopDownController::TopDownController(CharacterSprite* s, float ss, bool f) : Controller2D(s, f)
 	{
 		speed = ss;
 	}

@@ -2,7 +2,7 @@
 #include <Utilities/Input.h>
 
 namespace Stardust::Graphics::Render2D {
-	SideScrollerController::SideScrollerController(CharacterSprite* ss, float s, float g, float j) : Controller2D(ss)
+	SideScrollerController::SideScrollerController(CharacterSprite* ss, float s, float g, float j, bool f) : Controller2D(ss,f)
 	{
 		speed = s;
 		gravity = g;
