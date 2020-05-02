@@ -1,6 +1,5 @@
 #include <Graphics/2D/TopDownController.h>
 #include <Utilities/Input.h>
-#include <Utilities/Logger.h>
 
 namespace Stardust::Graphics::Render2D {
 
@@ -8,21 +7,21 @@ namespace Stardust::Graphics::Render2D {
 
 
 
-	void walkForward(bool, float)
+	void tdwalkForward(bool, float)
 	{
 		if(tp->getCharacterSprite()->getFacing() != CHARACTER_FACING_UP)
 			tp->getCharacterSprite()->setFacing(CHARACTER_FACING_UP);
 		tp->getCharacterSprite()->triggerAnimEvent("walk");
 		tp->velocity = { 0.0f, -tp->speed };
 	}
-	void walkBackward(bool, float)
+	void tdwalkBackward(bool, float)
 	{
 		if (tp->getCharacterSprite()->getFacing() != CHARACTER_FACING_DOWN)
 			tp->getCharacterSprite()->setFacing(CHARACTER_FACING_DOWN);
 		tp->getCharacterSprite()->triggerAnimEvent("walk");
 		tp->velocity = { 0.0f, tp->speed };
 	}
-	void walkLeft(bool, float)
+	void tdwalkLeft(bool, float)
 	{
 		if (tp->getCharacterSprite()->getFacing() != CHARACTER_FACING_LEFT)
 			tp->getCharacterSprite()->setFacing(CHARACTER_FACING_LEFT);
@@ -30,7 +29,7 @@ namespace Stardust::Graphics::Render2D {
 		tp->getCharacterSprite()->triggerAnimEvent("walk");
 		tp->velocity = { -tp->speed, 0.0f };
 	}
-	void walkRight(bool, float)
+	void tdwalkRight(bool, float)
 	{
 		if (tp->getCharacterSprite()->getFacing() != CHARACTER_FACING_RIGHT)
 			tp->getCharacterSprite()->setFacing(CHARACTER_FACING_RIGHT);
@@ -41,10 +40,10 @@ namespace Stardust::Graphics::Render2D {
 	void TopDownController::registerHandlers()
 	{
 		tp = this;
-		Utilities::addActionHandler("walkUp", walkForward);
-		Utilities::addActionHandler("walkDown", walkBackward);
-		Utilities::addActionHandler("walkLeft", walkLeft);
-		Utilities::addActionHandler("walkRight", walkRight);
+		Utilities::addActionHandler("walkUp", tdwalkForward);
+		Utilities::addActionHandler("walkDown", tdwalkBackward);
+		Utilities::addActionHandler("walkLeft", tdwalkLeft);
+		Utilities::addActionHandler("walkRight", tdwalkRight);
 	}
 
 	TopDownController::TopDownController(CharacterSprite* s, float ss) : Controller2D(s)

@@ -30,6 +30,7 @@ src/Graphics/2D/TilemapAnim.o \
 src/Graphics/2D/CharacterSprite.o \
 src/Graphics/2D/AnimTickController.o \
 src/Graphics/2D/TopDownController.o \
+src/Graphics/2D/SideScrollerController.o \
 
 alib = lib/libstardust.a
 

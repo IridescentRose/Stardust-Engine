@@ -3,6 +3,7 @@
 #include <Graphics/2D/CharacterSprite.h>
 #include <Utilities/Input.h>
 #include <Graphics/2D/TopDownController.h>
+#include <Graphics/2D/SideScrollerController.h>
 #include <Utilities/Logger.h>
 PSP_MODULE_INFO("Stardust", 0, 1, 0);
 PSP_MAIN_THREAD_ATTR(THREAD_ATTR_VFPU | THREAD_ATTR_USER);
@@ -15,7 +16,7 @@ int main() {
 
 	Graphics::Texture* charTex = Graphics::TextureUtil::LoadPng("./link.png");
 	Graphics::TextureAtlas* charAtlas = new Graphics::TextureAtlas({13.0f, 13.0f});
-	Graphics::Render2D::CharacterSprite* charSprite = new Graphics::Render2D::CharacterSprite({ 16, 16 }, charAtlas, charTex);
+	Graphics::Render2D::CharacterSprite* charSprite = new Graphics::Render2D::CharacterSprite({ 32, 32 }, charAtlas, charTex);
 
 	Graphics::Render2D::CharacterDirectionalAnimInfo* info = new Graphics::Render2D::CharacterDirectionalAnimInfo();
 	info->top = { 26, 1 };
@@ -36,10 +37,10 @@ int main() {
 	charSprite->position(240, 136);
 	charSprite->setLayer(10);
 
-	Graphics::Render2D::TopDownController controller = Graphics::Render2D::TopDownController(charSprite, 64.0f);
+	Graphics::Render2D::SideScrollerController controller = Graphics::Render2D::SideScrollerController(charSprite, 128.0f, 480.0f, 200.0f);
 	Utilities::addActionKeyPair("walkLeft", PSP_CTRL_LEFT);
-	Utilities::addActionKeyPair("walkUp", PSP_CTRL_UP);
-	Utilities::addActionKeyPair("walkDown", PSP_CTRL_DOWN);
+	Utilities::addActionKeyPair("jump", PSP_CTRL_UP);
+	Utilities::addActionKeyPair("crouch", PSP_CTRL_DOWN);
 	Utilities::addActionKeyPair("walkRight", PSP_CTRL_RIGHT); 
 	controller.registerHandlers();
 	controller.setPosition({ 240, 136 });
@@ -47,16 +48,47 @@ int main() {
 	controller.getAnimController()->setTickRate(8);
 
 	Graphics::Render2D::Tilemap* tmap = new Graphics::Render2D::Tilemap(new Graphics::TextureAtlas(32), Graphics::TextureUtil::LoadPng("./terrain_atlas.png"));
-	Graphics::Render2D::Tile* tile = new Graphics::Render2D::Tile();
-	tile->offset = { 200, 100 };
-	tile->extent = { 16, 16 };
-	tile->rgba = 0xFFFFFFFF;
-	tile->layer = 0;
-	tile->rotation = 0;
-	tile->texIndex = 1;
-	tile->physics = true; 
-	
-	tmap->addTile(tile);
+
+	for (int i = 0; i < 480 / 16; i++) {
+		Graphics::Render2D::Tile* tile = new Graphics::Render2D::Tile();
+
+		tile->offset = { i * 16, 200 };
+		tile->extent = { 16, 16 };
+		tile->rgba = 0xFFFFFFFF;
+		tile->layer = 0;
+		tile->rotation = 0;
+		tile->texIndex = 0;
+		tile->physics = true;
+
+		tmap->addTile(tile);
+	}
+
+
+	Graphics::Render2D::Tile* t1 = new Graphics::Render2D::Tile();
+
+	t1->offset = { 4 * 16, 140 };
+	t1->extent = { 16, 16 };
+	t1->rgba = 0xFFFFFFFF;
+	t1->layer = 0;
+	t1->rotation = 0;
+	t1->texIndex = 0;
+	t1->physics = true;
+
+	tmap->addTile(t1);
+
+
+	Graphics::Render2D::Tile* t2 = new Graphics::Render2D::Tile();
+
+	t2->offset = { 6 * 16, 160 };
+	t2->extent = { 16, 16 };
+	t2->rgba = 0xFFFFFFFF;
+	t2->layer = 0;
+	t2->rotation = 0;
+	t2->texIndex = 0;
+	t2->physics = true;
+
+	tmap->addTile(t2);
+
 	tmap->buildMap();
 	
 	controller.addPhysicsTileMap(tmap);
