@@ -36,6 +36,8 @@ namespace Stardust::Graphics::Render2D {
 
 		void drawMap();
 
+		void loadTileFromJSON(std::string path);
+
 	private:
 		TextureAtlas* m_Atlas;
 		std::vector<Tile*> m_Tiles;
