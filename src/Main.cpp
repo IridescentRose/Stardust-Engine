@@ -5,6 +5,7 @@
 #include <Graphics/2D/TopDownController.h>
 #include <Graphics/2D/SideScrollerController.h>
 #include <Utilities/Logger.h>
+#include <Graphics/UI/UIText.h>
 PSP_MODULE_INFO("Stardust", 0, 1, 0);
 PSP_MAIN_THREAD_ATTR(THREAD_ATTR_VFPU | THREAD_ATTR_USER);
 PSP_HEAP_SIZE_KB(-1024);
@@ -63,6 +64,8 @@ int main() {
 		tmap->addTile(tile);
 	}
 
+	Graphics::UI::UIText* txt = new Graphics::UI::UIText({ 100, 100 }, "Hello World!");
+	txt->setOptions({ 0.5f, 0xFFFF00FF, INTRAFONT_ALIGN_LEFT });
 
 	Graphics::Render2D::Tile* t1 = new Graphics::Render2D::Tile();
 
@@ -103,8 +106,10 @@ int main() {
 		controller.update(0.016f);
 		controller.draw();
 
+
 		tmap->drawMap();
-		
+
+		txt->draw();
 		Graphics::g_RenderCore.EndCommands();
 		Platform::platformUpdate();
 	}

@@ -3,6 +3,7 @@
 #include <Utilities/Logger.h>
 #include <Utilities/JSON.h>
 #include <Graphics/RendererCore.h>
+#include <Graphics/UI/Font.h>
 #include <Utilities/Input.h>
 
 #if CURRENT_PLATFORM == PLATFORM_PSP
@@ -73,6 +74,9 @@ namespace Stardust::Platform {
 		VirtualFileInit();
 		oslInitAudio();
 		Graphics::g_RenderCore.Init();
+
+		intraFontInit();
+		Graphics::UI::g_DefaultFont = intraFontLoad("./assets/font.pgf", INTRAFONT_STRING_UTF8 | INTRAFONT_CACHE_LARGE);
 
 		#ifdef MC_PSP
 		Graphics::g_RenderCore.InitDebugFont();

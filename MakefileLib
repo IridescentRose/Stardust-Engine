@@ -31,6 +31,8 @@ src/Graphics/2D/CharacterSprite.o \
 src/Graphics/2D/AnimTickController.o \
 src/Graphics/2D/TopDownController.o \
 src/Graphics/2D/SideScrollerController.o \
+src/Graphics/UI/Font.o \
+src/Graphics/UI/UIText.o \
 
 alib = lib/libstardust.a
 

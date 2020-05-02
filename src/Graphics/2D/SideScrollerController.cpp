@@ -84,8 +84,6 @@ namespace Stardust::Graphics::Render2D {
 		if (position != newPos) {
 			gravityVelocity = 0.0f;
 			isOnGround = true;
-
-			Utilities::app_Logger->log("HIT GROUND");
 		}
 		else {
 			isOnGround = false;
