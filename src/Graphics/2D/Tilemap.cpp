@@ -71,4 +71,7 @@ namespace Stardust::Graphics::Render2D {
 
 		sceGuDisable(GU_BLEND);
 	}
+	void Tilemap::loadTileFromJSON(std::string path)
+	{
+	}
 }
