@@ -47,9 +47,7 @@ namespace Stardust::Graphics::Render2D {
 
 
 		inline Math::AABB2D getAABB() {
-			Utilities::app_Logger->log("X: " + std::to_string(offset.x) + " Y: " + std::to_string(offset.y) + " W: " + std::to_string(extent.x) + " H: " + std::to_string(extent.y));
-
-			return { {offset.x, offset.y}, {extent.x, extent.y} };
+			return { {offset.x * 2.0f, offset.y * 2.0f}, {extent.x, extent.y} };
 		}
 
 		inline char getFacing() {

@@ -15,7 +15,7 @@ int main() {
 
 	Graphics::Texture* charTex = Graphics::TextureUtil::LoadPng("./link.png");
 	Graphics::TextureAtlas* charAtlas = new Graphics::TextureAtlas({13.0f, 13.0f});
-	Graphics::Render2D::CharacterSprite* charSprite = new Graphics::Render2D::CharacterSprite({ 40, 40 }, charAtlas, charTex);
+	Graphics::Render2D::CharacterSprite* charSprite = new Graphics::Render2D::CharacterSprite({ 16, 16 }, charAtlas, charTex);
 
 	Graphics::Render2D::CharacterDirectionalAnimInfo* info = new Graphics::Render2D::CharacterDirectionalAnimInfo();
 	info->top = { 26, 1 };
@@ -40,7 +40,7 @@ int main() {
 	Utilities::addActionKeyPair("walkLeft", PSP_CTRL_LEFT);
 	Utilities::addActionKeyPair("walkUp", PSP_CTRL_UP);
 	Utilities::addActionKeyPair("walkDown", PSP_CTRL_DOWN);
-	Utilities::addActionKeyPair("walkRight", PSP_CTRL_RIGHT);
+	Utilities::addActionKeyPair("walkRight", PSP_CTRL_RIGHT); 
 	controller.registerHandlers();
 	controller.setPosition({ 240, 136 });
 	controller.getAnimController()->setCharacterTickRateRelative(12);
@@ -58,7 +58,7 @@ int main() {
 	
 	tmap->addTile(tile);
 	tmap->buildMap();
-	 
+	
 	controller.addPhysicsTileMap(tmap);
 	 
 

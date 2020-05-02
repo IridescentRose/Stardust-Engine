@@ -50,8 +50,7 @@ namespace Stardust::Graphics::Render2D {
 	{
 		for (auto t : m_Tiles) {
 			if (t->physics) {
-				Utilities::app_Logger->log("X: " + std::to_string(t->offset.x) + " Y: " + std::to_string(t->offset.y) + " W: " + std::to_string(t->extent.x) + " H: " + std::to_string(t->extent.y));
-				Math::AABB2D b = { t->offset, t->extent };
+				Math::AABB2D b = { {t->offset.x + t->extent.x / 4.0f, t->offset.y}, t->extent };
 				bool res = Math::AABBIntersect2D(aabb, b);
 
 				if (res)

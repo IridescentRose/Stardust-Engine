@@ -34,19 +34,25 @@ namespace Stardust::Graphics::Render2D {
 			for (auto t : tmaps) {
 				if (collide)
 					break;
-				collide |= t->checkPhysics(sprite->getAABB());
+				Math::AABB2D aabb = sprite->getAABB();
+				aabb.offset = p;
+				collide |= t->checkPhysics(aabb);
 			}
 
 			for (auto t : tmap2s) {
 				if (collide)
 					break;
-				collide |= t->checkPhysics(sprite->getAABB());
+				Math::AABB2D aabb = sprite->getAABB();
+				aabb.offset = p;
+				collide |= t->checkPhysics(aabb);
 			}
 
 			for (auto t : sprts) {
 				if (collide)
 					break;
-				collide |= t->checkPhysics(sprite->getAABB());
+				Math::AABB2D aabb = sprite->getAABB();
+				aabb.offset = p;
+				collide |= t->checkPhysics(aabb);
 			}
 
 			if (!collide) {
