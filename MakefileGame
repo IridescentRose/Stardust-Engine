@@ -31,6 +31,7 @@ src/Graphics/2D/TopDownController.o \
 src/Graphics/2D/SideScrollerController.o \
 src/Graphics/UI/Font.o \
 src/Graphics/UI/UIText.o \
+src/Graphics/UI/UIButton.o \
 src/Graphics/Dialogs.o \
 src/Main.o
 

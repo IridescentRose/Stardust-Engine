@@ -19,9 +19,11 @@ namespace Stardust::Graphics::Render2D {
 		void setColor(char r, char g, char b, char a);
 		void setColor(int rgba);
 		void setLayer(int layer);
-
+		void setTexture(Texture* tex);
 		void setPhysics(bool p);
-
+		inline glm::vec2 getPosition() {
+			return offset;
+		}
 		void draw();
 
 		inline Math::AABB2D getAABB() {

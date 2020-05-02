@@ -133,6 +133,11 @@ void Stardust::Graphics::Render2D::Sprite2::setLayer(int l)
 	layer = l;
 }
 
+void Stardust::Graphics::Render2D::Sprite2::setTexture(Texture* tex)
+{
+	texRef = tex;
+}
+
 void Stardust::Graphics::Render2D::Sprite2::setPhysics(bool p)
 {
 	physics = p;
