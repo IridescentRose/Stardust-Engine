@@ -25,7 +25,7 @@ namespace Stardust::Graphics::Render2D {
 		void draw();
 
 		inline Math::AABB2D getAABB() {
-			return { offset, extent };
+			return { offset * 2.0f, extent };
 		}
 
 		bool checkPhysics(const Math::AABB2D& aabb);
