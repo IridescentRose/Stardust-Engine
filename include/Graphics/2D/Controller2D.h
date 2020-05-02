@@ -6,13 +6,14 @@
 namespace Stardust::Graphics::Render2D {
 	class Controller2D : public Core::ControllerBase {
 	public:
-		Controller2D(CharacterSprite* s) {
+		Controller2D(CharacterSprite* s, bool camFollow = true) {
 			sprite = s;
 			animController = new AnimationTickController();
 			animController->addAnimatedCharacter(sprite);
 			tmaps.clear();
 			tmap2s.clear();
 			sprts.clear();
+			follow = camFollow;
 		}
 
 		inline void setPosition(glm::vec2 pos) {
@@ -64,6 +65,14 @@ namespace Stardust::Graphics::Render2D {
 		
 		inline void draw() {
 			animController->tick();
+			if (follow) {
+				sceGumMatrixMode(GU_VIEW);
+				sceGumLoadIdentity();
+				ScePspFVector3 v = { 240- position.x, 136 - position.y, 0.0f };
+				sceGumTranslate(&v);
+				sceGumMatrixMode(GU_MODEL);
+			}
+
 			sprite->draw();
 		}
 
@@ -104,6 +113,7 @@ namespace Stardust::Graphics::Render2D {
 		std::vector<Tilemap*> tmaps;
 		std::vector<TilemapAnim*> tmap2s;
 		std::vector<Sprite2*> sprts;
+		bool follow;
 
 	};
 }
