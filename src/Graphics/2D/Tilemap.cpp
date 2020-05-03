@@ -51,7 +51,7 @@ namespace Stardust::Graphics::Render2D {
 	{
 		for (auto t : m_Tiles) {
 			if (t->physics) {
-				Math::AABB2D b = { {t->offset.x + t->extent.x / 4.0f, t->offset.y}, t->extent };
+				Math::AABB2D b = { {t->offset.x + t->extent.x / 2.0f, t->offset.y}, t->extent };
 				bool res = Math::AABBIntersect2D(aabb, b);
 
 				if (res)
@@ -113,6 +113,9 @@ namespace Stardust::Graphics::Render2D {
 					int height = index["properties"]["height"].asInt();
 					int tileSize = index["properties"]["tileSize"].asInt();
 
+					Utilities::app_Logger->log("NUM TILES EXPECTED: " + std::to_string(width * height));
+					Utilities::app_Logger->log("NUM TILES RECEIVED: " + std::to_string(index["tileMap"].size()));
+
 					if (index["tileMap"].size() == width * height) {
 						for (int i = 0; i < index["tileMap"].size(); i++) {
 							int x = i % width;
@@ -126,7 +129,7 @@ namespace Stardust::Graphics::Render2D {
 							Tile* tile = new Tile();
 							
 							tile->offset = { x, y };
-							tile->extent = temp.extent;
+							tile->extent = temp.extent * 1.01f;
 							tile->texIndex = temp.texIndex;
 							tile->layer = temp.layer;
 							tile->rgba = temp.rgba;
