@@ -38,10 +38,10 @@ int main() {
 	charSprite->position(240, 136);
 	charSprite->setLayer(10);
 
-	Graphics::Render2D::SideScrollerController controller = Graphics::Render2D::SideScrollerController(charSprite, 128.0f, 480.0f, 200.0f);
+	Graphics::Render2D::TopDownController controller = Graphics::Render2D::TopDownController(charSprite, 128.0f);
 	Utilities::addActionKeyPair("walkLeft", PSP_CTRL_LEFT);
-	Utilities::addActionKeyPair("jump", PSP_CTRL_UP);
-	Utilities::addActionKeyPair("crouch", PSP_CTRL_DOWN);
+	Utilities::addActionKeyPair("walkUp", PSP_CTRL_UP);
+	Utilities::addActionKeyPair("walkDown", PSP_CTRL_DOWN);
 	Utilities::addActionKeyPair("walkRight", PSP_CTRL_RIGHT); 
 	controller.registerHandlers();
 	controller.setPosition({ 240, 136 });
@@ -67,30 +67,7 @@ int main() {
 	Graphics::UI::UIText* txt = new Graphics::UI::UIText({ 100, 100 }, "Hello World!");
 	txt->setOptions({ 0.5f, 0xFFFF00FF, INTRAFONT_ALIGN_LEFT });
 
-	Graphics::Render2D::Tile* t1 = new Graphics::Render2D::Tile();
-
-	t1->offset = { 4 * 16, 140 };
-	t1->extent = { 16, 16 };
-	t1->rgba = 0xFFFFFFFF;
-	t1->layer = 0;
-	t1->rotation = 0;
-	t1->texIndex = 0;
-	t1->physics = true;
-
-	tmap->addTile(t1);
-
-
-	Graphics::Render2D::Tile* t2 = new Graphics::Render2D::Tile();
-
-	t2->offset = { 6 * 16, 160 };
-	t2->extent = { 16, 16 };
-	t2->rgba = 0xFFFFFFFF;
-	t2->layer = 0;
-	t2->rotation = 0;
-	t2->texIndex = 0;
-	t2->physics = true;
-
-	tmap->addTile(t2);
+	tmap->loadTileFromJSON("./example.json");
 
 	tmap->buildMap();
 	

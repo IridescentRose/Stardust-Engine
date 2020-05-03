@@ -1,5 +1,6 @@
 #include <Graphics/2D/Tilemap.h>
 #include <Utilities/Logger.h>
+#include <Utilities/JSON.h>
 
 namespace Stardust::Graphics::Render2D {
 	Tilemap::Tilemap(TextureAtlas* atlas, Texture* texture)
@@ -71,7 +72,74 @@ namespace Stardust::Graphics::Render2D {
 
 		sceGuDisable(GU_BLEND);
 	}
+
+	Tile* parseTile(Json::Value v) {
+		Tile* res = new Tile();
+
+		res->offset = { 0, 0 };
+		res->extent = { v["size"][0].asFloat(), v["size"][1].asFloat() };
+		res->texIndex = v["index"].asInt();
+		res->layer = v["layer"].asInt();
+		res->rgba = 0xFFFFFFFF;
+		res->rotation = v["rotation"].asInt();
+		res->physics = v["physics"].asBool();
+
+		return res;
+	}
+
 	void Tilemap::loadTileFromJSON(std::string path)
 	{
+		Json::Value index;
+		std::fstream file(path);
+
+		std::string str;
+		if (file.is_open()) {
+
+			file >> index;
+			file.close();
+
+			if (index.size() > 0) {
+				std::string type = index["type"].asString();
+				if (type == "regular") {
+					std::map<int, Tile*> keyMap;
+
+					for (int i = 0; i < index["keyMap"].size(); i++) {
+						Json::Value val = index["keyMap"][i];
+
+						keyMap.emplace(val["key"].asInt(), parseTile(val));
+					}
+
+					int width = index["properties"]["width"].asInt();
+					int height = index["properties"]["height"].asInt();
+					int tileSize = index["properties"]["tileSize"].asInt();
+
+					if (index["tileMap"].size() == width * height) {
+						for (int i = 0; i < index["tileMap"].size(); i++) {
+							int x = i % width;
+							int y = i / width;
+							x *= tileSize;
+							y *= tileSize;
+
+
+							Tile temp = *keyMap[index["tileMap"][i].asInt()];
+
+							Tile* tile = new Tile();
+							
+							tile->offset = { x, y };
+							tile->extent = temp.extent;
+							tile->texIndex = temp.texIndex;
+							tile->layer = temp.layer;
+							tile->rgba = temp.rgba;
+							tile->rotation = temp.rotation;
+							tile->physics = temp.physics;
+
+							addTile(tile);
+						}
+					}
+
+				}
+			}
+
+		}
 	}
 }
