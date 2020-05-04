@@ -15,6 +15,8 @@ namespace Stardust::Graphics::UI {
 		void setText(UIText* text);
 		void setSelected();
 		void setUnselected();
+		void setOffset(int);
+		void setTextRelative(glm::vec2);
 
 		void setColor(char r, char g, char b, char a);
 
@@ -27,6 +29,8 @@ namespace Stardust::Graphics::UI {
 	private:
 		UIText* txt;
 		Render2D::Sprite2* sprt;
+		int offset;
+		glm::vec2 relative;
 		ClickAction action;
 
 		Texture* unsel;

@@ -51,7 +51,7 @@ namespace Stardust::Graphics::Render2D {
 	{
 		for (auto t : m_Tiles) {
 			if (t->physics) {
-				Math::AABB2D b = { {t->offset.x + t->extent.x / 2.0f, t->offset.y}, t->extent };
+				Math::AABB2D b = { {t->offset.x + t->extent.x / 3.0f, t->offset.y}, t->extent };
 				bool res = Math::AABBIntersect2D(aabb, b);
 
 				if (res)
