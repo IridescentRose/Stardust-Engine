@@ -1,4 +1,4 @@
-#include "../../../include/Graphics/2D/SpriteAdvanced.h"
+#include <Graphics/2D/SpriteAdvanced.h>
 
 Stardust::Graphics::Render2D::Sprite2::Sprite2()
 {
