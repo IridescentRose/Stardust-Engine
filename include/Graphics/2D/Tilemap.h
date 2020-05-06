@@ -34,6 +34,13 @@ namespace Stardust::Graphics::Render2D {
 
 		bool checkPhysics(const Math::AABB2D& aabb);
 
+		inline Tile* getTile(int idx) {
+			if(idx < m_Tiles.size())
+				return m_Tiles[idx];
+			
+			return nullptr;
+		}
+
 		void drawMap();
 
 		void loadTileFromJSON(std::string path);

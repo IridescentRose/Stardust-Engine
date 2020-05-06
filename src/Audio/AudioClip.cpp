@@ -23,12 +23,20 @@ namespace Stardust::Audio {
 		oslStopSound(snd);
 	}
 
+	void AudioClip::SetLoop(bool loop)
+	{
+		oslSetSoundLoop(snd, loop);
+	}
+
 	void AudioClip::SetVol(float vol)
 	{
-		
+		snd->volumeLeft = vol * 100;
+		snd->volumeRight = vol * 100;
 	}
 	void AudioClip::SetPan(float pan)
 	{
-
+		float vol = (float)(snd->volumeLeft + snd->volumeRight) / 2.0f;
+		snd->volumeLeft = vol * pan;
+		snd->volumeRight = vol * (1.f - pan);
 	}
 }
