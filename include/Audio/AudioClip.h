@@ -11,6 +11,7 @@ namespace Stardust::Audio {
 		void Play(int channel = 0);
 		void Pause();
 		void Stop();
+		void SetLoop(bool loop);
 
 		void SetVol(float vol);
 		void SetPan(float pan);
