@@ -14,6 +14,7 @@ namespace Stardust::Graphics::Render2D {
 	class TilemapAnim {
 	public:
 		TilemapAnim(TextureAtlas* atlas, Texture* texture);
+		~TilemapAnim();
 
 		int addTile(TileAnim* t);
 		void updateTile(int tileNum, TileAnim* t);
