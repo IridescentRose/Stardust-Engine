@@ -9,6 +9,10 @@ namespace Stardust::Graphics::Render2D {
 		vertices.clear();
 		m_Tiles.clear();
 	}
+	TilemapAnim::~TilemapAnim()
+	{
+		clearTiles();
+	}
 	int TilemapAnim::addTile(TileAnim* t)
 	{
 		int idx = m_Tiles.size();
@@ -69,6 +73,7 @@ namespace Stardust::Graphics::Render2D {
 			delete t;
 		}
 		m_Tiles.clear();
+		vertices.clear();
 	}
 	void TilemapAnim::buildMap()
 	{
