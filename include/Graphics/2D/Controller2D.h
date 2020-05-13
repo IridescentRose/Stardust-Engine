@@ -41,11 +41,14 @@ namespace Stardust::Graphics::Render2D {
 			}
 
 			for (auto t : tmap2s) {
-				if (collide)
-					break;
-				Math::AABB2D aabb = sprite->getAABB();
-				aabb.offset = p;
-				collide |= t->checkPhysics(aabb);
+				if (t != NULL) {
+
+					if (collide)
+						break;
+					Math::AABB2D aabb = sprite->getAABB();
+					aabb.offset = p;
+					collide |= t->checkPhysics(aabb);
+				}
 			}
 
 			for (auto t : sprts) {
@@ -88,12 +91,19 @@ namespace Stardust::Graphics::Render2D {
 			return sprite;
 		}
 
+
 		inline void addPhysicsTileMap(Tilemap* tmap) {
 			tmaps.push_back(tmap);
 		}
-		inline void addPhysicsTileMap(TilemapAnim* tmap) {
+		inline int addPhysicsTileMap(TilemapAnim* tmap) {
+			int idx = tmap2s.size();
 			tmap2s.push_back(tmap);
+			return idx;
 		}
+		inline void removePhysicsTileMapAnim(int idx) {
+			tmap2s.erase(tmap2s.begin() + idx);
+		}
+
 		inline void addPhysicsSprite(Sprite2* sprt) {
 			sprts.push_back(sprt);
 		}
@@ -106,6 +116,8 @@ namespace Stardust::Graphics::Render2D {
 
 		glm::vec2 position;
 		glm::vec2 velocity;
+
+
 
 	protected:
 		CharacterSprite* sprite;

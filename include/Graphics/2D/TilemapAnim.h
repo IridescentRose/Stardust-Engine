@@ -2,6 +2,8 @@
 #include "SpriteAdvanced.h"
 #include "Tilemap.h"
 
+#include <Utilities/Logger.h>
+
 namespace Stardust::Graphics::Render2D {
 
 	struct TileAnim : public Tile {
@@ -21,6 +23,8 @@ namespace Stardust::Graphics::Render2D {
 		void tickPhase();
 		void clearTiles();
 
+		void setPosition(glm::vec2 pos);
+
 		bool checkPhysics(const Math::AABB2D& aabb);
 
 		void buildMap();
@@ -32,6 +36,7 @@ namespace Stardust::Graphics::Render2D {
 		TextureAtlas* m_Atlas;
 		std::vector<TileAnim*> m_Tiles;
 		std::vector<Vertex> vertices;
+		glm::vec2 position;
 		Texture* texRef;
 
 

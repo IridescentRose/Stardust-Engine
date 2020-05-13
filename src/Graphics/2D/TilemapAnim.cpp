@@ -8,6 +8,7 @@ namespace Stardust::Graphics::Render2D {
 
 		vertices.clear();
 		m_Tiles.clear();
+		position = { 0, 0 };
 	}
 	TilemapAnim::~TilemapAnim()
 	{
@@ -52,12 +53,16 @@ namespace Stardust::Graphics::Render2D {
 		sceKernelDcacheWritebackInvalidateAll();
 	}
 
+
 	bool TilemapAnim::checkPhysics(const Math::AABB2D& aabb)
 	{
 		for (auto t : m_Tiles) {
 
 			if (t->physics) {
+				//Stardust::Utilities::app_Logger->log("POS: " + std::to_string(aabb.offset.x) + " " + std::to_string(aabb.offset.y));
 				Math::AABB2D b = { {t->offset.x, t->offset.y + 272}, t->extent };
+				b.offset += position;
+				//Stardust::Utilities::app_Logger->log("COLLIDER: " + std::to_string(b.offset.x) + " " + std::to_string(b.offset.y));
 				bool res = Math::AABBIntersect2D(aabb, b);
 
 				if (res)
@@ -74,6 +79,10 @@ namespace Stardust::Graphics::Render2D {
 		}
 		m_Tiles.clear();
 		vertices.clear();
+	}
+	void TilemapAnim::setPosition(glm::vec2 pos)
+	{
+		position = pos;
 	}
 	void TilemapAnim::buildMap()
 	{

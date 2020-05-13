@@ -46,6 +46,15 @@ namespace Stardust::Graphics::Render2D {
 		Utilities::addActionHandler("walkRight", tdwalkRight);
 	}
 
+	void TopDownController::update(float dt)
+	{
+		glm::vec2 newPos = position + velocity * dt;
+		doPhysics(newPos);
+
+		setPosition(position);
+
+	}
+
 	TopDownController::TopDownController(CharacterSprite* s, float ss, bool f) : Controller2D(s, f)
 	{
 		speed = ss;
