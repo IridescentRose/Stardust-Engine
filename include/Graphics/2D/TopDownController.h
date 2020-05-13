@@ -7,6 +7,8 @@ namespace Stardust::Graphics::Render2D{
 		TopDownController(CharacterSprite* s, float speed, bool follow = true);
 		void registerHandlers();
 
+		void update(float dt);
+
 		float speed;
 	};
 }
