@@ -15,6 +15,9 @@ namespace Stardust::Network {
 	inline void encodeByte(byte v, PacketOut& p) {
 		p.bytes.push_back(v);
 	}
+	inline void encodeByte(short int v, std::vector<byte>& p) {
+		p.push_back(v);
+	}
 
 	inline byte decodeByte(PacketIn& p) {
 		return p.bytes[p.pos++];
@@ -23,6 +26,12 @@ namespace Stardust::Network {
 	inline void encodeShort(short int v, PacketOut& p) {
 		p.bytes.push_back((v >> 8) & 0xff);
 		p.bytes.push_back(v & 0xff);
+	}
+
+
+	inline void encodeShortLE(short int v, PacketOut& p) {
+		p.bytes.push_back(v & 0xff);
+		p.bytes.push_back((v >> 8) & 0xff);
 	}
 
 	inline void encodeShort(short int v, std::vector<byte>& p) {
@@ -88,10 +97,37 @@ namespace Stardust::Network {
 		p.bytes.push_back((byte)'\0');
 	}
 
+	inline void encodeStringLE(std::string str, PacketOut& p) {
+		std::vector<byte> prePend = encodeVarIntLE(str.size());
+
+		for (int i = 0; i < prePend.size(); i++) {
+			p.bytes.push_back(prePend[i]);
+		}
+
+		for (int i = 0; i < str.size(); i++) {
+			p.bytes.push_back(str[i]);
+		}
+	}
+
 	inline std::string decodeString(PacketIn& p) {
 		std::string res = "";
 
 		int size = decodeVarInt(p);
+
+		for (int i = 0; i < size - 1; i++) { //Don't include null char
+			char a = (char)p.bytes[p.pos++];
+			res += a;
+		}
+
+		p.pos++;//Skip null char
+
+		return res;
+	}
+
+	inline std::string decodeStringLE(PacketIn& p) {
+		std::string res = "";
+
+		int size = decodeVarInt(p) + 1;
 
 		for (int i = 0; i < size - 1; i++) { //Don't include null char
 			char a = (char)p.bytes[p.pos++];

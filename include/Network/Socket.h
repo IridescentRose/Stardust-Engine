@@ -14,7 +14,7 @@ namespace Stardust::Network {
 		void Send(size_t size, byte* buffer);
 		bool isAlive();
 
-		PacketIn* Recv();
+		PacketIn* Recv(bool extended);
 	private:
 		int m_socket;
 	};

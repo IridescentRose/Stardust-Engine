@@ -96,7 +96,7 @@ namespace Stardust::Network {
 		}
 	}
 
-	void NetworkDriver::SendPackets()
+	void NetworkDriver::SendPackets(bool extendedID)
 	{
 
 		Utilities::detail::core_Logger->log("Sending Network Packet Queue");
@@ -104,13 +104,23 @@ namespace Stardust::Network {
 		int len = packetQueue.size();
 		for (int i = 0; i < len; i++) {
 			endByteBuffer.clear();
+			int packetLength;
 
-			int packetLength = packetQueue.front()->bytes.size() + 2;
+			if(extendedID){
+				packetLength = packetQueue.front()->bytes.size() + 2;
+			}
+			else {
+				packetLength = packetQueue.front()->bytes.size() + 1;
+			}
 
 			//Header
 			encodeVarInt(packetLength, endByteBuffer);
-			encodeShort(packetQueue.front()->ID, endByteBuffer);
-
+			if(extendedID){
+				encodeShort(packetQueue.front()->ID, endByteBuffer);
+			}
+			else {
+				encodeByte(packetQueue.front()->ID, endByteBuffer);
+			}
 			//Add body
 			for (int x = 0; x < packetQueue.front()->bytes.size(); x++) {
 				endByteBuffer.push_back(packetQueue.front()->bytes[x]);
@@ -126,9 +136,9 @@ namespace Stardust::Network {
 
 	}
 
-	void NetworkDriver::ReceivePacket()
+	void NetworkDriver::ReceivePacket(bool extendedID)
 	{
-		PacketIn* p = m_Socket.Recv();
+		PacketIn* p = m_Socket.Recv(extendedID);
 		if (p != NULL) {
 			unhandledPackets.push(p);
 		}

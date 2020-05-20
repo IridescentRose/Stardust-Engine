@@ -19,9 +19,9 @@ namespace Stardust::Network {
 
 		void AddPacket(PacketOut* p);
 		void ClearPacketQueue();
-		void SendPackets();
+		void SendPackets(bool extendedID = true);
 
-		void ReceivePacket();
+		void ReceivePacket(bool extendedID = true);
 		void HandlePackets();
 
 		void AddPacketHandler(int id, PacketHandler h);

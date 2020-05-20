@@ -73,7 +73,7 @@ namespace Stardust::Network {
 		return connected;
 	}
 
-	PacketIn* Socket::Recv()
+	PacketIn* Socket::Recv(bool extended)
 	{
 		PacketIn* pIn = new PacketIn();
 
@@ -123,7 +123,12 @@ namespace Stardust::Network {
 
 			pIn->pos = 0;
 
-			pIn->ID = decodeShort(*pIn);
+			if (extended) {
+				pIn->ID = decodeShort(*pIn);
+			}
+			else {
+				pIn->ID = decodeByte(*pIn);
+			}
 
 			Utilities::detail::core_Logger->log("Received Packet!", Utilities::LOGGER_LEVEL_DEBUG);
 			Utilities::detail::core_Logger->log("Packet ID: " + std::to_string(pIn->ID), Utilities::LOGGER_LEVEL_DEBUG);
