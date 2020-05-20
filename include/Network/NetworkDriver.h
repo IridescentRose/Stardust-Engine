@@ -31,8 +31,8 @@ namespace Stardust::Network {
 		std::queue<PacketIn*> unhandledPackets;
 		std::map<int, PacketHandler> packetHandlers;
 
-	private:
 		Socket m_Socket;
+	private:
 
 #if CURRENT_PLATFORM == PLATFORM_PSP
 		static int ReceiveThread(SceSize args, void* argp);

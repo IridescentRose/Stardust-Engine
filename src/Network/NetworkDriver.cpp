@@ -73,6 +73,7 @@ namespace Stardust::Network {
 		bool res = m_Socket.Connect(port, ip);
 
 		if (threaded && res) {
+			m_Socket.SetBlock(false);
 			thr->Kill(); //Check
 			thr->Start(0);
 			sceKernelDelayThread(50 * 1000);
