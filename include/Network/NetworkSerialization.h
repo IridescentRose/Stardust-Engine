@@ -97,6 +97,18 @@ namespace Stardust::Network {
 		p.bytes.push_back((byte)'\0');
 	}
 
+	inline void encodeStringNonNull(std::string str, PacketOut& p) {
+		std::vector<byte> prePend = encodeVarInt(str.size());
+
+		for (int i = 0; i < prePend.size(); i++) {
+			p.bytes.push_back(prePend[i]);
+		}
+
+		for (int i = 0; i < str.size(); i++) {
+			p.bytes.push_back(str[i]);
+		}
+	}
+
 	inline void encodeStringLE(std::string str, PacketOut& p) {
 		std::vector<byte> prePend = encodeVarIntLE(str.size());
 
