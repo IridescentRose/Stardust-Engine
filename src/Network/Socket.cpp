@@ -48,12 +48,7 @@ namespace Stardust::Network {
 
 	bool Socket::SetBlock(bool blocking)
 	{
-		int flags = fcntl(m_socket, F_GETFL, 0);
-		if (flags == -1) return false;
-		flags = blocking ? (flags & ~O_NONBLOCK) : (flags | O_NONBLOCK);
-		return (fcntl(m_socket, F_SETFL, flags) == 0) ? true : false;
-
-		return false;
+		return fcntl(m_socket, F_SETFL, O_NONBLOCK) == 0;
 	}
 
 	void Socket::Send(size_t size, byte* buffer)
