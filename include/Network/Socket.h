@@ -12,6 +12,8 @@ namespace Stardust::Network {
 		bool SetBlock(bool blocking);
 
 		void Send(size_t size, byte* buffer);
+		bool isAlive();
+
 		PacketIn* Recv();
 	private:
 		int m_socket;

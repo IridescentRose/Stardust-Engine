@@ -60,6 +60,19 @@ namespace Stardust::Network {
 		}
 	}
 
+	bool Socket::isAlive()
+	{
+		bool connected = false;
+		char buffer[32] = { 0 };
+		int res = recv(m_socket, buffer, sizeof(buffer), MSG_PEEK | MSG_DONTWAIT);
+
+		if (res != 0) {
+			connected = true;
+		}
+
+		return connected;
+	}
+
 	PacketIn* Socket::Recv()
 	{
 		PacketIn* pIn = new PacketIn();
