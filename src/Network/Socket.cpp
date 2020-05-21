@@ -79,24 +79,36 @@ namespace Stardust::Network {
 
 		std::vector<byte> len;
 		byte newByte;
-		int res = recv(m_socket, &newByte, 1, 0);
+		int res = recv(m_socket, &newByte, 1, MSG_PEEK);
 		
 		if (res > 0) {
+			unsigned char data[5] = { 0 };
+			size_t dataLen = 0;
+			do {
+				size_t totalReceived = 0;
+				while (1 > totalReceived) {
+					size_t received = recv(m_socket, &data[dataLen] + totalReceived, 1 - totalReceived, 0);
+					if (received <= 0) {
+						sceKernelDelayThread(300);
+					}
+					else {
+						totalReceived += received;
+					}
+				}
+			} while ((data[dataLen++] & 0x80) != 0);
 
-		while (newByte & 128) {
-			if(res > 0){
-				len.push_back(newByte);
-				res = recv(m_socket, &newByte, 1, 0);
-			}
-			else {
-				sceKernelDelayThread(300);
-			}
-		}
-		len.push_back(newByte);
+			int readed = 0;
+			int result = 0;
+			char read;
+			do {
+				read = data[readed];
+				int value = (read & 0b01111111);
+				result |= (value << (7 * readed));
+				readed++;
+			} while ((read & 0b10000000) != 0);
 
-		//We now have the length stored in len
-		int length = decodeVarInt(len);
 
+			int length = result;
 		Utilities::detail::core_Logger->log("LENGTH: " + std::to_string(length), Utilities::LOGGER_LEVEL_DEBUG);
 
 		int totalTaken = 0;
@@ -123,11 +135,16 @@ namespace Stardust::Network {
 
 			pIn->pos = 0;
 
-			if (extended) {
-				pIn->ID = decodeShort(*pIn);
+			if (pIn != NULL && pIn->bytes.size() > 0) {
+				if (extended) {
+					pIn->ID = decodeShort(*pIn);
+				}
+				else {
+					pIn->ID = decodeByte(*pIn);
+				}
 			}
 			else {
-				pIn->ID = decodeByte(*pIn);
+				pIn->ID = -1;
 			}
 
 			Utilities::detail::core_Logger->log("Received Packet!", Utilities::LOGGER_LEVEL_DEBUG);
