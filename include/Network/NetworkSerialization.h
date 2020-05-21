@@ -151,6 +151,19 @@ namespace Stardust::Network {
 		return res;
 	}
 
+	inline std::string decodeStringNonNullLE(PacketIn& p) {
+		std::string res = "";
+
+		int size = decodeVarInt(p) + 1;
+
+		for (int i = 0; i < size - 1; i++) { //Don't include null char
+			char a = (char)p.bytes[p.pos++];
+			res += a;
+		}
+
+		return res;
+	}
+
 	inline void encodeFloat(float v, PacketOut& p) {
 		long int l = reinterpret_cast<long int>(&v);
 		p.bytes.push_back((l >> 24) & 0xff);
