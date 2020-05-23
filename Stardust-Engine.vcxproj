@@ -46,6 +46,7 @@
     <ClCompile Include="src\Audio\sound_utils\vfsFile.c" />
     <ClCompile Include="src\Audio\sound_utils\VirtualFile.c" />
     <ClCompile Include="src\Core\Core.cpp" />
+    <ClCompile Include="src\Core\StateManager.cpp" />
     <ClCompile Include="src\Events\Events.cpp" />
     <ClCompile Include="src\Graphics\2D\AnimTickController.cpp" />
     <ClCompile Include="src\Graphics\2D\CharacterSprite.cpp" />
@@ -59,7 +60,9 @@
     <ClCompile Include="src\Graphics\Dialogs.cpp" />
     <ClCompile Include="src\Graphics\RendererCore.cpp" />
     <ClCompile Include="src\Graphics\TextureUtil.cpp" />
+    <ClCompile Include="src\Graphics\UI\Dialog.cpp" />
     <ClCompile Include="src\Graphics\UI\Font.cpp" />
+    <ClCompile Include="src\Graphics\UI\MarqueeText.cpp" />
     <ClCompile Include="src\Graphics\UI\UIButton.cpp" />
     <ClCompile Include="src\Graphics\UI\UIText.cpp" />
     <ClCompile Include="src\Graphics\vram.c" />
@@ -84,6 +87,8 @@
     <ClInclude Include="include\Audio\sound_utils\VirtualFile.h" />
     <ClInclude Include="include\Core\Controller.h" />
     <ClInclude Include="include\Core\Core.h" />
+    <ClInclude Include="include\Core\GameState.h" />
+    <ClInclude Include="include\Core\StateManager.h" />
     <ClInclude Include="include\Events\Events.h" />
     <ClInclude Include="include\Graphics\2D\AnimTickController.h" />
     <ClInclude Include="include\Graphics\2D\CharacterSprite.h" />
@@ -99,7 +104,9 @@
     <ClInclude Include="include\Graphics\RendererCore.h" />
     <ClInclude Include="include\Graphics\RenderTypes.h" />
     <ClInclude Include="include\Graphics\TextureUtil.h" />
+    <ClInclude Include="include\Graphics\UI\Dialog.h" />
     <ClInclude Include="include\Graphics\UI\Font.h" />
+    <ClInclude Include="include\Graphics\UI\MarqueeText.h" />
     <ClInclude Include="include\Graphics\UI\UIBase.h" />
     <ClInclude Include="include\Graphics\UI\UIButton.h" />
     <ClInclude Include="include\Graphics\UI\UIText.h" />
