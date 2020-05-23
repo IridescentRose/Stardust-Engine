@@ -33,6 +33,7 @@ src/Graphics/2D/SideScrollerController.o \
 src/Graphics/UI/Font.o \
 src/Graphics/UI/UIText.o \
 src/Graphics/UI/UIButton.o \
+src/Graphics/UI/MarqueeText.o \
 src/Graphics/Dialogs.o \
 src/Main.o
 
