@@ -16,6 +16,7 @@ src/Events/Events.o \
 src/Network/NetworkDriver.o \
 src/Network/Socket.o \
 src/Core/Core.o \
+src/Core/StateManager.o \
 src/Profiler/Profiler.o \
 src/Graphics/RendererCore.o \
 src/Graphics/vram.o \
