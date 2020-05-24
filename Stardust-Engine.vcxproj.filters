@@ -129,6 +129,9 @@
     <ClCompile Include="src\Graphics\UI\Dialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Engines\VN\VisualNovelEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Platform\Platform.h">
@@ -288,6 +291,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Graphics\UI\Dialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Engines\VN\VisualNovelEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

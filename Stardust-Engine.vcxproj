@@ -47,6 +47,7 @@
     <ClCompile Include="src\Audio\sound_utils\VirtualFile.c" />
     <ClCompile Include="src\Core\Core.cpp" />
     <ClCompile Include="src\Core\StateManager.cpp" />
+    <ClCompile Include="src\Engines\VN\VisualNovelEngine.cpp" />
     <ClCompile Include="src\Events\Events.cpp" />
     <ClCompile Include="src\Graphics\2D\AnimTickController.cpp" />
     <ClCompile Include="src\Graphics\2D\CharacterSprite.cpp" />
@@ -89,6 +90,7 @@
     <ClInclude Include="include\Core\Core.h" />
     <ClInclude Include="include\Core\GameState.h" />
     <ClInclude Include="include\Core\StateManager.h" />
+    <ClInclude Include="include\Engines\VN\VisualNovelEngine.h" />
     <ClInclude Include="include\Events\Events.h" />
     <ClInclude Include="include\Graphics\2D\AnimTickController.h" />
     <ClInclude Include="include\Graphics\2D\CharacterSprite.h" />
