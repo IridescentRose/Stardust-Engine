@@ -37,6 +37,7 @@ src/Graphics/UI/UIText.o \
 src/Graphics/UI/Dialog.o \
 src/Graphics/UI/MarqueeText.o \
 src/Graphics/UI/UIButton.o \
+src/Engines/VN/VisualNovelEngine.o \
 
 alib = lib/libstardust.a
 

@@ -2,6 +2,7 @@
 #include <Graphics/2D/SpriteBase.h>
 #include "MarqueeText.h"
 #include <Audio/AudioClip.h>
+#include <Events/Events.h>
 
 namespace Stardust::Graphics::UI {
 	enum InteractionType {
@@ -12,6 +13,8 @@ namespace Stardust::Graphics::UI {
 	struct Dialog {
 		std::string text;
 		char interactionType;
+		std::vector<std::string> choice;
+		Events::EventHandler e;
 	};
 
 
@@ -31,6 +34,7 @@ namespace Stardust::Graphics::UI {
 		bool isEngaged();
 
 		MarqueeText* main;
+		UIText* helper;
 		Render2D::Sprite* dialogueBox;
 		Audio::AudioClip* sel;
 	private:

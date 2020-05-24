@@ -14,6 +14,9 @@ namespace Stardust::Graphics::UI {
 
 		g_RenderCore.SetClearColor(0, 0, 0, 255);
 
+		helper = new UIText({ 240, 136 }, "yes");
+		helper->setOptions({ 0.5f, 0xFFFFFFFF, INTRAFONT_ALIGN_CENTER });
+
 		selPos = 0;
 		display = false;
 		sel = NULL;
@@ -62,6 +65,32 @@ namespace Stardust::Graphics::UI {
 					break;
 				}
 
+				case INTERACTION_TYPE_SELECTION: {
+					if (Utilities::KeyPressed(PSP_CTRL_UP)) {
+						selPos--;
+					}
+
+					if (selPos < 0) {
+						selPos = 0;
+					}
+
+					if (Utilities::KeyPressed(PSP_CTRL_DOWN)) {
+						selPos++;
+					}
+
+					if (selPos > (info->choice.size() - 1)) {
+						selPos = info->choice.size() - 1;
+					}
+
+					if (Utilities::KeyPressed(PSP_CTRL_CROSS)) {
+						Events::Event* e = new Events::Event();
+						e->event_type = selPos;
+						info->e(e);
+						hide();
+					}
+
+				}
+
 				}
 
 			}
@@ -75,6 +104,20 @@ namespace Stardust::Graphics::UI {
 			sceGuEnable(GU_BLEND);
 			dialogueBox->Draw();
 			main->draw();
+
+			if (info->interactionType == INTERACTION_TYPE_SELECTION) {
+				for (int i = 0; i < info->choice.size(); i++) {
+					if(i != selPos){
+						helper->setOptions({ 0.5f, 0xFFFFFFFF, INTRAFONT_ALIGN_CENTER });
+					}
+					else {
+						helper->setOptions({ 0.5f, 0xFF0000FF, INTRAFONT_ALIGN_CENTER });
+					}
+					helper->setContent(info->choice[i]);
+					helper->setPosition(glm::vec2(240, (136 - info->choice.size() * 10) + i *20));
+					helper->draw();
+				}
+			}
 		}
 	}
 

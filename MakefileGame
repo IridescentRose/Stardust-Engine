@@ -36,6 +36,7 @@ src/Graphics/UI/UIButton.o \
 src/Graphics/UI/MarqueeText.o \
 src/Graphics/UI/Dialog.o \
 src/Graphics/Dialogs.o \
+src/Engines/VN/VisualNovelEngine.o \
 src/Main.o
 
 INCDIR = $(PSPPATH)/include
