@@ -1,5 +1,6 @@
 #pragma once
 #include <Graphics/UI/Dialog.h>
+#include <Utilities/Logger.h>
 
 namespace Stardust::Engines::VN {
 	using namespace Graphics::UI;
@@ -39,7 +40,7 @@ namespace Stardust::Engines::VN {
 
 	class VisualNovelEngine {
 	public:
-		VisualNovelEngine(MarqueeText mq, Dialogue* dialog, DialogStack* dialogStack, std::string vnFile);
+		VisualNovelEngine(MarqueeText* mq, Dialogue* dialog, DialogStack* dialogStack, std::string vnFile);
 		~VisualNovelEngine();
 
 		void update();

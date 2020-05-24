@@ -1,16 +1,16 @@
 #include "..\..\..\include\Engines\VN\VisualNovelEngine.h"
 
 namespace Stardust::Engines::VN {
-	VisualNovelEngine::VisualNovelEngine(MarqueeText mq, Dialogue* dialog, DialogStack* dialogStack, std::string vnFile)
+	VisualNovelEngine::VisualNovelEngine(MarqueeText* mq, Dialogue* dialog, DialogStack* dialogStack, std::string vnFile)
 	{
 		dialogue = dialog;
+		dialogue->main = mq;
 		stack = dialogStack;
 		sceneMap.clear();
 
 
 		parseVN(vnFile);
-		currScene = "";
-
+		pc = 0;
 	}
 	VisualNovelEngine* g_VNE;
 	VisualNovelEngine::~VisualNovelEngine()
@@ -24,13 +24,14 @@ namespace Stardust::Engines::VN {
 		stack->update();
 
 		if (!dialogue->isEngaged()) {
-			pc++;
-			parseCommand(currentScript->script[pc]);
+			parseCommand(currentScript->script[pc++]);
 		}
 	}
 
 	void VisualNovelEngine::draw()
 	{
+
+		sceGuEnable(GU_BLEND);
 		if (sceneMap[currScene]->sprite) {
 			sceneMap[currScene]->sprt->SetPosition(240, 136);
 			sceneMap[currScene]->sprt->Draw();
@@ -38,7 +39,6 @@ namespace Stardust::Engines::VN {
 		else {
 			sceGuClearColor(sceneMap[currScene]->clearColor);
 		}
-
 		for (auto& [str, character] : characterMap) {
 			if (character->hasImage && !character->hidden) {
 				character->states[character->currentIDX]->SetPosition(character->position.x, character->position.y);
@@ -69,6 +69,8 @@ namespace Stardust::Engines::VN {
 	{
 		std::string cmd = v["cmd"].asString();
 
+		Utilities::app_Logger->log("Parsing " + cmd);
+
 		if (cmd == "scene") {
 			std::string nextScene = v["sceneName"].asString();
 			currScene = nextScene;
@@ -82,10 +84,15 @@ namespace Stardust::Engines::VN {
 			Dialog* d = new Dialog();
 			d->interactionType = INTERACTION_TYPE_NONE;
 			d->text = "";
-			if (characterMap[characterID]->name != "none") {
-				d->text += characterMap[characterID]->name + ": ";
+
+			Utilities::app_Logger->log(characterID);
+			if (characterID != "none") {
+				Utilities::app_Logger->log("MSG");
+				d->text += characterMap[characterID]->name;
+				d->text += ": ";
 			}
 
+			Utilities::app_Logger->log("MSG");
 			d->text += v["message"].asString();
 
 			stack->addDialog(d);
@@ -142,9 +149,11 @@ namespace Stardust::Engines::VN {
 
 			stack->addDialog(d);
 		}
+		else if (cmd == "exit") {
+			sceKernelExitGame();
+		}
 		
 	}
-
 	void VisualNovelEngine::parseVN(std::string file)
 	{
 		Json::Value v = Utilities::JSON::openJSON(file);
@@ -152,12 +161,18 @@ namespace Stardust::Engines::VN {
 		//FIRST PARSE INFORMATION STRUCTURE
 		Json::Value info = v["information"];
 
-		currScene = v["information"]["scenes"][0]["name"].asString();
+		Utilities::app_Logger->log("Parsing info");
+
 
 		for (int i = 0; i < v["information"]["scenes"].size();i++) {
 			parseScene(v["information"]["scenes"][i]);
 		}
 
+		for (auto [str, sce] : sceneMap) {
+			Utilities::app_Logger->log(str);
+		}
+
+		currScene = "scene1";
 		for (int i = 0; i < v["information"]["characters"].size(); i++) {
 			parseCharacter(v["information"]["characters"][i]);
 		}
@@ -189,7 +204,8 @@ namespace Stardust::Engines::VN {
 		std::string fileName = v["imageFile"].asString();
 
 		newScene->sprite = (fileName != "none");
-		
+		Utilities::app_Logger->log(name + " " + std::to_string(newScene->sprite));
+
 		if (newScene->sprite) {
 			newScene->sprt = new Sprite(Graphics::TextureUtil::LoadPng(fileName));
 		}
@@ -204,6 +220,7 @@ namespace Stardust::Engines::VN {
 	{
 		VNCharacter* newChar = new VNCharacter();
 
+
 		std::string id = v["id"].asString();
 		newChar->name = v["name"].asString();
 		newChar->multiples = v["multiple"].asBool();
@@ -217,8 +234,8 @@ namespace Stardust::Engines::VN {
 			}
 		}
 		else {
-
-			newChar->currentIDX = v["imageFiles"][0].asString();
+			newChar->hasImage = true;
+			newChar->currentIDX = v["imageFiles"][0]["state"].asString();
 			for (int i = 0; i < v["imageFiles"].size(); i++) {
 				std::string id = v["imageFiles"][i]["state"].asString();
 				std::string file = v["imageFiles"][i]["imageFile"].asString();
@@ -252,7 +269,7 @@ namespace Stardust::Engines::VN {
 		newSound->channel = v["channel"].asInt();
 
 		newSound->clip = new Audio::AudioClip(v["soundFile"].asString());
-		newSound->clip->SetLoop(newSound->loop);
+		//newSound->clip->SetLoop(newSound->loop);
 
 		soundMap.emplace(id, newSound);
 	}
@@ -260,9 +277,11 @@ namespace Stardust::Engines::VN {
 	void VisualNovelEngine::parseScript(Json::Value v)
 	{
 		VNScript* newScript = new VNScript();
+		std::string id = v["name"].asString();
+		Utilities::app_Logger->log(id);
+
 		newScript->script = v["actions"];
 
-		std::string id = v["name"].asString();
 		scriptMap.emplace(id, newScript);
 	}
 
