@@ -12,12 +12,13 @@ namespace Stardust::Graphics::Render2D {
 		Sprite(Texture* texture, int startW, int startH, int endW, int endH, bool obr);
 		~Sprite();
 
+		void setLayer(int i);
 
 		void SetPosition(float x, float y);
 		void Scale(float x, float y);
 
 		void RemoveImage();
-		void Draw();
+		void Draw(bool linear = false);
 
 		void Alpha(int _alpha);
 		void RGB(int _red, int _green, int _blue);
@@ -31,6 +32,7 @@ namespace Stardust::Graphics::Render2D {
 		bool noTex;
 		float scaleX, scaleY;
 		float posX, posY;
+		int layer;
 		int width, height;
 		int red, green, blue, alpha;
 	};
