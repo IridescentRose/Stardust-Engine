@@ -5,6 +5,7 @@ namespace Stardust::Graphics::Render2D {
 	{
 		noTex = true;
 		red = green = blue = alpha = 255;
+		layer = 0;
 	}
 
 	TextureVertex getVertex(float u, float v, float x, float y, float z)
@@ -20,6 +21,7 @@ namespace Stardust::Graphics::Render2D {
 
 	Sprite::Sprite(Texture* texture)
 	{
+		layer = 0;
 		tex = texture;
 		noTex = false;
 
@@ -46,6 +48,7 @@ namespace Stardust::Graphics::Render2D {
 
 	Sprite::Sprite(Texture* texture, int startW, int startH, int endW, int endH)
 	{
+		layer = 0;
 		tex = texture;
 		noTex = texture == NULL;
 
@@ -75,6 +78,7 @@ namespace Stardust::Graphics::Render2D {
 
 	Sprite::Sprite(Texture* texture, int startW, int startH, int endW, int endH, bool obr)
 	{
+		layer = 0;
 		tex = texture;
 		noTex = texture == NULL;
 
@@ -106,6 +110,11 @@ namespace Stardust::Graphics::Render2D {
 	Sprite::~Sprite()
 	{
 		free(vertices);
+	}
+
+	void Sprite::setLayer(int i)
+	{
+		layer = i;
 	}
 
 	void Sprite::SetPosition(float x, float y)
@@ -149,11 +158,11 @@ namespace Stardust::Graphics::Render2D {
 		blue = _blue;
 	}
 
-	void Sprite::Draw()
+	void Sprite::Draw(bool linear)
 	{
 		sceGumPushMatrix();
 
-		ScePspFVector3 loc = { posX,posY,0.0f };
+		ScePspFVector3 loc = { posX,posY, layer };
 		sceGumTranslate(&loc);
 
 		
@@ -161,7 +170,12 @@ namespace Stardust::Graphics::Render2D {
 
 		if (!noTex) {
 			sceGuEnable(GU_TEXTURE_2D);
-			tex->bindTexture(GU_NEAREST, GU_NEAREST, true);
+			if (!linear) {
+				tex->bindTexture(GU_NEAREST, GU_NEAREST, true);
+			}
+			else {
+				tex->bindTexture(GU_LINEAR, GU_LINEAR, true);
+			}
 		}
 
 		sceGumDrawArray(GU_TRIANGLE_STRIP, GU_TEXTURE_32BITF | GU_VERTEX_32BITF | GU_TRANSFORM_3D, 4, 0, vertices);
