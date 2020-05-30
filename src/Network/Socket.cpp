@@ -29,7 +29,11 @@ namespace Stardust::Network {
 		m_socket = socket(PF_INET, SOCK_STREAM, 0);
 		struct sockaddr_in name;
 		name.sin_family = AF_INET;
+#ifdef __unix__
+		name.sin_port = __builtin_bswap16(port);
+#elif defined(_WIN32) || defined(WIN32)
 		name.sin_port = htons(port);
+#endif
 
 		inet_pton(AF_INET, ip, &name.sin_addr.s_addr);
 		bool b = (connect(m_socket, (struct sockaddr*) & name, sizeof(name)) >= 0);
