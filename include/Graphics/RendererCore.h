@@ -43,7 +43,7 @@ namespace Stardust::Graphics {
 #endif
 
         void BeginCommands(bool dialog = false);
-        void EndCommands(bool dialog = false);
+        void EndCommands(bool dialog = false, bool vsync = true);
 
         void Set2DMode();
 

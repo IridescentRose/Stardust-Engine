@@ -65,6 +65,7 @@
     <ClCompile Include="src\Graphics\UI\Font.cpp" />
     <ClCompile Include="src\Graphics\UI\MarqueeText.cpp" />
     <ClCompile Include="src\Graphics\UI\UIButton.cpp" />
+    <ClCompile Include="src\Graphics\UI\UISystem.cpp" />
     <ClCompile Include="src\Graphics\UI\UIText.cpp" />
     <ClCompile Include="src\Graphics\vram.c" />
     <ClCompile Include="src\Math\Frustum.cpp" />
@@ -95,6 +96,7 @@
     <ClInclude Include="include\Graphics\2D\AnimTickController.h" />
     <ClInclude Include="include\Graphics\2D\CharacterSprite.h" />
     <ClInclude Include="include\Graphics\2D\Controller2D.h" />
+    <ClInclude Include="include\Graphics\2D\Light.h" />
     <ClInclude Include="include\Graphics\2D\SideScrollerController.h" />
     <ClInclude Include="include\Graphics\2D\SpriteAdvanced.h" />
     <ClInclude Include="include\Graphics\2D\SpriteAnimated.h" />
@@ -111,6 +113,7 @@
     <ClInclude Include="include\Graphics\UI\MarqueeText.h" />
     <ClInclude Include="include\Graphics\UI\UIBase.h" />
     <ClInclude Include="include\Graphics\UI\UIButton.h" />
+    <ClInclude Include="include\Graphics\UI\UISystem.h" />
     <ClInclude Include="include\Graphics\UI\UIText.h" />
     <ClInclude Include="include\Math\AABB.h" />
     <ClInclude Include="include\Math\Frustum.h" />

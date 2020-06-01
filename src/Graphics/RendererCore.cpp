@@ -76,13 +76,15 @@ namespace Stardust::Graphics {
 			sceGuSync(0, 0);
 		}
 	}
-	void RendererCore::EndCommands(bool dialog)
+	void RendererCore::EndCommands(bool dialog, bool vsync)
 	{
 		if (!dialog) {
 			sceGuFinish();
 			sceGuSync(0, 0);
 		}
-		sceDisplayWaitVblankStart();
+		if (vsync) {
+			sceDisplayWaitVblankStart();
+		}
 		sceGuSwapBuffers();
 	}
 	void RendererCore::Set2DMode()
