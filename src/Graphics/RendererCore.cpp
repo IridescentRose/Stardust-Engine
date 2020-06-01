@@ -65,7 +65,7 @@ namespace Stardust::Graphics {
 	{
 		sceGuClearStencil(0);
 		sceGuClearDepth(0);
-		sceGuClear(GU_COLOR_BUFFER_BIT | GU_STENCIL_BUFFER_BIT | GU_DEPTH_BUFFER_BIT);
+		sceGuClear(GU_COLOR_BUFFER_BIT | GU_STENCIL_BUFFER_BIT | GU_DEPTH_BUFFER_BIT | GU_FAST_CLEAR_BIT);
 	}
 	void RendererCore::BeginCommands(bool dialog)
 	{
