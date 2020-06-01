@@ -23,6 +23,10 @@ namespace Stardust::Graphics::Render2D {
 		void tickPhase();
 		void clearTiles();
 
+		void setAmbientLight(AmbientLight light);
+		void addPointLight(PointLight light);
+		void calculateLighting();
+
 		void setPosition(glm::vec2 pos);
 
 		bool checkPhysics(const Math::AABB2D& aabb);
@@ -40,6 +44,8 @@ namespace Stardust::Graphics::Render2D {
 		Texture* texRef;
 
 
+		AmbientLight ambient;
+		std::vector<PointLight> pointLights;
 	};
 
 }
