@@ -1,4 +1,4 @@
-#include "..\..\..\include\Engines\VN\VisualNovelEngine.h"
+#include "../../../include/Engines/VN/VisualNovelEngine.h"
 
 namespace Stardust::Engines::VN {
 	VisualNovelEngine::VisualNovelEngine(MarqueeText* mq, Dialogue* dialog, DialogStack* dialogStack, std::string vnFile)

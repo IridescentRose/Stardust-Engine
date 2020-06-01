@@ -36,6 +36,7 @@ src/Graphics/UI/Font.o \
 src/Graphics/UI/UIText.o \
 src/Graphics/UI/Dialog.o \
 src/Graphics/UI/MarqueeText.o \
+src/Graphics/UI/UISystem.o \
 src/Graphics/UI/UIButton.o \
 src/Engines/VN/VisualNovelEngine.o \
 
