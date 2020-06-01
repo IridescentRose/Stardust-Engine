@@ -1,8 +1,10 @@
 #pragma once
+#include <vector>
 #include <Math/Vector.h>
 #include <Graphics/TextureUtil.h>
 #include <Graphics/RenderTypes.h>
 #include <Math/AABB.h>
+#include "Light.h"
 
 namespace Stardust::Graphics::Render2D {
 	class Sprite2 {
@@ -15,6 +17,10 @@ namespace Stardust::Graphics::Render2D {
 
 		void position(float x, float y);
 		void scale(float x, float y);
+
+		void setAmbientLight(AmbientLight light);
+		void addPointLight(PointLight light);
+		void calculateLighting();
 
 		void setColor(char r, char g, char b, char a);
 		void setColor(int rgba);
@@ -39,6 +45,9 @@ namespace Stardust::Graphics::Render2D {
 
 		Texture* texRef;
 		bool physics;
+
+		AmbientLight ambient;
+		std::vector<PointLight> pointLights;
 
 		int rgba;
 		int layer;

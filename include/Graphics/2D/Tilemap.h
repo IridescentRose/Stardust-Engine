@@ -30,6 +30,11 @@ namespace Stardust::Graphics::Render2D {
 		void updateTile(int tileNum, Tile* t);
 		void clearTiles();
 
+
+		void setAmbientLight(AmbientLight light);
+		void addPointLight(PointLight light);
+		void calculateLighting();
+
 		void buildMap();
 
 		bool checkPhysics(const Math::AABB2D& aabb);
@@ -49,6 +54,10 @@ namespace Stardust::Graphics::Render2D {
 		TextureAtlas* m_Atlas;
 		std::vector<Tile*> m_Tiles;
 		std::vector<Vertex> vertices;
+
+
+		AmbientLight ambient;
+		std::vector<PointLight> pointLights;
 		Texture* texRef;
 
 

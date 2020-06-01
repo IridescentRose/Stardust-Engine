@@ -25,6 +25,77 @@ namespace Stardust::Graphics::Render2D {
 		delete m_Tiles[tileNum];
 		m_Tiles[tileNum] = t;
 	}
+
+	void TilemapAnim::setAmbientLight(AmbientLight light)
+	{
+		ambient = light;
+	}
+
+	void TilemapAnim::addPointLight(PointLight light)
+	{
+		pointLights.push_back(light);
+	}
+
+	void TilemapAnim::calculateLighting()
+	{
+		vertices.clear();
+
+		for (auto t : m_Tiles) {
+			uint8_t r = (float)ambient.r * ambient.intensity;
+			uint8_t g = (float)ambient.g * ambient.intensity;
+			uint8_t b = (float)ambient.b * ambient.intensity;
+
+			for (auto p : pointLights) {
+				float distance = sqrtf((p.x - t->offset.x) * (p.x - t->offset.x) + (p.y - t->offset.y) * (p.y - t->offset.y));
+				float corrRange = (p.range - distance) / p.range;
+
+				float intensityMax = 1.0f - ambient.intensity;
+
+				float intensity = 0.0f;
+				if (p.intensity > intensityMax) {
+					intensity = intensityMax;
+				}
+				else {
+					intensity = p.intensity;
+				}
+
+				if (corrRange > 1.0f) {
+					corrRange = 1.0f;
+				}
+
+				if (corrRange > 0.0f) {
+					r += ((float)p.r) * intensity * corrRange;
+					g += ((float)p.g) * intensity * corrRange;
+					b += ((float)p.b) * intensity * corrRange;
+				}
+
+				if (r > 255) {
+					r = 255;
+				}
+				if (g > 255) {
+					g = 255;
+				}
+				if (b > 255) {
+					b = 255;
+				}
+
+				if (r < 0) {
+					r = 0;
+				}
+				if (g < 0) {
+					g = 0;
+				}
+				if (b < 0) {
+					b = 0;
+				}
+			}
+
+			t->rgba = GU_RGBA(r, g, b, 255);
+		}
+
+		buildMap();
+	}
+
 	void TilemapAnim::tickPhase()
 	{
 		for (int i = 0; i < m_Tiles.size(); i++) {

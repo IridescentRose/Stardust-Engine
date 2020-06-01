@@ -64,12 +64,20 @@ int main() {
 		tmap->addTile(tile);
 	}
 
-	Graphics::UI::UIText* txt = new Graphics::UI::UIText({ 100, 100 }, "Hello World!");
-	txt->setOptions({ 0.5f, 0xFFFF00FF, INTRAFONT_ALIGN_LEFT });
 
 	tmap->loadTileFromJSON("./example.json");
 
-	tmap->buildMap();
+	tmap->setAmbientLight({ 255, 255, 255, 255, 0.2f });
+	tmap->addPointLight({ 0, 0, 255, 255, 0, 255, 100.0f, 1.0f });
+	tmap->addPointLight({ 240, 240, 255, 0, 255, 255, 100.0f, 1.0f });
+
+
+	charSprite->setAmbientLight({ 255, 255, 255, 255, 0.2f });
+	charSprite->addPointLight({ 0, 0, 255, 255, 0, 255, 100.0f, 1.0f });
+	charSprite->addPointLight({ 240, 240, 255, 0, 255, 255, 100.0f, 1.0f });
+
+
+	tmap->calculateLighting();
 	
 	controller.addPhysicsTileMap(tmap);
 	 
@@ -81,12 +89,12 @@ int main() {
 		Graphics::g_RenderCore.Clear();
 		
 		controller.update(0.016f);
+		charSprite->calculateLighting();
 		controller.draw();
 
 
 		tmap->drawMap();
 
-		txt->draw();
 		Graphics::g_RenderCore.EndCommands();
 		Platform::platformUpdate();
 	}
