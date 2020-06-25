@@ -101,7 +101,6 @@ namespace Stardust::Network {
 
 		Utilities::detail::core_Logger->log("Sending Network Packet Queue");
 		
-		ByteBuffer* bbuf = new ByteBuffer(512 * 1024); //512 KB
 
 		int len = packetQueue.size();
 		for (int i = 0; i < len; i++) {
@@ -113,6 +112,8 @@ namespace Stardust::Network {
 			else {
 				packetLength = packetQueue.front()->buffer->GetUsedSpace() + 1;
 			}
+
+			ByteBuffer* bbuf = new ByteBuffer(packetLength); //512 KB
 
 			//Header
 			bbuf->WriteVarInt32(packetLength);
@@ -131,6 +132,8 @@ namespace Stardust::Network {
 			//Send over socket
 			m_Socket.Send(packetQueue.front()->buffer->GetUsedSpace(), packetQueue.front()->buffer->m_Buffer);
 
+			delete bbuf;
+			delete packetQueue.front()->buffer;
 			delete packetQueue.front();
 			packetQueue.pop();
 		}
@@ -156,6 +159,7 @@ namespace Stardust::Network {
 			if (packetHandlers.find(p->ID) != packetHandlers.end()) {
 				packetHandlers[p->ID](p);
 			}
+			delete p->buffer;
 			delete p;
 			unhandledPackets.pop();
 		}
