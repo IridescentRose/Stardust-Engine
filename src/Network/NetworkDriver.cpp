@@ -13,12 +13,11 @@ namespace Stardust::Network {
 	bool NetworkDriver::Init() {
 
 		Utilities::detail::core_Logger->log("Attempting Network Init");
-		sceUtilityLoadNetModule(PSP_NET_MODULE_HTTP);
-		sceUtilityLoadNetModule(PSP_NET_MODULE_PARSEHTTP);
-		sceUtilityLoadNetModule(PSP_NET_MODULE_PARSEURI);
-		sceUtilityLoadNetModule(PSP_NET_MODULE_INET);
 		sceUtilityLoadNetModule(PSP_NET_MODULE_COMMON);
-		sceUtilityLoadNetModule(PSP_NET_MODULE_SSL);
+		sceUtilityLoadNetModule(PSP_NET_MODULE_INET);
+		sceUtilityLoadNetModule(PSP_NET_MODULE_PARSEURI);
+		sceUtilityLoadNetModule(PSP_NET_MODULE_PARSEHTTP);
+		sceUtilityLoadNetModule(PSP_NET_MODULE_HTTP);
 
 		//Result stores our codes from the initialization process
 		int result = 0;
@@ -58,11 +57,11 @@ namespace Stardust::Network {
 		sceNetTerm();
 
 		//Modules
-		sceUtilityUnloadNetModule(PSP_NET_MODULE_HTTP);
-		sceUtilityUnloadNetModule(PSP_NET_MODULE_PARSEHTTP);
-		sceUtilityUnloadNetModule(PSP_NET_MODULE_PARSEURI);
-		sceUtilityUnloadNetModule(PSP_NET_MODULE_INET);
 		sceUtilityUnloadNetModule(PSP_NET_MODULE_COMMON);
+		sceUtilityUnloadNetModule(PSP_NET_MODULE_INET);
+		sceUtilityUnloadNetModule(PSP_NET_MODULE_PARSEURI);
+		sceUtilityUnloadNetModule(PSP_NET_MODULE_PARSEHTTP);
+		sceUtilityUnloadNetModule(PSP_NET_MODULE_HTTP);
 
 		Utilities::detail::core_Logger->log("Cleaning up Networking Driver");
 	}
@@ -185,56 +184,77 @@ namespace Stardust::Network {
 
 		ret = sceHttpInit(20000);
 
-		if (ret < 0)
+		if (ret < 0) {
+			Utilities::detail::core_Logger->log("HTTP INIT FAIL");
 			return false;
+		}
 
 		templ = sceHttpCreateTemplate((char*)"xxx-agent/0.0.1 libhttp/1.0.0", 1, 1);
 
-		if (templ < 0)
+		if (templ < 0) {
+			Utilities::detail::core_Logger->log("HTTP TEMPLATE FAIL");
 			return false;
+		}
 
 		ret = sceHttpSetResolveTimeOut(templ, 3000000);
 
-		if (ret < 0)
+		if (ret < 0) {
+			Utilities::detail::core_Logger->log("HTTP RESOLVE FAIL");
 			return false;
+		}
 
 		ret = sceHttpSetRecvTimeOut(templ, 60000000);
 
-		if (ret < 0)
+		if (ret < 0) {
+			Utilities::detail::core_Logger->log("HTTP RECV FAIL");
 			return false;
+		}
 
 		ret = sceHttpSetSendTimeOut(templ, 60000000);
 
-		if (ret < 0)
+		if (ret < 0) {
+			Utilities::detail::core_Logger->log("HTTP SEND FAIL");
 			return false;
+		}
 
 		connection = sceHttpCreateConnectionWithURL(templ, url, 0);
 
-		if (connection < 0)
+		if (ret < 0) {
+			Utilities::detail::core_Logger->log("HTTP CONNECTION FAIL");
 			return false;
+		}
 
 		request = sceHttpCreateRequestWithURL(connection, PSP_HTTP_METHOD_GET, (char*)url, 0);
 
-		if (request < 0)
+		if (ret < 0) {
+			Utilities::detail::core_Logger->log("HTTP REQUEST URL FAIL");
 			return false;
+		}
 
 		ret = sceHttpSendRequest(request, 0, 0);
 
-		if (ret < 0)
+		if (ret < 0) {
+			Utilities::detail::core_Logger->log("HTTP SEND REQUEST FAIL");
 			return false;
+		}
+
 
 		ret = sceHttpGetStatusCode(request, &status);
 
-		if (ret < 0)
+		if (ret < 0) {
+			Utilities::detail::core_Logger->log("HTTP STATUS FAIL");
 			return false;
+		}
 
 		if (status != 200)
 			return false;
 
 		ret = sceHttpGetContentLength(request, &contentsize);
 
-		if (ret < 0)
+		if (ret < 0) {
+			Utilities::detail::core_Logger->log("HTTP LENGTH FAIL");
 			return false;
+		}
 
 		dataend = 0;
 		byteswritten = 0;
@@ -250,6 +270,12 @@ namespace Stardust::Network {
 				sceIoWrite(fd, filepath, 4);
 				sceIoClose(fd);
 				return false;
+
+
+				if (ret < 0) {
+					Utilities::detail::core_Logger->log("HTTP WRITE ERR");
+					return false;
+				}
 			}
 
 			if (ret == 0)
