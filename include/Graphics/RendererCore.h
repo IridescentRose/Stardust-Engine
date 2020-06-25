@@ -21,6 +21,7 @@
 #include <intraFont.h>
 #endif
 
+#include <Graphics/3D/Camera.h>
 #include <Graphics/RenderTypes.h>
 
 namespace Stardust::Graphics {
@@ -46,6 +47,9 @@ namespace Stardust::Graphics {
         void EndCommands(bool dialog = false, bool vsync = true);
 
         void Set2DMode();
+        void Set3DMode();
+
+        void SetCamera(Render3D::Camera* camera);
 
         void RenderToTexture(Texture* tex);
 
@@ -72,6 +76,8 @@ namespace Stardust::Graphics {
         unsigned int clearColor;
 
         char list[0x100000] __attribute__((aligned(64)));
+        
+        Render3D::Camera* cam;
 
         void* _fbp0;
         void* _fbp1;

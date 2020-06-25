@@ -11,6 +11,7 @@ namespace Stardust::Graphics {
 	}
 	void RendererCore::Init()
 	{
+		cam = NULL;
 		_fbp0 = getStaticVramBuffer(BUF_WIDTH, SCR_HEIGHT, GU_PSM_8888);
 		_fbp1 = getStaticVramBuffer(BUF_WIDTH, SCR_HEIGHT, GU_PSM_8888);
 		_zbp = getStaticVramBuffer(BUF_WIDTH, SCR_HEIGHT, GU_PSM_4444);
@@ -98,6 +99,16 @@ namespace Stardust::Graphics {
 
 		sceGumMatrixMode(GU_MODEL);
 		sceGumLoadIdentity();
+	}
+	void RendererCore::Set3DMode()
+	{
+		if (cam != NULL) {
+			cam->update();
+		}
+	}
+	void RendererCore::SetCamera(Render3D::Camera* camera)
+	{
+		cam = camera;
 	}
 	void RendererCore::RenderToTexture(Texture* tex)
 	{
