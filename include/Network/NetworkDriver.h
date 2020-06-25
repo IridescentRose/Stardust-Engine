@@ -27,6 +27,8 @@ namespace Stardust::Network {
 		void AddPacketHandler(int id, PacketHandler h);
 		void ClearPacketHandlers();
 
+		bool GetFileHTTP(const char* url, const char* filepath);
+
 		std::queue<PacketOut*> packetQueue;
 		std::queue<PacketIn*> unhandledPackets;
 		std::map<int, PacketHandler> packetHandlers;

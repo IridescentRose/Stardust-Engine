@@ -108,10 +108,10 @@ namespace Stardust::Network {
 			int packetLength;
 
 			if(extendedID){
-				packetLength = packetQueue.front()->buffer.GetUsedSpace() + 2;
+				packetLength = packetQueue.front()->buffer->GetUsedSpace() + 2;
 			}
 			else {
-				packetLength = packetQueue.front()->buffer.GetUsedSpace() + 1;
+				packetLength = packetQueue.front()->buffer->GetUsedSpace() + 1;
 			}
 
 			//Header
@@ -125,11 +125,11 @@ namespace Stardust::Network {
 			}
 			//Add body
 
-			packetQueue.front()->buffer.ReadToByteBuffer(*bbuf, packetQueue.front()->buffer.GetUsedSpace());
+			packetQueue.front()->buffer->ReadToByteBuffer(*bbuf, packetQueue.front()->buffer->GetUsedSpace());
 
 			Utilities::detail::core_Logger->log("Sending packet with ID: " + std::to_string(packetQueue.front()->ID), Utilities::LOGGER_LEVEL_DEBUG);
 			//Send over socket
-			m_Socket.Send(packetQueue.front()->buffer.GetUsedSpace(), packetQueue.front()->buffer.m_Buffer);
+			m_Socket.Send(packetQueue.front()->buffer->GetUsedSpace(), packetQueue.front()->buffer->m_Buffer);
 
 			delete packetQueue.front();
 			packetQueue.pop();
@@ -171,6 +171,100 @@ namespace Stardust::Network {
 	{
 		Utilities::detail::core_Logger->log("Clearing Packet Handlers");
 		packetHandlers.clear();
+	}
+
+	bool NetworkDriver::GetFileHTTP(const char* url, const char* filepath)
+	{
+		int templ, connection, request, ret, status, dataend, fd, byteswritten;
+		SceULong64 contentsize;
+		unsigned char readbuffer[8192];
+
+		ret = sceHttpInit(20000);
+
+		if (ret < 0)
+			return false;
+
+		templ = sceHttpCreateTemplate((char*)"xxx-agent/0.0.1 libhttp/1.0.0", 1, 1);
+
+		if (templ < 0)
+			return false;
+
+		ret = sceHttpSetResolveTimeOut(templ, 3000000);
+
+		if (ret < 0)
+			return false;
+
+		ret = sceHttpSetRecvTimeOut(templ, 60000000);
+
+		if (ret < 0)
+			return false;
+
+		ret = sceHttpSetSendTimeOut(templ, 60000000);
+
+		if (ret < 0)
+			return false;
+
+		connection = sceHttpCreateConnectionWithURL(templ, url, 0);
+
+		if (connection < 0)
+			return false;
+
+		request = sceHttpCreateRequestWithURL(connection, PSP_HTTP_METHOD_GET, (char*)url, 0);
+
+		if (request < 0)
+			return false;
+
+		ret = sceHttpSendRequest(request, 0, 0);
+
+		if (ret < 0)
+			return false;
+
+		ret = sceHttpGetStatusCode(request, &status);
+
+		if (ret < 0)
+			return false;
+
+		if (status != 200)
+			return false;
+
+		ret = sceHttpGetContentLength(request, &contentsize);
+
+		if (ret < 0)
+			return false;
+
+		dataend = 0;
+		byteswritten = 0;
+
+		fd = sceIoOpen(filepath, PSP_O_WRONLY | PSP_O_CREAT, 0777);
+
+		while (dataend == 0)
+		{
+			ret = sceHttpReadData(request, readbuffer, 8192);
+
+			if (ret < 0)
+			{
+				sceIoWrite(fd, filepath, 4);
+				sceIoClose(fd);
+				return false;
+			}
+
+			if (ret == 0)
+				dataend = 1;
+
+			if (ret > 0)
+			{
+				byteswritten += ret;
+				sceIoWrite(fd, readbuffer, ret);
+			}
+		}
+
+		sceIoClose(fd);
+		sceHttpDeleteRequest(request);
+		sceHttpDeleteConnection(connection);
+		sceHttpDeleteTemplate(templ);
+		sceHttpEnd();
+
+		return true;
 	}
 
 #if CURRENT_PLATFORM == PLATFORM_PSP
