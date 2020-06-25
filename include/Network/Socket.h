@@ -1,5 +1,5 @@
 #pragma once
-#include "NetworkSerialization.h"
+#include "NetworkTypes.h"
 
 namespace Stardust::Network {
 
@@ -11,7 +11,7 @@ namespace Stardust::Network {
 
 		bool SetBlock(bool blocking);
 
-		void Send(size_t size, byte* buffer);
+		void Send(size_t size, char* buffer);
 		bool isAlive();
 
 		PacketIn* Recv(bool extended);
