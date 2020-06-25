@@ -51,7 +51,7 @@ namespace Stardust::Network {
 		return fcntl(m_socket, F_SETFL, O_NONBLOCK) == 0;
 	}
 
-	void Socket::Send(size_t size, byte* buffer)
+	void Socket::Send(size_t size, char* buffer)
 	{
 		int res = send(m_socket, buffer, size, 0);
 		if (res < 0) {
@@ -75,7 +75,6 @@ namespace Stardust::Network {
 
 	PacketIn* Socket::Recv(bool extended)
 	{
-		PacketIn* pIn = new PacketIn();
 
 		std::vector<byte> len;
 		byte newByte;
@@ -109,6 +108,8 @@ namespace Stardust::Network {
 
 
 			int length = result;
+
+			PacketIn* pIn = new PacketIn(length);
 		Utilities::detail::core_Logger->log("LENGTH: " + std::to_string(length), Utilities::LOGGER_LEVEL_DEBUG);
 
 		int totalTaken = 0;
@@ -130,17 +131,17 @@ namespace Stardust::Network {
 			
 
 			for (int i = 0; i < length; i++) {
-				pIn->bytes.push_back(b[i]);
+				pIn->buffer->WriteBEUInt8(i);
 			}
 
-			pIn->pos = 0;
-
-			if (pIn != NULL && pIn->bytes.size() > 0) {
+			if (pIn != NULL && pIn->buffer->GetUsedSpace() > 0) {
 				if (extended) {
-					pIn->ID = decodeShort(*pIn);
+					pIn->buffer->ReadBEUInt16(pIn->ID);
 				}
 				else {
-					pIn->ID = decodeByte(*pIn);
+					uint8_t t = 0;
+					pIn->buffer->ReadBEUInt8(t);
+					pIn->ID = t;
 				}
 			}
 			else {

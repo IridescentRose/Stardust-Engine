@@ -100,35 +100,36 @@ namespace Stardust::Network {
 	{
 
 		Utilities::detail::core_Logger->log("Sending Network Packet Queue");
-		std::vector<byte> endByteBuffer;
+		
+		ByteBuffer* bbuf = new ByteBuffer(512 * 1024); //512 KB
+
 		int len = packetQueue.size();
 		for (int i = 0; i < len; i++) {
-			endByteBuffer.clear();
 			int packetLength;
 
 			if(extendedID){
-				packetLength = packetQueue.front()->bytes.size() + 2;
+				packetLength = packetQueue.front()->buffer.GetUsedSpace() + 2;
 			}
 			else {
-				packetLength = packetQueue.front()->bytes.size() + 1;
+				packetLength = packetQueue.front()->buffer.GetUsedSpace() + 1;
 			}
 
 			//Header
-			encodeVarInt(packetLength, endByteBuffer);
+			bbuf->WriteVarInt32(packetLength);
+
 			if(extendedID){
-				encodeShort(packetQueue.front()->ID, endByteBuffer);
+				bbuf->WriteBEUInt16(packetQueue.front()->ID);
 			}
 			else {
-				encodeByte(packetQueue.front()->ID, endByteBuffer);
+				bbuf->WriteBEUInt8(packetQueue.front()->ID);
 			}
 			//Add body
-			for (int x = 0; x < packetQueue.front()->bytes.size(); x++) {
-				endByteBuffer.push_back(packetQueue.front()->bytes[x]);
-			}
+
+			packetQueue.front()->buffer.ReadToByteBuffer(*bbuf, packetQueue.front()->buffer.GetUsedSpace());
 
 			Utilities::detail::core_Logger->log("Sending packet with ID: " + std::to_string(packetQueue.front()->ID), Utilities::LOGGER_LEVEL_DEBUG);
 			//Send over socket
-			m_Socket.Send(endByteBuffer.size(), endByteBuffer.data());
+			m_Socket.Send(packetQueue.front()->buffer.GetUsedSpace(), packetQueue.front()->buffer.m_Buffer);
 
 			delete packetQueue.front();
 			packetQueue.pop();

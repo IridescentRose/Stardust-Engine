@@ -1,10 +1,10 @@
 #pragma once
-#include <Network/NetworkSerialization.h>
 #include <Platform/Platform.h>
 #include <Network/Socket.h>
 #include <queue>
 #include <map>
 #include <Utilities/Thread.h>
+#include "NetworkTypes.h"
 
 namespace Stardust::Network {
 	typedef int (*PacketHandler)(PacketIn*);

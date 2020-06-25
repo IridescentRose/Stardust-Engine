@@ -38,6 +38,7 @@
   <ItemDefinitionGroup>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Network\ByteBuffer.cpp" />
     <ClCompile Include="src\Audio\AudioClip.cpp" />
     <ClCompile Include="src\Audio\sound_utils\audio.c" />
     <ClCompile Include="src\Audio\sound_utils\bgm.c" />
@@ -122,6 +123,7 @@
     <ClInclude Include="include\Math\Quaternion.h" />
     <ClInclude Include="include\Math\Ray.h" />
     <ClInclude Include="include\Math\Vector.h" />
+    <ClInclude Include="include\Network\ByteBuffer.h" />
     <ClInclude Include="include\Network\NetworkDriver.h" />
     <ClInclude Include="include\Network\NetworkSerialization.h" />
     <ClInclude Include="include\Network\NetworkTypes.h" />
