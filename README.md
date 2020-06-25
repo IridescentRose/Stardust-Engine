@@ -26,18 +26,18 @@ The engine is broken up into multiple submodules that make up the engine, and th
 - Profiling - Done
 - Audio - Done
 - Rendering - Done
-- Sprites - Postponed
-- 2D Lighting - Postponed
-- UI - In progress
-- 2D Controllers
-- 2D Physics
-- Animations
-- Particles
+- Sprites - Done
+- 2D Lighting - Done
+- UI - Done
+- 2D Controllers - Done
+- 2D Physics - Done
+- Animations - Done for 2D
 - Post Processing
 - 3D Rendering
 - 3D Lighting
 - 3D Physics
 - 3D Controllers
+- Particles
 - Editor
 
 ## Schedule
