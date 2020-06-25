@@ -38,6 +38,7 @@
   <ItemDefinitionGroup>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Graphics\3D\Camera.cpp" />
     <ClCompile Include="src\Network\ByteBuffer.cpp" />
     <ClCompile Include="src\Audio\AudioClip.cpp" />
     <ClCompile Include="src\Audio\sound_utils\audio.c" />
@@ -105,6 +106,7 @@
     <ClInclude Include="include\Graphics\2D\Tilemap.h" />
     <ClInclude Include="include\Graphics\2D\TilemapAnim.h" />
     <ClInclude Include="include\Graphics\2D\TopDownController.h" />
+    <ClInclude Include="include\Graphics\3D\Camera.h" />
     <ClInclude Include="include\Graphics\Dialogs.h" />
     <ClInclude Include="include\Graphics\RendererCore.h" />
     <ClInclude Include="include\Graphics\RenderTypes.h" />
@@ -125,7 +127,6 @@
     <ClInclude Include="include\Math\Vector.h" />
     <ClInclude Include="include\Network\ByteBuffer.h" />
     <ClInclude Include="include\Network\NetworkDriver.h" />
-    <ClInclude Include="include\Network\NetworkSerialization.h" />
     <ClInclude Include="include\Network\NetworkTypes.h" />
     <ClInclude Include="include\Network\Socket.h" />
     <ClInclude Include="include\Platform\Platform.h" />

@@ -138,6 +138,9 @@
     <ClCompile Include="src\Network\ByteBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Graphics\3D\Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Platform\Platform.h">
@@ -171,9 +174,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Network\NetworkTypes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Network\NetworkSerialization.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Network\NetworkDriver.h">
@@ -309,6 +309,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Network\ByteBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Graphics\3D\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
