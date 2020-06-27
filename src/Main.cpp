@@ -24,7 +24,10 @@ int main() {
 	Render3D::Mesh* mesh = new Render3D::Mesh();
 	mesh->addVertex({0.0f, 0.0f, 0xFFFFFFFF, 0.f, 0.f, -5.f });
 	mesh->addVertex({1.0f, 0.0f, 0xFFFFFFFF, 1.f, 0.f, -5.f });
-	mesh->addVertex({1.0f, 1.0f, 0xFFFFFFFF, 1.f, 1.f, -5.f });
+	mesh->addVertex({ 1.0f, 1.0f, 0xFFFFFFFF, 1.f, 1.f, -5.f });
+	mesh->addVertex({ 1.0f, 1.0f, 0xFFFFFFFF, 1.f, 1.f, -5.f });
+	mesh->addVertex({ 0.0f, 1.0f, 0xFFFFFFFF, 0.f, 1.f, -5.f });
+	mesh->addVertex({ 0.0f, 0.0f, 0xFFFFFFFF, 0.f, 0.f, -5.f });
 
 	Texture* tex = TextureUtil::LoadTex("example.jpg");
 
