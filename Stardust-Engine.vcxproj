@@ -39,6 +39,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Graphics\3D\Camera.cpp" />
+    <ClCompile Include="src\Graphics\3D\Mesh.cpp" />
     <ClCompile Include="src\Network\ByteBuffer.cpp" />
     <ClCompile Include="src\Audio\AudioClip.cpp" />
     <ClCompile Include="src\Audio\sound_utils\audio.c" />
@@ -107,6 +108,7 @@
     <ClInclude Include="include\Graphics\2D\TilemapAnim.h" />
     <ClInclude Include="include\Graphics\2D\TopDownController.h" />
     <ClInclude Include="include\Graphics\3D\Camera.h" />
+    <ClInclude Include="include\Graphics\3D\Mesh.h" />
     <ClInclude Include="include\Graphics\Dialogs.h" />
     <ClInclude Include="include\Graphics\RendererCore.h" />
     <ClInclude Include="include\Graphics\RenderTypes.h" />
