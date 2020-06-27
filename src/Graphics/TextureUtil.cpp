@@ -175,7 +175,7 @@ namespace Stardust::Graphics {
 	Texture* TextureUtil::LoadTex(const char* filename, int ColorMode, int Swizzle, bool Vram)
 	{
 
-		int OutBytesPerPixel;
+		int OutBytesPerPixel = 4;
 		int Power2Width = 0;
 		int Power2Height = 0;
 
@@ -194,9 +194,25 @@ namespace Stardust::Graphics {
 		Image1->pHeight = Power2Height;
 		Image1->ramSpace = Vram;
 		Image1->colorMode = ColorMode;
-		Image1->swizzled = 0;
+		Image1->swizzled = Swizzle;
 		Image1->fileName = filename;
 		Image1->data = data;
+
+		unsigned short* swizzled_pixels = NULL;
+		if (Vram)
+		{
+			swizzled_pixels = (unsigned short*)getStaticVramTexture(Power2Width, Power2Height, ColorMode);
+		}
+		else
+		{
+			swizzled_pixels = (unsigned short*)memalign(16, Image1->pHeight * Image1->pWidth * OutBytesPerPixel);
+		}
+
+		swizzle_fast((u8*)swizzled_pixels, (const u8*)data, Image1->pWidth * OutBytesPerPixel, Image1->pHeight);
+
+		Image1->data = swizzled_pixels;
+
+		stbi_image_free(data);
 
 		//clear the cache or there will be some errors
 		sceKernelDcacheWritebackInvalidateAll();
