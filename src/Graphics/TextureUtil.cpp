@@ -1,6 +1,8 @@
 #include <Graphics/TextureUtil.h>
 #include "vram.h"
 #include <Utilities/Logger.h>
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb/stb_image.h>
 
 namespace Stardust::Graphics {
 	bool FileExist(std::string fileName)
@@ -160,6 +162,41 @@ namespace Stardust::Graphics {
 
 		Image1->data = swizzled_pixels;
 		free(Buffer);
+
+		//clear the cache or there will be some errors
+		sceKernelDcacheWritebackInvalidateAll();
+
+		return Image1;
+	}
+	Texture* TextureUtil::LoadTex(std::string fileName, bool vram)
+	{
+		return LoadTex(fileName.c_str(), GU_PSM_8888, 1, vram);
+	}
+	Texture* TextureUtil::LoadTex(const char* filename, int ColorMode, int Swizzle, bool Vram)
+	{
+
+		int OutBytesPerPixel;
+		int Power2Width = 0;
+		int Power2Height = 0;
+
+		//GET WIDTH / HEIGHT
+		int width, height, channels;
+		unsigned short* data = (unsigned short*)stbi_load(filename, &width, &height, &channels, STBI_rgb_alpha);
+
+		Power2Width = powerOfTwo(width);
+		Power2Height = powerOfTwo(height);
+
+		Texture* Image1 = new Texture();
+
+		Image1->width = width;
+		Image1->height = height;
+		Image1->pWidth = Power2Width;
+		Image1->pHeight = Power2Height;
+		Image1->ramSpace = Vram;
+		Image1->colorMode = ColorMode;
+		Image1->swizzled = 0;
+		Image1->fileName = filename;
+		Image1->data = data;
 
 		//clear the cache or there will be some errors
 		sceKernelDcacheWritebackInvalidateAll();
