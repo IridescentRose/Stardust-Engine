@@ -36,13 +36,17 @@ namespace Stardust::Graphics::Render3D {
 		sceGumMatrixMode(GU_VIEW);
 		sceGumLoadIdentity();
 
-		sceGumRotateX(rot.x);
-		sceGumRotateY(rot.y);
-		sceGumRotateZ(rot.z);
+		sceGumRotateX(rot.x / 180.0f * 3.14159f);
+		sceGumRotateY(rot.y / 180.0f * 3.14159f);
+		sceGumRotateZ(rot.z / 180.0f * 3.14159f);
 
 		ScePspFVector3 v = { pos.x, pos.y, pos.z };
 		sceGumTranslate(&v);
 
 		sceGumStoreMatrix(&view);
+		sceGumLoadMatrix(&view);
+
+		sceGumMatrixMode(GU_MODEL);
+		sceGumLoadIdentity();
 	}
 }
