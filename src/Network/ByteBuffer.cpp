@@ -821,7 +821,34 @@ void ByteBuffer::ReadAgain(std::string& a_Out)
 }
 
 
+bool ByteBuffer::ReadVarUTF8String(std::string& a_Value)
+{
+	
+	CheckValid();
+	uint32_t Size = 0;
+	if (!ReadVarInt(Size))
+	{
+		return false;
+	}
+	if (Size > MAX_STRING_SIZE)
+	{
+		//LOGWARNING("%s: String too large: %u (%u KiB)", __FUNCTION__, Size, Size / 1024);
+	}
+	return ReadString(a_Value, static_cast<size_t>(Size));
+}
 
+bool ByteBuffer::WriteVarUTF8String(std::string& a_Value)
+{
+	
+		CheckValid();
+	PUTBYTES(a_Value.size() + 1);  // This is a lower-bound on the bytes that will be actually written. Fail early.
+	bool res = WriteVarInt32(static_cast<uint32_t>(a_Value.size()));
+	if (!res)
+	{
+		return false;
+	}
+	return WriteBuf(a_Value.data(), a_Value.size());
+}
 
 
 void ByteBuffer::AdvanceReadPos(size_t a_Count)

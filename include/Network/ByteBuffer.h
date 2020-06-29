@@ -6,6 +6,9 @@
  Based off of https://github.com/cuberite/cuberite/blob/master/src/ByteBuffer.h
 */
 
+#define KiB * 1024
+#define MAX_STRING_SIZE (512 KiB)
+
 namespace Stardust::Network {
 	class ByteBuffer {
 	public:
@@ -46,6 +49,7 @@ namespace Stardust::Network {
 		bool WriteBool(bool   a_Value);
 		bool WriteVarInt32(uint32_t a_Value);
 		bool WriteVarInt64(uint64_t a_Value);
+		bool WriteVarUTF8String(std::string& a_Value);
 
 		bool ReadBEInt8(int8_t&   a_Value);
 		bool ReadBEInt16(int16_t&  a_Value);
@@ -61,6 +65,7 @@ namespace Stardust::Network {
 		bool ReadVarInt32(uint32_t& a_Value);
 		bool ReadVarInt64(uint64_t& a_Value);
 		bool ReadLEInt32(int32_t& a_Value);
+		bool ReadVarUTF8String(std::string& a_Value);
 
 		/** Reads a_Count bytes into a_Buffer; returns true if successful */
 		bool ReadBuf(void* a_Buffer, size_t a_Count);
