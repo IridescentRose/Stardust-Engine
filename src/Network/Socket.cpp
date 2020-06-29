@@ -131,7 +131,7 @@ namespace Stardust::Network {
 			
 
 			for (int i = 0; i < length; i++) {
-				pIn->buffer->WriteBEUInt8(i);
+				pIn->buffer->WriteBEUInt8(b[i]);
 			}
 
 			if (pIn != NULL && pIn->buffer->GetUsedSpace() > 0) {
