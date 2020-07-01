@@ -2,8 +2,7 @@
 
 #define PLATFORM_PSP 0
 #define PLATFORM_WIN 1
-#define PLATFORM_LIN 3
-#define PLATFORM_MAC 4
+#define PLATFORM_NIX 2
 #define PLATFORM_XXX -1
 
 //Switch this line of code for other build support
