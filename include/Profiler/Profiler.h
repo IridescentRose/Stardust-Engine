@@ -1,7 +1,8 @@
 #pragma once
-#include <Utilities/Timer.h>
+#include <vector>
 #include <iostream>
 #include <fstream>
+#include <Utilities/Timer.h>
 
 namespace Stardust::Profiling {
 

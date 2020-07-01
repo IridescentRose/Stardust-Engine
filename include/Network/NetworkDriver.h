@@ -6,6 +6,15 @@
 #include <Utilities/Thread.h>
 #include "NetworkTypes.h"
 
+#if CURRENT_PLATFORM == PLATFORM_WIN
+
+#define WIN32_LEAN_AND_MEAN 1
+#include <winsock2.h>
+#include <windows.h>
+#include <thread>
+#include <Ws2tcpip.h>
+#endif
+
 namespace Stardust::Network {
 	typedef int (*PacketHandler)(PacketIn*);
 
@@ -14,9 +23,9 @@ namespace Stardust::Network {
 		
 		NetworkDriver();
 		bool Init();
-		bool Connect(unsigned short port, const char* ip, bool threaded);
 		void Cleanup();
 
+		bool Connect(unsigned short port, const char* ip, bool threaded);
 		void AddPacket(PacketOut* p);
 		void ClearPacketQueue();
 		void SendPackets(bool extendedID = true);

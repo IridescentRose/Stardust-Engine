@@ -2,15 +2,17 @@
 #include <Utilities/Timer.h>
 #include <Utilities/Logger.h>
 #include <Utilities/JSON.h>
+
+#include <stdlib.h>
+#include <time.h>
+
+#if CURRENT_PLATFORM == PLATFORM_PSP
 #include <Graphics/RendererCore.h>
 #include <Graphics/UI/Font.h>
 #include <Utilities/Input.h>
 
-#if CURRENT_PLATFORM == PLATFORM_PSP
 #include <psppower.h>
-#include <stdlib.h>
 #include <pspkernel.h>
-#include <time.h>
 #include <pspmath.h>
 #include <Audio/sound_utils/oslib.h>
 #include <Audio/sound_utils/audio.h>
@@ -98,5 +100,33 @@ namespace Stardust::Platform {
 		oslAudioVSync();
 	}
 
+#elif CURRENT_PLATFORM == PLATFORM_WIN
+	void initPlatform(const char* appName) {
+		srand(time(NULL));
+		
+
+		Utilities::g_AppTimer.reset();
+		Utilities::g_AppTimer.deltaTime();
+
+		Utilities::detail::core_Logger = new Utilities::Logger("CORE");
+		Utilities::detail::core_Logger->log("Stardust-Engine Initialized!");
+		Utilities::detail::core_Logger->log("Platform Initialized!");
+
+		Utilities::app_Logger = new Utilities::Logger(appName, std::string(appName) + "_log.log");
+		Utilities::app_Logger->log("Application Start!");
+
+	}
+
+	void exitPlatform()
+	{
+		delete Utilities::detail::core_Logger;
+		delete Utilities::app_Logger;
+		exit(0);
+	}
+
+	void platformUpdate()
+	{
+		
+	}
 #endif
 }

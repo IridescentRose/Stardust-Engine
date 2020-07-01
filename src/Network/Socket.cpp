@@ -20,6 +20,13 @@
 #include <unistd.h> 
 #include <queue>
 #include <fcntl.h>
+#elif CURRENT_PLATFORM == PLATFORM_WIN
+
+#define WIN32_LEAN_AND_MEAN 1
+#include <winsock2.h>
+#include <windows.h>
+#include <thread>
+#include <Ws2tcpip.h>
 #endif
 
 namespace Stardust::Network {
@@ -43,12 +50,22 @@ namespace Stardust::Network {
 	void Socket::Close()
 	{
 		Utilities::detail::core_Logger->log("Closing socket!");
+#if CURRENT_PLATFORM == PLATFORM_PSP
 		close(m_socket);
+#elif CURRENT_PLATFORM == PLATFORM_WIN
+		closesocket(m_socket);
+#endif
 	}
 
 	bool Socket::SetBlock(bool blocking)
 	{
+
+#if CURRENT_PLATFORM == PLATFORM_PSP
 		return fcntl(m_socket, F_SETFL, O_NONBLOCK) == 0;
+#elif CURRENT_PLATFORM == PLATFORM_WIN
+		//TODO: NON BLOCKING WINDOWS SOCKET
+		return false;
+#endif
 	}
 
 	void Socket::Send(size_t size, char* buffer)
@@ -64,7 +81,7 @@ namespace Stardust::Network {
 	{
 		bool connected = false;
 		char buffer[32] = { 0 };
-		int res = recv(m_socket, buffer, sizeof(buffer), MSG_PEEK | MSG_DONTWAIT);
+		int res = recv(m_socket, buffer, sizeof(buffer), MSG_PEEK);
 
 		if (res != 0) {
 			connected = true;
@@ -81,14 +98,18 @@ namespace Stardust::Network {
 		int res = recv(m_socket, &newByte, 1, MSG_PEEK);
 		
 		if (res > 0) {
-			unsigned char data[5] = { 0 };
+			char data[5] = { 0 };
 			size_t dataLen = 0;
 			do {
 				size_t totalReceived = 0;
 				while (1 > totalReceived) {
 					size_t received = recv(m_socket, &data[dataLen] + totalReceived, 1 - totalReceived, 0);
 					if (received <= 0) {
+#if CURRENT_PLATFORM == PLATFORM_PSP
 						sceKernelDelayThread(300);
+#elif CURRENT_PLATFORM == PLATFORM_WIN
+						std::this_thread::sleep_for(std::chrono::milliseconds(300));
+#endif
 					}
 					else {
 						totalReceived += received;
@@ -125,7 +146,11 @@ namespace Stardust::Network {
 					totalTaken += res;
 				}
 				else {
+#if CURRENT_PLATFORM == PLATFORM_PSP
 					sceKernelDelayThread(300);
+#elif CURRENT_PLATFORM == PLATFORM_WIN
+					std::this_thread::sleep_for(std::chrono::milliseconds(300));
+#endif
 				}
 			}
 			
