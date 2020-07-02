@@ -22,7 +22,6 @@ The engine is broken up into multiple submodules that make up the engine, and th
 - Networking - Done
 - Core Engine - Done
 - Scene Management - Done
-- Scripting - Postponed
 - Profiling - Done
 - Audio - Done
 - Rendering - Done
@@ -32,29 +31,25 @@ The engine is broken up into multiple submodules that make up the engine, and th
 - 2D Controllers - Done
 - 2D Physics - Done
 - Animations - Done for 2D
-- Post Processing
-- 3D Rendering
+- 3D Rendering - In progress
 - 3D Lighting
 - 3D Physics
 - 3D Controllers
 - Particles
+- Scripting
 - Editor
+- Post Processing
+- Cross Platform - In progress
 
 ## Schedule
-The schedule is work in progress and has changed MANY times, but we are now very far ahead in development.
+The schedule is work in progress.
 
-Current Schedule: ~3 weeks ahead
-* 20w15 - UI
-* 20w16 - Sprites and 2D
-* 20w16 - 2D Controllers
-* 20w17 - 2D Physics
-* 20w18 - Animation System
-* 20w19 - 3D Rendering
-* 20w20 - 3D Lighting
-* 20w21 - 3D Physics
-* 20w22 - 3D Physics
-* 20w23 - 3D Controllers
-* 20w24 - Particles (2D & 3D)
-* 20w25 - Post Processing
-* 20w26 - Scripting
-* 20w27 -> 20w31 - Editor
+Current Schedule:
+* v0.4 - Model Loading, LOD, Skybox
+* v0.5 - Scenes + Components, Scene based frustum culling
+* v0.6 - Lighting, Shadows, Reflections
+* v0.7 - Billboards, Terrain, Particles (3D & 2D)
+* v0.8 - 3D Physics & Audio
+* v0.9 - Scripting & Documentation (C++ / Python)
+* v1.0 - Editor & Full Cross Plat to PC
+* v1.1 - Post Processor
