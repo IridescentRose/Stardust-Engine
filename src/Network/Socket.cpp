@@ -1,13 +1,9 @@
 #include <Network/Socket.h>
 
-#if CURRENT_PLATFORM == PLATFORM_PSP
+#if CURRENT_PLATFORM == PLATFORM_PSP 
 #include <pspkernel.h>
 #include <pspdebug.h>
 #include <pspdisplay.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <sys/select.h>
-#include <string.h>
 #include <pspnet.h>
 #include <psputility.h>
 #include <pspnet_inet.h>
@@ -16,10 +12,7 @@
 #include <psphttp.h>
 #include <pspsdk.h>
 #include <pspwlan.h>
-#include <sys/socket.h>
-#include <unistd.h> 
-#include <queue>
-#include <fcntl.h>
+
 #elif CURRENT_PLATFORM == PLATFORM_WIN
 
 #define WIN32_LEAN_AND_MEAN 1
@@ -27,6 +20,21 @@
 #include <windows.h>
 #include <thread>
 #include <Ws2tcpip.h>
+#endif
+
+#if (CURRENT_PLATFORM == PLATFORM_PSP) || (CURRENT_PLATFORM == PLATFORM_NIX)
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <sys/select.h>
+#include <string.h>
+#include <sys/socket.h>
+#include <unistd.h> 
+#include <queue>
+#include <fcntl.h>
+#endif
+
+#if CURRENT_PLATFORM == PLATFORM_NIX
+#include <thread>
 #endif
 
 namespace Stardust::Network {
@@ -50,7 +58,7 @@ namespace Stardust::Network {
 	void Socket::Close()
 	{
 		Utilities::detail::core_Logger->log("Closing socket!");
-#if CURRENT_PLATFORM == PLATFORM_PSP
+#if (CURRENT_PLATFORM == PLATFORM_PSP) || (CURRENT_PLATFORM == PLATFORM_NIX)
 		close(m_socket);
 #elif CURRENT_PLATFORM == PLATFORM_WIN
 		closesocket(m_socket);
@@ -60,7 +68,7 @@ namespace Stardust::Network {
 	bool Socket::SetBlock(bool blocking)
 	{
 
-#if CURRENT_PLATFORM == PLATFORM_PSP
+#if CURRENT_PLATFORM == PLATFORM_PSP || (CURRENT_PLATFORM == PLATFORM_NIX)
 		return fcntl(m_socket, F_SETFL, O_NONBLOCK) == 0;
 #elif CURRENT_PLATFORM == PLATFORM_WIN
 		//TODO: NON BLOCKING WINDOWS SOCKET
@@ -107,7 +115,7 @@ namespace Stardust::Network {
 					if (received <= 0) {
 #if CURRENT_PLATFORM == PLATFORM_PSP
 						sceKernelDelayThread(300);
-#elif CURRENT_PLATFORM == PLATFORM_WIN
+#elif CURRENT_PLATFORM == PLATFORM_WIN || (CURRENT_PLATFORM == PLATFORM_NIX)
 						std::this_thread::sleep_for(std::chrono::milliseconds(300));
 #endif
 					}
@@ -148,7 +156,7 @@ namespace Stardust::Network {
 				else {
 #if CURRENT_PLATFORM == PLATFORM_PSP
 					sceKernelDelayThread(300);
-#elif CURRENT_PLATFORM == PLATFORM_WIN
+#elif CURRENT_PLATFORM == PLATFORM_WIN || (CURRENT_PLATFORM == PLATFORM_NIX)
 					std::this_thread::sleep_for(std::chrono::milliseconds(300));
 #endif
 				}

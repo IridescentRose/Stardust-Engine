@@ -88,6 +88,18 @@ namespace Stardust::Network {
 	void NetworkDriver::Cleanup() {
 
 	}
+#elif CURRENT_PLATFORM == PLATFORM_NIX
+	NetworkDriver::NetworkDriver() {
+		m_Socket = Socket();
+		thr = NULL;
+	}
+	bool NetworkDriver::Init() {
+		return true; //Enabled by default
+	}
+
+	void NetworkDriver::Cleanup() {
+
+	}
 #endif
 
 	bool NetworkDriver::Connect(unsigned short port, const char* ip, bool threaded) {

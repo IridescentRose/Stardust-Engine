@@ -13,7 +13,7 @@ namespace Stardust::Utilities {
 #include <pspthreadman.h>
 	typedef int (*ThreadHandler)(SceSize argc, void* argv);
 #else
-	typedef int (*ThreadHandler)(unsigned int argc, void* argv);
+	typedef int (*ThreadHandler)();
 #endif
 
 	class Thread {
