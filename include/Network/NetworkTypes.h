@@ -4,7 +4,7 @@
 #include <Utilities/Logger.h>
 
 namespace Stardust::Network {
-	typedef unsigned char byte;
+	typedef char byte;
 
 	struct PacketOut {
 		PacketOut(size_t size) {

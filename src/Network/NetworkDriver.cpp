@@ -1,6 +1,9 @@
 #include <Platform/Platform.h>
 #include <Network/NetworkDriver.h>
+
+#if CURRENT_PLATFORM == PLATFORM_PSP
 #include <Graphics/Dialogs.h>
+#endif
 
 namespace Stardust::Network {
 
@@ -66,6 +69,37 @@ namespace Stardust::Network {
 		Utilities::detail::core_Logger->log("Cleaning up Networking Driver");
 	}
 
+#elif CURRENT_PLATFORM == PLATFORM_WIN
+	NetworkDriver::NetworkDriver() {
+		m_Socket = Socket();
+		thr = NULL;
+	}
+	bool NetworkDriver::Init() {
+		WSAData data;
+		int res = WSAStartup(MAKEWORD(2, 2), &data);
+		if (res != 0) {
+			throw std::runtime_error("WSAStartup Failed: " + res);
+			return false;
+		}
+
+		return true;
+	}
+
+	void NetworkDriver::Cleanup() {
+
+	}
+#elif CURRENT_PLATFORM == PLATFORM_NIX
+	NetworkDriver::NetworkDriver() {
+		m_Socket = Socket();
+		thr = NULL;
+	}
+	bool NetworkDriver::Init() {
+		return true; //Enabled by default
+	}
+
+	void NetworkDriver::Cleanup() {
+
+	}
 #endif
 
 	bool NetworkDriver::Connect(unsigned short port, const char* ip, bool threaded) {
@@ -75,7 +109,12 @@ namespace Stardust::Network {
 			m_Socket.SetBlock(false);
 			thr->Kill(); //Check
 			thr->Start(0);
+
+#if CURRENT_PLATFORM == PLATFORM_PSP
 			sceKernelDelayThread(50 * 1000);
+#else
+			std::this_thread::sleep_for(std::chrono::milliseconds(50));
+#endif
 		}
 
 		return res;
@@ -181,6 +220,8 @@ namespace Stardust::Network {
 
 	bool NetworkDriver::GetFileHTTP(const char* url, const char* filepath)
 	{
+
+#if CURRENT_PLATFORM == PLATFORM_PSP
 		int templ, connection, request, ret, status, dataend, fd, byteswritten;
 		SceULong64 contentsize;
 		unsigned char readbuffer[8192];
@@ -298,6 +339,10 @@ namespace Stardust::Network {
 		sceHttpEnd();
 
 		return true;
+#else
+		//TODO: GET HTTP LIBRARY
+		return false;
+#endif
 	}
 
 #if CURRENT_PLATFORM == PLATFORM_PSP

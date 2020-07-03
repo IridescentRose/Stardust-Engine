@@ -5,6 +5,8 @@ namespace Stardust::Utilities {
 	{
 #if CURRENT_PLATFORM == PLATFORM_PSP
 		thr = sceKernelCreateThread("stardust_worker_thread", th, 0x18, 0x10000, 0, NULL);
+#else
+		thr = std::thread(th);
 #endif
 	}
 	Thread::~Thread()
@@ -22,6 +24,8 @@ namespace Stardust::Utilities {
 		detail::core_Logger->log("Killing A Stardust Helper Thread!");
 #if CURRENT_PLATFORM == PLATFORM_PSP
 		sceKernelTerminateDeleteThread(thr);
+#else
+		thr.join();
 #endif
 	}
 }
