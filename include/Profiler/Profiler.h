@@ -4,6 +4,7 @@
 #include <fstream>
 #include <Utilities/Timer.h>
 
+
 namespace Stardust::Profiling {
 
 	struct ProfileRun {
@@ -44,4 +45,7 @@ namespace Stardust::Profiling {
 		Utilities::Timer subT;
 		std::string profilerName;
 	};
+
+
+	#define SDE_PROFILE(pf, funcCall, funcName) pf.beginProfileMethod(); func; pf.endProfileMethod(funcName)
 }

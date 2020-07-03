@@ -110,6 +110,7 @@ namespace Stardust::Profiling {
 
 		data.minTime = data.runs[0].time;
 		data.maxTime = data.runs[0].time;
+		data.avgTime = 0.0;
 
 		for (int i = 0; i < data.runs.size(); i++) {
 			data.avgTime += data.runs[i].time;
