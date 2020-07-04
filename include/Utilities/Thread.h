@@ -9,8 +9,7 @@
 
 namespace Stardust::Utilities {
 
-#if CURRENT_PLATFORM == PLATFORM_PSP
-#include <pspthreadman.h>
+#if (CURRENT_PLATFORM == PLATFORM_PSP) || (CURRENT_PLATFORM == PLATFORM_VITA)
 	typedef int (*ThreadHandler)(SceSize argc, void* argv);
 #else
 	typedef int (*ThreadHandler)();
@@ -25,7 +24,7 @@ namespace Stardust::Utilities {
 		void Kill();
 
 	private:
-#if CURRENT_PLATFORM == PLATFORM_PSP
+#if (CURRENT_PLATFORM == PLATFORM_PSP) || (CURRENT_PLATFORM == PLATFORM_VITA)
 		SceUID thr;
 #else
 		std::thread thr;

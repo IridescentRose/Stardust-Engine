@@ -3,7 +3,7 @@
 namespace Stardust::Utilities {
 	
 	Timer::Timer() {
-#if CURRENT_PLATFORM == PLATFORM_PSP
+#if (CURRENT_PLATFORM == PLATFORM_PSP) || (CURRENT_PLATFORM == PLATFORM_VITA)
 		sceRtcGetCurrentTick(&timeLast);
 		tickResolution = sceRtcGetTickResolution();
 #endif
@@ -18,9 +18,14 @@ namespace Stardust::Utilities {
 
 	double Timer::deltaTime() {
 
-#if CURRENT_PLATFORM == PLATFORM_PSP
+#if (CURRENT_PLATFORM == PLATFORM_PSP) || (CURRENT_PLATFORM == PLATFORM_VITA)
 		sceRtcGetCurrentTick(&timeCurrent);
+
+		#if CURRENT_PLATFORM == PLATFORM_VITA
+		dt = (double)(timeCurrent.tick - timeLast.tick) / ((double)tickResolution);
+		#else
 		dt = (double)(timeCurrent - timeLast) / ((double)tickResolution);
+		#endif
 		timeLast = timeCurrent;
 #else
 		//Figure out the DT
