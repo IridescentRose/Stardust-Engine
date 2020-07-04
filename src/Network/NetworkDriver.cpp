@@ -88,7 +88,7 @@ namespace Stardust::Network {
 	void NetworkDriver::Cleanup() {
 
 	}
-#elif CURRENT_PLATFORM == PLATFORM_NIX
+#elif (CURRENT_PLATFORM == PLATFORM_NIX) || (CURRENT_PLATFORM == PLATFORM_VITA) // VITA TODO
 	NetworkDriver::NetworkDriver() {
 		m_Socket = Socket();
 		thr = NULL;

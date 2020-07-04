@@ -1,9 +1,10 @@
 #pragma once
 
-#define PLATFORM_PSP 0
-#define PLATFORM_WIN 1
-#define PLATFORM_NIX 2
-#define PLATFORM_XXX -1
+#define PLATFORM_PSP 	0
+#define PLATFORM_WIN 	1
+#define PLATFORM_NIX 	2
+#define PLATFORM_VITA 	3
+#define PLATFORM_XXX 	-1
 
 //Switch this line of code for other build support
 
@@ -11,6 +12,7 @@
 #include <pspkernel.h>
 #include <pspdebug.h>
 #include <pspdisplay.h>
+#include <pspthreadman.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <sys/select.h>
@@ -26,6 +28,11 @@
 #include <sys/socket.h>
 #include <unistd.h> 
 #include <queue>
+#elif CURRENT_PLATFORM == PLATFORM_VITA
+#include <vitasdk.h> 
+// FIXME
+typedef uint64_t u64;
+typedef uint32_t u32;
 #endif
 
 

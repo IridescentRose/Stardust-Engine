@@ -1,7 +1,7 @@
 #include <Network/ByteBuffer.h>
 #include <Platform/Platform.h>
 
-#if (CURRENT_PLATFORM == PLATFORM_PSP) || (CURRENT_PLATFORM == PLATFORM_NIX)
+#if (CURRENT_PLATFORM == PLATFORM_PSP) || (CURRENT_PLATFORM == PLATFORM_NIX) || (CURRENT_PLATFORM == PLATFORM_VITA)
 #include <netinet/in.h>
 #elif CURRENT_PLATFORM == PLATFORM_WIN
 

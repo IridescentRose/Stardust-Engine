@@ -100,7 +100,7 @@ namespace Stardust::Platform {
 		oslAudioVSync();
 	}
 
-#elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
+#elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX) || (CURRENT_PLATFORM == PLATFORM_VITA)
 	void initPlatform(const char* appName) {
 		srand(time(NULL));
 		
