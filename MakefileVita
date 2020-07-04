@@ -9,8 +9,6 @@ src/Network/NetworkDriver.o \
 src/Network/Socket.o \
 src/Network/ByteBuffer.o \
 
-#alib = lib/libstardust-unix.a
-
 CFLAGS = -O3 -ffast-math
 CXXFLAGS = $(CFLAGS) -std=gnu++17 -I./include -I./libs/include -DCURRENT_PLATFORM=PLATFORM_VITA
 
@@ -26,8 +24,6 @@ $(TARGET).a: $(OBJS)
 install: $(TARGET).a
 	@mkdir -p $(VITASDK)/$(PREFIX)/lib/
 	cp $(TARGET).a $(VITASDK)/$(PREFIX)/lib/
-	@mkdir -p $(VITASDK)/$(PREFIX)/include/
-	cp *.h $(VITASDK)/$(PREFIX)/include/
 
 clean:
 	@rm -rf $(TARGET).a $(TARGET).elf $(OBJS)
