@@ -5,6 +5,8 @@ namespace Stardust::Utilities {
 	{
 #if CURRENT_PLATFORM == PLATFORM_PSP
 		thr = sceKernelCreateThread("stardust_worker_thread", th, 0x18, 0x10000, 0, NULL);
+#elif CURRENT_PLATFORM == PLATFORM_VITA
+		thr = sceKernelCreateThread("stardust_worker_thread", th, 0x18, 0x10000, 0, 0, NULL);
 #else
 		thr = std::thread(th);
 #endif
@@ -15,7 +17,7 @@ namespace Stardust::Utilities {
 	void Thread::Start(void* arg)
 	{
 		detail::core_Logger->log("Starting A Stardust Helper Thread!");
-#if CURRENT_PLATFORM == PLATFORM_PSP
+#if (CURRENT_PLATFORM == PLATFORM_PSP) || (CURRENT_PLATFORM == PLATFORM_VITA)
 		sceKernelStartThread(thr, 1, arg);
 #endif
 	}
@@ -24,6 +26,8 @@ namespace Stardust::Utilities {
 		detail::core_Logger->log("Killing A Stardust Helper Thread!");
 #if CURRENT_PLATFORM == PLATFORM_PSP
 		sceKernelTerminateDeleteThread(thr);
+#elif CURRENT_PLATFORM == PLATFORM_VITA
+		sceKernelDeleteThread(thr);
 #else
 		thr.join();
 #endif
