@@ -45,8 +45,8 @@ namespace Stardust::Network {
 			Utilities::detail::core_Logger->log("Failed sceNetResolverInit", Utilities::LOGGER_LEVEL_WARN);
 			return false;
 		}
-		
-		
+
+
 		return Graphics::ShowNetworkDialog();
 	}
 
@@ -138,7 +138,7 @@ namespace Stardust::Network {
 	{
 
 		Utilities::detail::core_Logger->log("Sending Network Packet Queue");
-		
+
 
 		int len = packetQueue.size();
 		for (int i = 0; i < len; i++) {
@@ -192,7 +192,7 @@ namespace Stardust::Network {
 	void NetworkDriver::HandlePackets()
 	{
 		Utilities::detail::core_Logger->log("Handling Packets...", Utilities::LOGGER_LEVEL_TRACE);
-		
+
 		int len = unhandledPackets.size();
 		for(int i = 0; i < len; i++){
 			PacketIn* p = unhandledPackets.front();
@@ -303,6 +303,12 @@ namespace Stardust::Network {
 		dataend = 0;
 		byteswritten = 0;
 
+
+		// create a dir for the file, if it doesn't exist it would create a folder
+		std::string file_string = filepath;
+	    	size_t found = file_string.find_last_of("/");
+		sceIoMkdir(file_string.substr(0, found).c_str(), 0777);
+
 		fd = sceIoOpen(filepath, PSP_O_WRONLY | PSP_O_CREAT, 0777);
 
 		while (dataend == 0)
@@ -355,7 +361,7 @@ namespace Stardust::Network {
 
 			sceKernelDelayThread(1000 * 50);
 		}
-		
+
 		return 0;
 	}
 #endif
