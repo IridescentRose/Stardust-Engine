@@ -126,7 +126,8 @@ namespace Stardust::Platform {
 
 	void platformUpdate()
 	{
-		
+		Utilities::detail::core_Logger->flushLog();
+		Utilities::app_Logger->flushLog();
 	}
 #endif
 }

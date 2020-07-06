@@ -2,7 +2,8 @@
 
 namespace Stardust::Utilities {
 	Logger::Logger(std::string name, std::string path) {
-		m_file = std::ofstream(path, std::ios::trunc);
+		m_file = std::ofstream(path, std::ios::app);
+		m_filebuf = std::stringstream();
 		currentLevel = 0;
 		m_name = name;
 	}
@@ -12,40 +13,42 @@ namespace Stardust::Utilities {
 	}
 
 	void Logger::flushLog() {
+		m_file << m_filebuf.str();
 		m_file.flush();
+		m_filebuf.clear();
 	}
 
 	void Logger::log(std::string message, LoggerLevel level) {
 		if (level < currentLevel)
 			return;
 
-		m_file << "[" << m_name << "]";
+		m_filebuf << "[" << m_name << "]";
 
 		switch (level) {
 		case LOGGER_LEVEL_TRACE: {
-			m_file << "[TRACE]: ";
+			m_filebuf << "[TRACE]: ";
 			break;
 		}
 		case LOGGER_LEVEL_DEBUG: {
-			m_file << "[DEBUG]: ";
+			m_filebuf << "[DEBUG]: ";
 			break;
 		}
 		case LOGGER_LEVEL_INFO: {
-			m_file << "[INFO]: ";
+			m_filebuf << "[INFO]: ";
 			break;
 		}
 		case LOGGER_LEVEL_WARN: {
-			m_file << "[WARN]: ";
+			m_filebuf << "[WARN]: ";
 			break;
 		}
 		case LOGGER_LEVEL_ERROR: {
-			m_file << "[ERROR]: ";
+			m_filebuf << "[ERROR]: ";
 			break;
 		}
 
 		}
 
-		m_file << message << std::endl;
+		m_filebuf << message << std::endl;
 	}
 	namespace detail {
 		Logger* core_Logger;

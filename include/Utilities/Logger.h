@@ -38,6 +38,7 @@ namespace Stardust::Utilities {
 		int currentLevel;
 	private:
 		std::ofstream m_file;
+		std::stringstream m_filebuf;
 		std::string m_name;
 	};
 
