@@ -1,4 +1,5 @@
 #include <Network/Socket.h>
+#include <iostream>
 
 namespace Stardust::Network {
 	ClientSocket::ClientSocket()
@@ -110,6 +111,7 @@ namespace Stardust::Network {
 	void ServerSocket::Close()
 	{
 		Utilities::detail::core_Logger->log("Closing connection!");
+		connected = false;
 		return Platform::detail::closeSockets(m_Connection);
 	}
 
@@ -155,15 +157,18 @@ namespace Stardust::Network {
 	}
 	bool ServerSocket::isAlive()
 	{
-		bool connected = false;
+		bool aconnected = false;
 		char buffer[32] = { 0 };
 		int res = recv(m_Connection, buffer, sizeof(buffer), MSG_PEEK);
 
 		if (res != 0) {
-			connected = true;
+			aconnected = true;
+		}
+		else {
+			Close();
 		}
 
-		return connected;
+		return aconnected && connected;
 	}
 
 	PacketIn* ClientSocket::Recv(bool extended)
@@ -329,6 +334,7 @@ namespace Stardust::Network {
 			Utilities::detail::core_Logger->log("Received Packet!", Utilities::LOGGER_LEVEL_DEBUG);
 			Utilities::detail::core_Logger->log("Packet ID: " + std::to_string(pIn->ID), Utilities::LOGGER_LEVEL_DEBUG);
 
+			delete b;
 			return pIn;
 		}
 		else {

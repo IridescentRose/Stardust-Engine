@@ -223,7 +223,7 @@ void Stardust::Platform::detail::closeSockets(int fd)
 bool Stardust::Platform::detail::setBlocking(int fd, int blocking)
 {
 #if CURRENT_PLATFORM == PLATFORM_PSP || (CURRENT_PLATFORM == PLATFORM_NIX) || (CURRENT_PLATFORM == PLATFORM_VITA)
-	if (blocking) {
+	if (!blocking) {
 		int flags = fcntl(fd, F_GETFL, 0);
 		flags &= ~O_NONBLOCK;
 		fcntl(fd, F_SETFL, flags);
@@ -233,7 +233,7 @@ bool Stardust::Platform::detail::setBlocking(int fd, int blocking)
 	}
 	return true;
 #elif CURRENT_PLATFORM == PLATFORM_WIN
-	unsigned long iMode = blocking;
+	unsigned long iMode = !blocking;
 	int iResult = ioctlsocket(fd, FIONBIO, &iMode);
 	if (iResult != NO_ERROR) {
 		return false;
