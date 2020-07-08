@@ -6,6 +6,7 @@ namespace Stardust::Platform {
 
 #if CURRENT_PLATFORM == PLATFORM_PSP
 #include <Graphics/Dialogs.h>
+#include <Utilities/Logger.h>
 #endif
 
 bool Stardust::Platform::detail::initNetworks()
@@ -223,7 +224,7 @@ bool Stardust::Platform::detail::setBlocking(int fd, int blocking)
 {
 #if CURRENT_PLATFORM == PLATFORM_PSP || (CURRENT_PLATFORM == PLATFORM_NIX) || (CURRENT_PLATFORM == PLATFORM_VITA)
 	if (blocking) {
-		int flags = fcntl(m_socket, F_GETFL, 0);
+		int flags = fcntl(fd, F_GETFL, 0);
 		flags &= ~O_NONBLOCK;
 		fcntl(fd, F_SETFL, flags);
 	}

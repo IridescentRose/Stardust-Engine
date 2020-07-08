@@ -16,7 +16,8 @@
 #if CURRENT_PLATFORM == PLATFORM_PSP
 #include <pspkernel.h>
 #include <pspdebug.h>
-
+#include <string>
+#include <sstream>
 namespace std {
 	template < typename T > std::string to_string(const T& n)
 	{
