@@ -12,7 +12,7 @@ namespace Stardust::Utilities {
 #endif
 		detail::core_Logger->log("Starting A Stardust Helper Thread!");
 #if (CURRENT_PLATFORM == PLATFORM_PSP) || (CURRENT_PLATFORM == PLATFORM_VITA)
-		sceKernelStartThread(thr, 1, arg);
+		sceKernelStartThread(thr, 0, NULL);
 #endif
 	}
 	Thread::~Thread()

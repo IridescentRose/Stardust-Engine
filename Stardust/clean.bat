@@ -1,3 +1,3 @@
 PATH=c:\pspsdk\bin;%cd%;
-make clean
+make -f MakefilePSP clean
 pause
