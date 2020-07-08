@@ -10,7 +10,7 @@ namespace Stardust::Network {
 	}
 
 	bool NetworkDriver::Init() {
-		Platform::detail::initNetworks();
+		return Platform::detail::initNetworks();
 	}
 
 	void NetworkDriver::Cleanup() {
@@ -122,7 +122,7 @@ namespace Stardust::Network {
 
 	bool NetworkDriver::GetFileHTTP(const char* url, const char* filepath)
 	{
-		Platform::detail::getHTTPFile(url, filepath);
+		return Platform::detail::getHTTPFile(url, filepath);
 	}
 
 	NetworkDriver g_NetworkDriver;

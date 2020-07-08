@@ -28,7 +28,7 @@ namespace Stardust::Utilities {
 #endif
 		timeLast = timeCurrent;
 #else
-		std::chrono::time_point current = std::chrono::steady_clock::now();
+		std::chrono::time_point<std::chrono::high_resolution_clock> current = std::chrono::high_resolution_clock::now();
 		dt = std::chrono::duration_cast<std::chrono::duration<double, std::deci>>(current - last).count();
 		last = current;
 		//Figure out the DT

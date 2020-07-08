@@ -1,4 +1,4 @@
-#include "..\..\..\Platform\include\Platform\Platform.h"
+#include "../../../Platform/include/Platform/Platform.h"
 #include <Platform/Platform.h>
 #include <Utilities/Timer.h>
 #include <Utilities/Logger.h>
