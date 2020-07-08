@@ -10,17 +10,15 @@ namespace Stardust::Utilities {
 #else
 		thr = std::thread(th);
 #endif
-	}
-	Thread::~Thread()
-	{
-	}
-	void Thread::Start(void* arg)
-	{
 		detail::core_Logger->log("Starting A Stardust Helper Thread!");
 #if (CURRENT_PLATFORM == PLATFORM_PSP) || (CURRENT_PLATFORM == PLATFORM_VITA)
 		sceKernelStartThread(thr, 1, arg);
 #endif
 	}
+	Thread::~Thread()
+	{
+	}
+
 	void Thread::Kill()
 	{
 		detail::core_Logger->log("Killing A Stardust Helper Thread!");
