@@ -4,30 +4,18 @@
 #define PLATFORM_WIN 	1
 #define PLATFORM_NIX 	2
 #define PLATFORM_VITA 	3
+
+/*Anything else*/
 #define PLATFORM_XXX 	-1
 
-//Switch this line of code for other build support
+#ifndef CURRENT_PLATFORM
+#error No Platform was Defined!
+#endif
 
+//Includes that should always be present for a specific platform
 #if CURRENT_PLATFORM == PLATFORM_PSP
 #include <pspkernel.h>
 #include <pspdebug.h>
-#include <pspdisplay.h>
-#include <pspthreadman.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <sys/select.h>
-#include <string.h>
-#include <pspnet.h>
-#include <psputility.h>
-#include <pspnet_inet.h>
-#include <pspnet_apctl.h>
-#include <pspnet_resolver.h>
-#include <psphttp.h>
-#include <pspsdk.h>
-#include <pspwlan.h>
-#include <sys/socket.h>
-#include <unistd.h> 
-#include <queue>
 #elif CURRENT_PLATFORM == PLATFORM_VITA
 #include <vitasdk.h> 
 // FIXME
@@ -35,12 +23,8 @@ typedef uint64_t u64;
 typedef uint32_t u32;
 #endif
 
-
+/*Note: This is not actually defined in Stardust-Platform - rather it is a prototype for Utilities / Core to fill out.*/
 namespace Stardust::Platform {
-#ifndef CURRENT_PLATFORM
-#error No Platform was Defined!
-#endif
-
 	/*
 	Init Platform performs all needed platform initialization code
 	*/
