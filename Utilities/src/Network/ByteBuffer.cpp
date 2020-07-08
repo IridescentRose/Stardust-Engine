@@ -1,15 +1,7 @@
 #include <Network/ByteBuffer.h>
 #include <Platform/Platform.h>
 
-#if (CURRENT_PLATFORM == PLATFORM_PSP) || (CURRENT_PLATFORM == PLATFORM_NIX) || (CURRENT_PLATFORM == PLATFORM_VITA)
-#include <netinet/in.h>
-#elif CURRENT_PLATFORM == PLATFORM_WIN
 
-#define WIN32_LEAN_AND_MEAN 1
-#include <winsock2.h>
-#include <windows.h>
-
-#endif
 #define NEEDBYTES(Num) if (!CanReadBytes(Num))  return false  // Check if at least Num bytes can be read from  the buffer, return false if not
 #define PUTBYTES(Num)  if (!CanWriteBytes(Num)) return false  // Check if at least Num bytes can be written to the buffer, return false if not
 

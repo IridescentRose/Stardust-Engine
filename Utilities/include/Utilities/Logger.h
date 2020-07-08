@@ -4,18 +4,6 @@
 #include <fstream>
 #include <sstream>
 
-#if CURRENT_PLATFORM == PLATFORM_PSP
-namespace std {
-	template < typename T > std::string to_string(const T& n)
-	{
-		std::ostringstream stm;
-		stm << n;
-		return stm.str();
-	}
-}
-#endif
-
-
 namespace Stardust::Utilities {
 	
 	enum LoggerLevel {

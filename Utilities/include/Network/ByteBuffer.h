@@ -18,6 +18,9 @@ namespace Stardust::Network {
 		/** Writes the bytes specified to the ringbuffer. Returns true if successful, false if not */
 		bool Write(const void* a_Bytes, size_t a_Count);
 
+#ifdef GetFreeSpace
+#undef GetFreeSpace
+#endif
 		/** Returns the number of bytes that can be successfully written to the ringbuffer */
 		size_t GetFreeSpace(void) const;
 

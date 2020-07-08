@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29609.76
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Stardust-Utilities", "..\Utilities\Stardust-Utilities.vcxproj", "{2A0606B0-2F06-41C4-9BCE-497CB2309928}"
+	ProjectSection(ProjectDependencies) = postProject
+		{78A57212-F661-4A96-B910-BF7F93E7CC3B} = {78A57212-F661-4A96-B910-BF7F93E7CC3B}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Stardust-Platform", "..\Platform\Stardust-Platform.vcxproj", "{78A57212-F661-4A96-B910-BF7F93E7CC3B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2A0606B0-2F06-41C4-9BCE-497CB2309928}.Release|x64.ActiveCfg = Release|x64
+		{2A0606B0-2F06-41C4-9BCE-497CB2309928}.Release|x64.Build.0 = Release|x64
+		{78A57212-F661-4A96-B910-BF7F93E7CC3B}.Release|x64.ActiveCfg = Release|x64
+		{78A57212-F661-4A96-B910-BF7F93E7CC3B}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {98AA6070-CFD1-4AE5-AA3D-0DCD56858F32}
+	EndGlobalSection
+EndGlobal

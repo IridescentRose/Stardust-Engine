@@ -20,7 +20,6 @@ namespace Stardust::Utilities {
 		Thread(ThreadHandler th);
 		~Thread();
 
-		void Start(void* arg);
 		void Kill();
 
 	private:

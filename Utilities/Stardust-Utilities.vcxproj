@@ -45,7 +45,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -80,6 +80,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>../Stardust/lib/win/</OutDir>
+    <IntDir>obj/</IntDir>
+    <IncludePath>$(ProjectDir)../Platform/include;$(ProjectDir)../Deps/include;$(ProjectDir)include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -127,8 +130,9 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CURRENT_PLATFORM=PLATFORM_WIN;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -143,8 +147,8 @@
     <ClCompile Include="src\Network\ByteBuffer.cpp" />
     <ClCompile Include="src\Network\NetworkDriver.cpp" />
     <ClCompile Include="src\Network\Socket.cpp" />
+    <ClCompile Include="src\Platform\Platform.cpp" />
     <ClCompile Include="src\Profiler\Profiler.cpp" />
-    <ClCompile Include="src\Utilities\Input.cpp" />
     <ClCompile Include="src\Utilities\Logger.cpp" />
     <ClCompile Include="src\Utilities\Thread.cpp" />
     <ClCompile Include="src\Utilities\Timer.cpp" />
@@ -163,7 +167,6 @@
     <ClInclude Include="include\Network\NetworkTypes.h" />
     <ClInclude Include="include\Network\Socket.h" />
     <ClInclude Include="include\Profiler\Profiler.h" />
-    <ClInclude Include="include\Utilities\Input.h" />
     <ClInclude Include="include\Utilities\JSON.h" />
     <ClInclude Include="include\Utilities\Logger.h" />
     <ClInclude Include="include\Utilities\Thread.h" />

@@ -1,53 +1,5 @@
 #include <Network/Socket.h>
 
-#if CURRENT_PLATFORM == PLATFORM_PSP 
-#include <pspkernel.h>
-#include <pspdebug.h>
-#include <pspdisplay.h>
-#include <pspnet.h>
-#include <psputility.h>
-#include <pspnet_inet.h>
-#include <pspnet_apctl.h>
-#include <pspnet_resolver.h>
-#include <psphttp.h>
-#include <pspsdk.h>
-#include <pspwlan.h>
-
-#elif CURRENT_PLATFORM == PLATFORM_WIN
-
-#define WIN32_LEAN_AND_MEAN 1
-#include <winsock2.h>
-#include <windows.h>
-#include <thread>
-#include <Ws2tcpip.h>
-#endif
-
-#if (CURRENT_PLATFORM == PLATFORM_PSP) || (CURRENT_PLATFORM == PLATFORM_NIX)
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <sys/select.h>
-#include <string.h>
-#include <sys/socket.h>
-#include <unistd.h> 
-#include <queue>
-#include <fcntl.h>
-#endif
-
-#if CURRENT_PLATFORM == PLATFORM_VITA
-#include <netinet/in.h>
-#include <vitasdk.h>
-#include <sys/select.h>
-#include <string.h>
-#include <sys/socket.h>
-#include <unistd.h> 
-#include <queue>
-#include <fcntl.h>
-#endif
-
-#if CURRENT_PLATFORM == PLATFORM_NIX
-#include <thread>
-#endif
-
 namespace Stardust::Network {
 	bool Socket::Connect(unsigned short port, const char* ip)
 	{
@@ -57,11 +9,8 @@ namespace Stardust::Network {
 		name.sin_family = AF_INET;
 		name.sin_port = htons(port);
 
-		#if CURRENT_PLATFORM == PLATFORM_VITA
-		sceNetInetPton(AF_INET, ip, &name.sin_addr.s_addr);
-		#else
 		inet_pton(AF_INET, ip, &name.sin_addr.s_addr);
-		#endif
+		
 		bool b = (connect(m_socket, (struct sockaddr*) & name, sizeof(name)) >= 0);
 
 		if (!b) {
@@ -73,22 +22,12 @@ namespace Stardust::Network {
 	void Socket::Close()
 	{
 		Utilities::detail::core_Logger->log("Closing socket!");
-#if (CURRENT_PLATFORM == PLATFORM_PSP) || (CURRENT_PLATFORM == PLATFORM_NIX) || (CURRENT_PLATFORM == PLATFORM_VITA)
-		close(m_socket);
-#elif CURRENT_PLATFORM == PLATFORM_WIN
-		closesocket(m_socket);
-#endif
+		return Platform::detail::closeSockets(m_socket);
 	}
 
 	bool Socket::SetBlock(bool blocking)
 	{
-
-#if CURRENT_PLATFORM == PLATFORM_PSP || (CURRENT_PLATFORM == PLATFORM_NIX) || (CURRENT_PLATFORM == PLATFORM_VITA)
-		return fcntl(m_socket, F_SETFL, O_NONBLOCK) == 0;
-#elif CURRENT_PLATFORM == PLATFORM_WIN
-		//TODO: NON BLOCKING WINDOWS SOCKET
-		return false;
-#endif
+		return Platform::detail::setBlocking(m_socket, blocking);
 	}
 
 	void Socket::Send(size_t size, char* buffer)
@@ -128,11 +67,7 @@ namespace Stardust::Network {
 				while (1 > totalReceived) {
 					size_t received = recv(m_socket, &data[dataLen] + totalReceived, 1 - totalReceived, 0);
 					if (received <= 0) {
-#if (CURRENT_PLATFORM == PLATFORM_PSP) || (CURRENT_PLATFORM == PLATFORM_VITA)
-						sceKernelDelayThread(300);
-#elif CURRENT_PLATFORM == PLATFORM_WIN || (CURRENT_PLATFORM == PLATFORM_NIX)
-						std::this_thread::sleep_for(std::chrono::milliseconds(300));
-#endif
+						Platform::delayForMS(1);
 					}
 					else {
 						totalReceived += received;
@@ -169,11 +104,7 @@ namespace Stardust::Network {
 					totalTaken += res;
 				}
 				else {
-#if (CURRENT_PLATFORM == PLATFORM_PSP) || (CURRENT_PLATFORM == PLATFORM_VITA)
-					sceKernelDelayThread(300);
-#elif CURRENT_PLATFORM == PLATFORM_WIN || (CURRENT_PLATFORM == PLATFORM_NIX)
-					std::this_thread::sleep_for(std::chrono::milliseconds(300));
-#endif
+					Platform::delayForMS(1);
 				}
 			}
 			
