@@ -16,7 +16,8 @@ namespace Stardust::Network {
 		bool Init();
 		void Cleanup();
 
-		bool Connect(unsigned short port, const char* ip);
+		void setSocket(Socket* socket);
+		
 		void AddPacket(PacketOut* p);
 		void ClearPacketQueue();
 		void SendPackets(bool extendedID = true);
@@ -33,9 +34,8 @@ namespace Stardust::Network {
 		std::queue<PacketIn*> unhandledPackets;
 		std::map<int, PacketHandler> packetHandlers;
 
-		Socket m_Socket;
 	private:
-
+		Socket* m_Socket;
 	};
 
 	extern NetworkDriver g_NetworkDriver;

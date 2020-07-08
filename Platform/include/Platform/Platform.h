@@ -65,6 +65,7 @@ typedef uint32_t u32;
 #include <sys/socket.h>
 #include <unistd.h> 
 #include <queue>
+#include <netinet/tcp.h>
 #include <fcntl.h>
 #endif
 

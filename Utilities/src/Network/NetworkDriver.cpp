@@ -6,7 +6,7 @@ namespace Stardust::Network {
 
 	NetworkDriver::NetworkDriver()
 	{
-		m_Socket = Socket();
+		m_Socket = nullptr;
 	}
 
 	bool NetworkDriver::Init() {
@@ -17,9 +17,9 @@ namespace Stardust::Network {
 		Platform::detail::closeNetworks();
 	}
 
-
-	bool NetworkDriver::Connect(unsigned short port, const char* ip) {
-		return m_Socket.Connect(port, ip);
+	void NetworkDriver::setSocket(Socket* socket)
+	{
+		m_Socket = socket;
 	}
 
 	void NetworkDriver::AddPacket(PacketOut* p)
@@ -73,7 +73,7 @@ namespace Stardust::Network {
 
 			Utilities::detail::core_Logger->log("Sending packet with ID: " + std::to_string(packetQueue.front()->ID), Utilities::LOGGER_LEVEL_DEBUG);
 			//Send over socket
-			m_Socket.Send(bbuf->GetUsedSpace(), bbuf->m_Buffer);
+			m_Socket->Send(bbuf->GetUsedSpace(), bbuf->m_Buffer);
 
 			delete bbuf;
 			delete packetQueue.front()->buffer;
@@ -85,7 +85,7 @@ namespace Stardust::Network {
 
 	void NetworkDriver::ReceivePacket(bool extendedID)
 	{
-		PacketIn* p = m_Socket.Recv(extendedID);
+		PacketIn* p = m_Socket->Recv(extendedID);
 		if (p != NULL) {
 			unhandledPackets.push(p);
 		}
