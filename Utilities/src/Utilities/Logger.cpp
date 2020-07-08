@@ -2,7 +2,7 @@
 
 namespace Stardust::Utilities {
 	Logger::Logger(std::string name, std::string path) {
-		m_file = std::ofstream(path, std::ios::app);
+		m_file = std::ofstream(path, std::ios::trunc);
 		m_filebuf = std::stringstream();
 		currentLevel = 0;
 		m_name = name;
@@ -15,7 +15,6 @@ namespace Stardust::Utilities {
 	void Logger::flushLog() {
 		m_file << m_filebuf.str();
 		m_file.flush();
-		m_filebuf.clear();
 	}
 
 	void Logger::log(std::string message, LoggerLevel level) {
