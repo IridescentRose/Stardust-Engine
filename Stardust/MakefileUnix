@@ -12,8 +12,8 @@ UTIL_OBJS = ../Utilities/src/Platform/Platform.o \
 util_lib = lib/nix/stardust-utilities.a
 plat_lib = lib/nix/stardust-platform.a
 
-CFLAGS = -O3 -ffast-math
-CXXFLAGS = $(CFLAGS) -std=c++17 -pthread -I../Platform/include -I../Utilities/include -I../Deps/include -DCURRENT_PLATFORM=PLATFORM_NIX
+CFLAGS = -O3 -ffast-math -Wall -Werror
+CXXFLAGS = $(CFLAGS) -Weffc++ -std=c++17 -pthread -I../Platform/include -I../Utilities/include -I../Deps/include -DCURRENT_PLATFORM=PLATFORM_NIX
 
 CXX=clang++
 all: utility_lib platform_lib 

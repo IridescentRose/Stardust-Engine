@@ -354,3 +354,5 @@ MigrationBackup/
 *.png
 
 libs
+
+.DS_STORE
