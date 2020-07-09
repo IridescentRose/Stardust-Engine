@@ -334,7 +334,7 @@ namespace Stardust::Network {
 			Utilities::detail::core_Logger->log("Received Packet!", Utilities::LOGGER_LEVEL_DEBUG);
 			Utilities::detail::core_Logger->log("Packet ID: " + std::to_string(pIn->ID), Utilities::LOGGER_LEVEL_DEBUG);
 
-			delete b;
+			delete[] b;
 			return pIn;
 		}
 		else {

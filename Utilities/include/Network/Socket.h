@@ -5,6 +5,8 @@ namespace Stardust::Network {
 
 	class Socket {
 	public:
+		virtual ~Socket();
+
 		virtual void Send(size_t size, char* buffer) = 0;
 		virtual PacketIn* Recv(bool extended) = 0;
 
@@ -19,6 +21,7 @@ namespace Stardust::Network {
 	class ClientSocket : public Socket {
 	public:
 		ClientSocket();
+		virtual ~ClientSocket();
 
 		bool Connect(unsigned short port, const char* ip);
 		void Close();
@@ -34,6 +37,7 @@ namespace Stardust::Network {
 	class ServerSocket : public Socket {
 	public:
 		ServerSocket(unsigned short port);
+		virtual ~ServerSocket();
 		void ListenState();
 
 		void Close();
