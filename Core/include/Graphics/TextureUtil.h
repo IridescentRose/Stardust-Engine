@@ -109,8 +109,6 @@ namespace Stardust::Graphics {
 			}
 		}
 
-		static Texture* LoadPng(std::string fileName, bool vram = false);
-		static Texture* LoadPng(const char* filename, int ColorMode, int Swizzle, bool Vram);
 		static Texture* LoadTex(std::string fileName, bool vram = false);
 		static Texture* LoadTex(const char* filename, int ColorMode, int Swizzle, bool Vram);
 	};

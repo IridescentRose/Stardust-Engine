@@ -40,8 +40,14 @@ namespace Stardust::Platform::PC {
 		glfwMakeContextCurrent(m_Window);
 		glfwShowWindow(m_Window);
 
+		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+		{
+			throw std::runtime_error("Failed to initialize GLAD");
+		}
+		glViewport(0, 0, width, height);
 		setVsync(v);
 	}
+
 	Window::~Window()
 	{
 		//Callbacks
