@@ -7,8 +7,7 @@ namespace Stardust::Core {
 
 	class Component {
 	public:
-		Component();
-		~Component();
+		virtual ~Component();
 
 		virtual void Init();
 		virtual void Update();
@@ -32,7 +31,7 @@ namespace Stardust::Core {
 		}
 
 		GameObject(Utilities::UUID i) {
-			id = id;
+			id = i;
 			name = "GameObject";
 			tags.clear();
 			layer = LAYER_DEFAULT;

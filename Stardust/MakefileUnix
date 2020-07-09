@@ -1,4 +1,7 @@
-PLAT_OBJS = ../Platform/src/Platform/Platform.o
+PLAT_OBJS = ../Platform/src/Platform/Platform.o \
+../Platform/src/Platform/PC/Window.o \
+../Platform/src/Platform/PC/GL/glad.o \
+
 UTIL_OBJS = ../Utilities/src/Platform/Platform.o \
 ../Utilities/src/Math/Frustum.o \
 ../Utilities/src/Utilities/Timer.o \
@@ -7,18 +10,23 @@ UTIL_OBJS = ../Utilities/src/Platform/Platform.o \
 ../Utilities/src/Events/Events.o \
 ../Utilities/src/Network/NetworkDriver.o \
 ../Utilities/src/Network/Socket.o \
-../Utilities/src/Network/ByteBuffer.o \
+../Utilities/src/Network/ByteBuffer.o
+
+CORE_OBJS = ../Core/src/Core/Core.o \
+../Core/src/Core/StateManager.o
 
 util_lib = lib/nix/stardust-utilities.a
 plat_lib = lib/nix/stardust-platform.a
+core_lib = lib/nix/stardust-core.a
 
-CFLAGS = -O3 -ffast-math -Wall -Werror
-CXXFLAGS = $(CFLAGS) -Weffc++ -std=c++17 -pthread -I../Platform/include -I../Utilities/include -I../Deps/include -DCURRENT_PLATFORM=PLATFORM_NIX
+CFLAGS = -O3 -ffast-math -Wall -Werror -I../Platform/include -I../Core/include -I../Utilities/include -I../Deps/include
+CXXFLAGS = $(CFLAGS) -Weffc++ -std=c++17 -pthread -DCURRENT_PLATFORM=PLATFORM_NIX
 
+CC = clang
 CXX=clang++
-all: utility_lib platform_lib 
+all: core_lib utility_lib platform_lib 
 
-%.o: %.c
+%.o: %.cpp
 	$(CXX) $(INCDIR) -c -o $@ $< $(CXXFLAGS)
 
 platform_lib: $(PLAT_OBJS)
@@ -27,5 +35,8 @@ platform_lib: $(PLAT_OBJS)
 utility_lib: $(UTIL_OBJS)
 	$(AR) rcs $(util_lib) $^
 
+core_lib: $(CORE_OBJS)
+	$(AR) rcs $(core_lib) $^
+
 clean:
-	rm -f $(PLAT_OBJS) $(UTIL_OBJS) ./$(plat_lib) ./$(util_lib)
+	rm -f $(PLAT_OBJS) $(UTIL_OBJS) $(CORE_OBJS) ./$(plat_lib) ./$(util_lib) ./$(core_lib)

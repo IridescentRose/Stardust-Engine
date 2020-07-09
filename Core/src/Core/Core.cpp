@@ -1,9 +1,7 @@
 #include <Core/Core.h>
 
 namespace Stardust::Core {
-	Component::Component()
-	{
-	}
+	
 	Component::~Component()
 	{
 	}
