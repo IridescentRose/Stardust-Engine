@@ -1,5 +1,5 @@
 #include <Utilities/Logger.h>
-
+#include <iostream>
 namespace Stardust::Utilities {
 	Logger::Logger(std::string name, std::string path) {
 		m_file = std::ofstream(path, std::ios::trunc);
