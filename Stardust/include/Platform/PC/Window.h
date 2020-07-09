@@ -82,5 +82,5 @@ namespace Stardust::Platform::PC {
 		GLFWwindow* m_Window;
 	};
 
-
+	extern Window* g_Window;
 }

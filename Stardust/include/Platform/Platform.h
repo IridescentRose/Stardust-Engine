@@ -45,7 +45,7 @@ typedef uint32_t u32;
 #endif
 
 #if CURRENT_PLATFORM != PLATFORM_PSP && CURRENT_PLATFORM != PLATFORM_VITA
-	#include <thread>
+#include <thread>
 #endif
 
 #if CURRENT_PLATFORM == PLATFORM_PSP 
@@ -60,6 +60,7 @@ typedef uint32_t u32;
 #include <psphttp.h>
 #include <pspsdk.h>
 #include <pspwlan.h>
+#include <sound_utils/audio.h>
 #endif
 
 #if (CURRENT_PLATFORM == PLATFORM_PSP) || (CURRENT_PLATFORM == PLATFORM_NIX) || (CURRENT_PLATFORM == PLATFORM_VITA)
@@ -74,6 +75,10 @@ typedef uint32_t u32;
 #include <fcntl.h>
 #endif
 
+#if (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
+#include <SFML/Audio.hpp>
+#include <Platform/PC/Window.h>
+#endif
 //Common includes - should be here for each platform
 #include <chrono>
 #include <stdexcept>
@@ -111,5 +116,77 @@ namespace Stardust::Platform {
 
 		void closeSockets(int fd);
 		bool setBlocking(int fd, int blocking);
+
+#if CURRENT_PLATFORM == PLATFORM_PSP
+typedef OSL_SOUND SoundEffect;
+#else
+typedef sf::Music SoundEffect;
+#endif
+
+		inline SoundEffect* loadSound(std::string path, bool streaming) {
+#if CURRENT_PLATFORM == PLATFORM_PSP
+			return oslLoadSoundFile(path.c_str(), (streaming) ? OSL_FMT_STREAM : OSL_FMT_NONE);
+#else
+			SoundEffect* m = new SoundEffect();
+			m->openFromFile(path.c_str());
+			return m;
+#endif
+		}
+
+		inline void playSoundEffect(SoundEffect* effect, int channel) {
+
+#if CURRENT_PLATFORM == PLATFORM_PSP
+			oslPlaySound(effect, channel);
+#else
+			effect->play();
+#endif
+
+		}
+
+		inline void pauseSoundEffect(SoundEffect* effect) {
+
+#if CURRENT_PLATFORM == PLATFORM_PSP
+			oslPauseSound(effect, -1);
+#else
+			effect->pause();
+#endif
+
+		}
+
+		inline void stopSoundEffect(SoundEffect* effect) {
+
+#if CURRENT_PLATFORM == PLATFORM_PSP
+			oslStopSound(effect);
+#else
+			effect->stop();
+#endif
+
+		}
+
+		inline void deleteSound(SoundEffect* effect) {
+#if CURRENT_PLATFORM == PLATFORM_PSP
+			oslDeleteSound(effect);
+#else
+			delete effect;
+#endif
+		}
+
+		inline void setSoundLoop(SoundEffect* effect, bool loop) {
+#if CURRENT_PLATFORM == PLATFORM_PSP
+			oslSetSoundLoop(effect, loop);
+#else
+			effect->setLoop(loop);
+#endif
+		}
+
+
+
 	}
+
+#if (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
+	inline void initPC(int width = 800, int height = 450, std::string title = "Stardust Engine", bool fullScreen = false, bool vsync = false) {
+		PC::g_Window = new PC::Window(width, height, title, fullScreen, vsync);
+	}
+#endif
+
 }

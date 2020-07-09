@@ -1,6 +1,6 @@
 #pragma once
 #include <Core/Core.h>
-#include <Audio/sound_utils/audio.h>
+#include <Platform/Platform.h>
 
 namespace Stardust::Audio {
 	class AudioClip{
@@ -17,6 +17,6 @@ namespace Stardust::Audio {
 		void SetPan(float pan);
 
 	private:
-		OSL_SOUND* snd;
+		Platform::detail::SoundEffect* snd;
 	};
 }

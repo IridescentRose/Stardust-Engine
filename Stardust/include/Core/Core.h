@@ -1,7 +1,7 @@
 #pragma once
-#include <vector>
 #include <Utilities/UUID.h>
 #include <Utilities/JSON.h>
+#include <vector>
 
 namespace Stardust::Core {
 

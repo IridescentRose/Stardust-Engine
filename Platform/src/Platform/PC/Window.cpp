@@ -17,8 +17,8 @@ namespace Stardust::Platform::PC {
 
 		glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4); //MAC OS
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1); //MAC OS
 
 		//Create Window
 		if (fullScreen) {
@@ -57,4 +57,5 @@ namespace Stardust::Platform::PC {
 	{
 		glfwSwapBuffers(m_Window);
 	}
+	Window* g_Window;
 }

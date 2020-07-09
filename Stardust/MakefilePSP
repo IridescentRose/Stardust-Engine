@@ -11,12 +11,6 @@ OBJS = ../Platform/src/Platform/Platform.o \
 ../Utilities/src/Network/Socket.o \
 ../Utilities/src/Network/ByteBuffer.o \
 ../Utilities/src/Profiler/Profiler.o \
-../Core/src/Audio/sound_utils/audio.o \
-../Core/src/Audio/sound_utils/bgm.o \
-../Core/src/Audio/sound_utils/media.o \
-../Core/src/Audio/sound_utils/pgeWav.o \
-../Core/src/Audio/sound_utils/vfsFile.o \
-../Core/src/Audio/sound_utils/VirtualFile.o \
 ../Core/src/Audio/AudioClip.o \
 ../Core/src/Core/Core.o \
 ../Core/src/Core/StateManager.o \

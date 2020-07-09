@@ -15,8 +15,8 @@
 #include <psppower.h>
 #include <pspkernel.h>
 #include <pspmath.h>
-#include <Audio/sound_utils/oslib.h>
-#include <Audio/sound_utils/audio.h>
+#include <sound_utils/oslib.h>
+#include <sound_utils/audio.h>
 #endif
 
 namespace Stardust::Platform {

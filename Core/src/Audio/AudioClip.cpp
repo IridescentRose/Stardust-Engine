@@ -3,40 +3,37 @@
 namespace Stardust::Audio {
 	AudioClip::AudioClip(std::string path, bool b)
 	{
-		snd = oslLoadSoundFile(path.c_str(), b ? OSL_FMT_STREAM : OSL_FMT_NONE);
+		snd = Platform::detail::loadSound(path.c_str(), b);
 	}
 	AudioClip::~AudioClip()
 	{
-		oslDeleteSound(snd);
+		Platform::detail::deleteSound(snd);
 	}
 
 	void AudioClip::Play(int c)
 	{
-		oslPlaySound(snd, c);
+		Platform::detail::playSoundEffect(snd, c);
 	}
 	void AudioClip::Pause()
 	{
-		oslPauseSound(snd, -1);
+		Platform::detail::pauseSoundEffect(snd);
 	}
 	void AudioClip::Stop()
 	{
-		oslStopSound(snd);
+		Platform::detail::stopSoundEffect(snd);
 	}
 
 	void AudioClip::SetLoop(bool loop)
 	{
-		oslSetSoundLoop(snd, loop);
+		Platform::detail::setSoundLoop(snd, loop);
 	}
 
 	void AudioClip::SetVol(float vol)
 	{
-		snd->volumeLeft = vol * 100;
-		snd->volumeRight = vol * 100;
+
 	}
 	void AudioClip::SetPan(float pan)
 	{
-		float vol = (float)(snd->volumeLeft + snd->volumeRight) / 2.0f;
-		snd->volumeLeft = vol * pan;
-		snd->volumeRight = vol * (1.f - pan);
+
 	}
 }
