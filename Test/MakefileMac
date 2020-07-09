@@ -1,0 +1,20 @@
+TARGET=TestApp
+TEST_OBJS = Main.o
+
+CC = clang
+CXX = clang++
+CFLAGS = -O3 -ffast-math -Wall -Werror -pthread -DCURRENT_PLATFORM=PLATFORM_NIX -I../Platform/include -I../Core/include -I../Utilities/include -I../Deps/include
+CXXFLAGS = $(CFLAGS) -Weffc++ -std=c++17
+# brew install glfw3 sfml
+LDFLAGS = -L../Stardust/lib/nix -L/usr/local/lib/ -lstardust-core -lstardust-utilities -lstardust-platform -lglfw -framework IOKit -framework Cocoa -framework OpenGL -lsfml-audio -lc++
+
+all: $(TARGET) 
+
+$(TARGET): $(TEST_OBJS)
+	$(CXX) $(INCDIR) $(LDFLAGS) -o $@ $<
+
+%.o: %.c
+	$(CXX) $(INCDIR) -c -o $@ $< $(CXXFLAGS)
+
+clean:
+	rm -f $(TEST_OBJS) $(TARGET)

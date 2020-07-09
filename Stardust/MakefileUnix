@@ -13,17 +13,18 @@ UTIL_OBJS = ../Utilities/src/Platform/Platform.o \
 ../Utilities/src/Network/ByteBuffer.o
 
 CORE_OBJS = ../Core/src/Core/Core.o \
-../Core/src/Core/StateManager.o
+../Core/src/Core/StateManager.o \
+../Core/src/Audio/AudioClip.o
 
-util_lib = lib/nix/stardust-utilities.a
-plat_lib = lib/nix/stardust-platform.a
-core_lib = lib/nix/stardust-core.a
-
-CFLAGS = -O3 -ffast-math -Wall -Werror -I../Platform/include -I../Core/include -I../Utilities/include -I../Deps/include
-CXXFLAGS = $(CFLAGS) -Weffc++ -std=c++17 -pthread -DCURRENT_PLATFORM=PLATFORM_NIX
+util_lib = lib/nix/libstardust-utilities.a
+plat_lib = lib/nix/libstardust-platform.a
+core_lib = lib/nix/libstardust-core.a
 
 CC = clang
 CXX=clang++
+CFLAGS = -O3 -ffast-math -Wall -Werror -pthread -DCURRENT_PLATFORM=PLATFORM_NIX -I../Platform/include -I../Core/include -I../Utilities/include -I../Deps/include
+CXXFLAGS = $(CFLAGS) -Weffc++ -std=c++17
+
 all: core_lib utility_lib platform_lib 
 
 %.o: %.cpp
