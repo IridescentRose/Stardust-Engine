@@ -7,6 +7,11 @@ namespace Stardust::Platform {
 #if CURRENT_PLATFORM == PLATFORM_PSP
 #include <Graphics/Dialogs.h>
 #include <Utilities/Logger.h>
+
+PSP_MODULE_INFO("Stardust-Application", 0, 1, 0);
+PSP_MAIN_THREAD_ATTR(THREAD_ATTR_VFPU | THREAD_ATTR_USER);
+PSP_HEAP_SIZE_KB(-1024);
+
 #endif
 
 bool Stardust::Platform::detail::initNetworks()

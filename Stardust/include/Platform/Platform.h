@@ -27,6 +27,7 @@ namespace std {
 	}
 }
 
+
 #elif CURRENT_PLATFORM == PLATFORM_VITA
 #include <vitasdk.h> 
 // FIXME
@@ -41,6 +42,10 @@ typedef uint32_t u32;
 #include <windows.h>
 #include <thread>
 #include <Ws2tcpip.h>
+#endif
+
+#if CURRENT_PLATFORM != PLATFORM_PSP && CURRENT_PLATFORM != PLATFORM_VITA
+	#include <thread>
 #endif
 
 #if CURRENT_PLATFORM == PLATFORM_PSP 
@@ -65,6 +70,7 @@ typedef uint32_t u32;
 #include <sys/socket.h>
 #include <unistd.h> 
 #include <queue>
+#include <netinet/tcp.h>
 #include <fcntl.h>
 #endif
 
