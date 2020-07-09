@@ -10,8 +10,7 @@ namespace Stardust::Utilities {
     inline UUID generateUUID() {
         UUID uuid = std::string(36, ' ');
         int rnd = std::rand();
-        int r = 0;
-
+        
         uuid[8] = '-';
         uuid[13] = '-';
         uuid[18] = '-';
