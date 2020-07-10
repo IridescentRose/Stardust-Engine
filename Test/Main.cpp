@@ -8,7 +8,6 @@ int main() {
 	Platform::initPC();
 	Platform::initPlatform();
 
-	float r = 0;
 	while (!Platform::PC::g_Window->shouldClose()) {
 		
 		//Main loop
