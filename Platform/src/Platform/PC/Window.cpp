@@ -4,6 +4,7 @@
 namespace Stardust::Platform::PC {
 	Window::Window(int w, int h, std::string t, bool f, bool v) : width(w), height(h), title(t), fullScreen(f), vsync(v)
 	{
+		m_Window = nullptr;
 		if (!glfwInit()) {
 			throw std::runtime_error("ERROR! Could not initialize GLFW.");
 		}
@@ -35,6 +36,10 @@ namespace Stardust::Platform::PC {
 		}
 		else {
 			m_Window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
+		}
+
+		if(m_Window == nullptr){
+			throw std::runtime_error("Failed to initialize a window!");
 		}
 
 		glfwMakeContextCurrent(m_Window);
