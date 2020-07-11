@@ -2,6 +2,7 @@ TARGET = Stardust
 OBJS = ../Platform/src/Platform/Platform.o \
 ../Platform/src/Platform/PSP/Dialogs.o \
 ../Platform/src/Platform/Graphics.o \
+../Platform/src/Platform/PSP/vram.o \
 ../Utilities/src/Platform/Platform.o \
 ../Utilities/src/Math/Frustum.o \
 ../Utilities/src/Utilities/Timer.o \

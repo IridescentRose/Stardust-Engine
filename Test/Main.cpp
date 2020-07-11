@@ -18,7 +18,6 @@ int main() {
 		}
 
 		GFX::g_RenderCore->setClearColor(r, 0.f, 1.0f, 1.0f);
-
 		GFX::g_RenderCore->clear();
 
 		//Main loop

@@ -1,6 +1,7 @@
 PLAT_OBJS = ../Platform/src/Platform/Platform.o \
 ../Platform/src/Platform/PC/Window.o \
 ../Platform/src/Platform/PC/GL/glad.o \
+../Platform/src/Platform/Graphics.o \
 
 UTIL_OBJS = ../Utilities/src/Platform/Platform.o \
 ../Utilities/src/Math/Frustum.o \
@@ -14,7 +15,8 @@ UTIL_OBJS = ../Utilities/src/Platform/Platform.o \
 
 CORE_OBJS = ../Core/src/Core/Core.o \
 ../Core/src/Core/StateManager.o \
-../Core/src/Audio/AudioClip.o
+../Core/src/Audio/AudioClip.o \
+../Core/src/Graphics/RenderCore.o \
 
 util_lib = lib/nix/libstardust-utilities.a
 plat_lib = lib/nix/libstardust-platform.a
