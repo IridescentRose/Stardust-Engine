@@ -1,6 +1,6 @@
 #include <Platform/Platform.h>
-#include <Platform/PC/Window.h>
 #include <GFX/RenderCore.h>
+#include <Platform/PC/Window.h>
 
 using namespace Stardust;
 

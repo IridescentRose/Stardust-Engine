@@ -16,16 +16,16 @@ UTIL_OBJS = ../Utilities/src/Platform/Platform.o \
 CORE_OBJS = ../Core/src/Core/Core.o \
 ../Core/src/Core/StateManager.o \
 ../Core/src/Audio/AudioClip.o \
-../Core/src/Graphics/RenderCore.o \
+../Core/src/GFX/RenderCore.o \
 
 util_lib = lib/nix/libstardust-utilities.a
 plat_lib = lib/nix/libstardust-platform.a
 core_lib = lib/nix/libstardust-core.a
 
 CC = clang
-CXX=clang++
-CFLAGS = -O3 -ffast-math -Wall -Werror -pthread -DCURRENT_PLATFORM=PLATFORM_NIX -I../Platform/include -I../Core/include -I../Utilities/include -I../Deps/include
-CXXFLAGS = $(CFLAGS) -Weffc++ -std=c++17
+CXX= clang++
+CFLAGS = -O3 -ffast-math -pthread -DCURRENT_PLATFORM=PLATFORM_NIX -I../Platform/include -I../Core/include -I../Utilities/include -I../Deps/include
+CXXFLAGS = $(CFLAGS) -std=c++17
 
 all: core_lib utility_lib platform_lib 
 
