@@ -82,7 +82,7 @@
     <LinkIncremental>false</LinkIncremental>
     <OutDir>../Stardust/lib/win/</OutDir>
     <IntDir>obj/</IntDir>
-    <IncludePath>$(ProjectDir)../Platform/include;$(ProjectDir)../Deps/include;$(ProjectDir)include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)../Platform/include;$(ProjectDir)../Core/include;$(ProjectDir)../Deps/include;$(ProjectDir)include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

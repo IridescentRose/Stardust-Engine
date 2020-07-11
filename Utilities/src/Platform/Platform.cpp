@@ -7,9 +7,11 @@
 #include <stdlib.h>
 #include <time.h>
 
+#ifndef STARDUST_UTILITIES_ONLY
+#include <GFX/RenderCore.h>
+#endif
+
 #if CURRENT_PLATFORM == PLATFORM_PSP
-#include <Graphics/RendererCore.h>
-#include <Graphics/UI/Font.h>
 #include <Utilities/Input.h>
 
 #include <psppower.h>
@@ -17,6 +19,7 @@
 #include <pspmath.h>
 #include <sound_utils/oslib.h>
 #include <sound_utils/audio.h>
+#include <intraFont.h>
 #endif
 
 namespace Stardust::Platform {
@@ -55,57 +58,59 @@ namespace Stardust::Platform {
 
 		return thid;
 	}
-
-
-	void initPlatform(const char* appName) {
-		SetupCallbacks();
-		scePowerSetClockFrequency(333, 333, 166);
-		srand(time(NULL));
-		vfpu_srand(time(NULL));
-
-
-		Utilities::g_AppTimer.reset();
-		Utilities::g_AppTimer.deltaTime();
-
-		Utilities::detail::core_Logger = new Utilities::Logger("CORE");
-		Utilities::detail::core_Logger->log("Stardust-Engine Initialized!");
-		Utilities::detail::core_Logger->log("Platform Initialized!");
-
-		Utilities::app_Logger = new Utilities::Logger(appName, std::string(appName) + "_log.log");
-		Utilities::app_Logger->log("Application Start!");
-
-		VirtualFileInit();
-		oslInitAudio();
-		Graphics::g_RenderCore.Init();
-
-		intraFontInit();
-		Graphics::UI::g_DefaultFont = intraFontLoad("./assets/font.pgf", INTRAFONT_STRING_UTF8 | INTRAFONT_CACHE_LARGE);
-
-		#ifdef MC_PSP
-		Graphics::g_RenderCore.InitDebugFont();
-		#endif
-	}
+#endif
 
 	void exitPlatform()
 	{
-		sceKernelDelayThread(1000000);
-		oslDeinitAudio();
 		delete Utilities::detail::core_Logger;
 		delete Utilities::app_Logger;
+#if CURRENT_PLATFORM == PLATFORM_PSP
+		oslDeinitAudio();
 		sceKernelExitGame();
+#endif
 	}
 
 	void platformUpdate()
 	{
+#if CURRENT_PLATFORM == PLATFORM_PSP
 		Utilities::updateInputs();
 		oslAudioVSync();
+#endif
+#if (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
+		PC::g_Window->update();
+		if(PC::g_Window->shouldClose()){
+			exitPlatform();
+			exit(0);
+		}
+#endif
 	}
 
-#elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX) || (CURRENT_PLATFORM == PLATFORM_VITA)
 	void initPlatform(const char* appName) {
-		srand(time(NULL));
-		
 
+#if CURRENT_PLATFORM == PLATFORM_PSP
+		SetupCallbacks();
+		scePowerSetClockFrequency(333, 333, 166);
+		vfpu_srand(time(NULL));
+		VirtualFileInit();
+		oslInitAudio();
+#endif
+#if (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
+		initPC();
+#endif
+		
+		srand(time(NULL));
+
+#ifndef STARDUST_UTILITIES_ONLY
+		GFX::g_RenderCore = new GFX::RenderCore();
+		GFX::g_RenderCore->init();
+#endif
+
+#if CURRENT_PLATFORM == PLATFORM_PSP
+		intraFontInit();
+#endif
+
+		
+		
 		Utilities::g_AppTimer.reset();
 		Utilities::g_AppTimer.deltaTime();
 
@@ -117,18 +122,4 @@ namespace Stardust::Platform {
 		Utilities::app_Logger->log("Application Start!");
 
 	}
-
-	void exitPlatform()
-	{
-		delete Utilities::detail::core_Logger;
-		delete Utilities::app_Logger;
-		exit(0);
-	}
-
-	void platformUpdate()
-	{
-		Utilities::detail::core_Logger->flushLog();
-		Utilities::app_Logger->flushLog();
-	}
-#endif
 }

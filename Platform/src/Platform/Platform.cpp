@@ -5,7 +5,7 @@ namespace Stardust::Platform {
 }
 
 #if CURRENT_PLATFORM == PLATFORM_PSP
-#include <Graphics/Dialogs.h>
+#include <Platform/PSP/Dialogs.h>
 #include <Utilities/Logger.h>
 
 PSP_MODULE_INFO("Stardust-Application", 0, 1, 0);

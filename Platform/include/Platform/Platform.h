@@ -180,7 +180,6 @@ typedef sf::Music SoundEffect;
 		}
 
 
-
 	}
 
 #if (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)

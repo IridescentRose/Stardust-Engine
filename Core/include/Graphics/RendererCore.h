@@ -75,13 +75,10 @@ namespace Stardust::Graphics {
     private:
         unsigned int clearColor;
 
-        char list[0x100000] __attribute__((aligned(64)));
+        
         
         Render3D::Camera* cam;
-
-        void* _fbp0;
-        void* _fbp1;
-        void* _zbp;
+        
         void* _frameBuffer;
     };
 

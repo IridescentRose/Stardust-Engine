@@ -31,7 +31,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)../Deps/include;$(ProjectDir)/include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)../Deps/include;$(ProjectDir)/include;$(ProjectDir)../Core/include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <OutDir>../Stardust/lib/win/</OutDir>
     <IntDir>obj/</IntDir>
   </PropertyGroup>
@@ -53,10 +53,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\GFX\GFXWrapper.h" />
+    <ClInclude Include="include\Platform\Graphics.h" />
     <ClInclude Include="include\Platform\PC\Window.h" />
     <ClInclude Include="include\Platform\Platform.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Platform\Graphics.cpp" />
     <ClCompile Include="src\Platform\PC\GL\glad.c" />
     <ClCompile Include="src\Platform\PC\Window.cpp" />
     <ClCompile Include="src\Platform\Platform.cpp" />

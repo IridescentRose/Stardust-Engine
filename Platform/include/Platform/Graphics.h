@@ -5,7 +5,11 @@ namespace Stardust::Platform::detail::Graphics{
     void initGraphicsContext();
     void cleanupGraphicsContext();
 
-    void clearScreen();
+    void beginFrame();
+    void endFrame();
 
-    void clearBuffers();
+#if CURRENT_PLATFORM == PLATFORM_PSP
+    void beginFrameDialog();
+    void endFrameDialog();
+#endif
 }
