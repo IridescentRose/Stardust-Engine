@@ -3,7 +3,18 @@
 #include <Platform/PC/Window.h>
 #include <GFX/GFXWrapper.h>
 
+#define STBI_IMAGE_IMPLEMENTATION
+#include <stb/stb_image.h>
+
 using namespace Stardust;
+
+int powerOfTwo(int value) {
+	int poweroftwo = 1;
+	while (poweroftwo < value) {
+		poweroftwo <<= 1;
+	}
+	return poweroftwo;
+}
 
 int main() {
 	Platform::initPlatform();
@@ -23,7 +34,7 @@ int main() {
 	mesh.uv = {
 		0.0f, 0.0f,
 		0.0f, 1.0f,
-		1.0f, 1.0f,
+		1.0f, 0.0f,
 	};
 
 	mesh.position = {
@@ -36,6 +47,13 @@ int main() {
 	};
 
 	GFX::Model model(&mesh);
+	
+	int width, height, bpp;
+	unsigned char* rgb = stbi_load("test.png", &width, &height, &bpp, 4);
+
+	int pWidth = powerOfTwo(width), pHeight = powerOfTwo(height);
+
+	
 
 	while (true) {
 		GFX::g_RenderCore->beginFrame();
@@ -47,6 +65,13 @@ int main() {
 
 		GFX::g_RenderCore->setClearColor(r, 0.f, 1.0f, 1.0f);
 		GFX::g_RenderCore->clear();
+
+		sceGuTexMode(GU_PSM_8888, 0, 0, 0);
+		sceGuTexImage(0, pWidth, pHeight, pWidth, rgb);
+		sceGuTexFunc(GU_TFX_REPLACE, GU_TCC_RGBA);
+		sceGuTexFilter(GU_LINEAR, GU_LINEAR);
+		sceGuTexScale(1, 1);
+		sceGuTexOffset(0, 0);
 
 		//Main loop
 		model.draw();

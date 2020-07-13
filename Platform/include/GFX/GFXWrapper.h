@@ -110,7 +110,7 @@ namespace Stardust::GFX {
 #if CURRENT_PLATFORM == PLATFORM_PSP
         sceGumMatrixMode(GU_PROJECTION);
         sceGumLoadIdentity();
-        sceGumOrtho(0, 480, 272, 0, -30, 30);
+        sceGumOrtho(bottom, top, left, right, znear, zfar);
 
         sceGumMatrixMode(GU_VIEW);
         sceGumLoadIdentity();
@@ -336,6 +336,10 @@ namespace Stardust::GFX {
         inline void draw() {
 #if CURRENT_PLATFORM == PLATFORM_PSP
             //Rendering Call
+
+            sceGuEnable(GU_TEXTURE_2D);
+            sceGuShadeModel(GU_SMOOTH);
+
             sceGumDrawArray(GU_TRIANGLES, GU_TEXTURE_32BITF | GU_COLOR_8888 | GU_VERTEX_32BITF | GU_TRANSFORM_3D, indicesCount, indices.data(), verts.data());
 #elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
             //Setup Program

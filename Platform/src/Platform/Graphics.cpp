@@ -103,6 +103,11 @@ namespace Stardust::Platform::detail::Graphics {
 		sceCtrlSetSamplingCycle(0);
 		sceCtrlSetSamplingMode(PSP_CTRL_MODE_ANALOG);
 		sceGuShadeModel(GU_SMOOTH);
+
+		sceGuFrontFace(GU_CCW);
+		sceGuEnable(GU_CULL_FACE);
+		sceGuEnable(GU_BLEND);
+		sceGuEnable(GU_TEXTURE_2D);
 #elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
 
 		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
