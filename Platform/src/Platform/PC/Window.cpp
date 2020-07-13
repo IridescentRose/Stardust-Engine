@@ -21,6 +21,8 @@ namespace Stardust::Platform::PC {
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4); //MAC OS
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1); //MAC OS
 
+		glfwWindowHint(GLFW_SAMPLES, 4); //4x MSAA
+
 		//Create Window
 		if (fullScreen) {
 			const GLFWvidmode* vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());

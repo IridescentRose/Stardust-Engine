@@ -1,5 +1,7 @@
 #include <Platform/Graphics.h>
 
+#include <GFX/GFXWrapper.h>
+
 #if CURRENT_PLATFORM == PLATFORM_PSP
 
 #define BUF_WIDTH (512)
@@ -22,7 +24,13 @@
 
 #elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
 #include <Platform/PC/Window.h>
+namespace Stardust::GFX{
+	GLuint program;
+	glm::mat4 _gfx_proj, _gfx_view, _gfx_model;
+}
+
 #endif
+
 
 namespace Stardust::Platform::detail::Graphics {
 
@@ -96,6 +104,7 @@ namespace Stardust::Platform::detail::Graphics {
 		sceCtrlSetSamplingMode(PSP_CTRL_MODE_ANALOG);
 		sceGuShadeModel(GU_SMOOTH);
 #elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
+
 		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 		{
 			throw std::runtime_error("Failed to initialize GLAD");
@@ -103,11 +112,21 @@ namespace Stardust::Platform::detail::Graphics {
 		glViewport(0, 0, PC::g_Window->getWidth(), PC::g_Window->getHeight());
 		glEnable(GL_CULL_FACE);
 		glFrontFace(GL_CCW);
+		glEnable(GL_MULTISAMPLE);
 
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glDepthFunc(GL_LEQUAL);
 		glEnable(GL_DEPTH_TEST);
+
+		Stardust::GFX::program = Stardust::GFX::loadShaders("./shaders/basic.vert", "./shaders/basic.frag");
+		glUseProgram(Stardust::GFX::program);
+
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), nullptr);
+		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
+
+
 #else
 #error No platform graphics context creation exists!
 #endif
