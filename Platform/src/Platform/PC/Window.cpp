@@ -1,10 +1,18 @@
 #include <Platform/PC/Window.h>
 #include <stdexcept>
+#include <iostream>
 
 namespace Stardust::Platform::PC {
+	void error_callback(int error, const char* str){
+		std::cout << "ERROR: CODE " << error << " REASON: " << str << std::endl;
+	}
+
 	Window::Window(int w, int h, std::string t, bool f, bool v) : width(w), height(h), title(t), fullScreen(f), vsync(v)
 	{
 		m_Window = nullptr;
+		
+		glfwSetErrorCallback(error_callback);
+		
 		if (!glfwInit()) {
 			throw std::runtime_error("ERROR! Could not initialize GLFW.");
 		}
@@ -18,11 +26,17 @@ namespace Stardust::Platform::PC {
 
 		glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
+#ifdef __APPLE__
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4); //MAC OS
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1); //MAC OS
 
+		//No need for MSAA, I think retina handles this
+#else
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); //Others
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3); //Others
+		
 		glfwWindowHint(GLFW_SAMPLES, 4); //4x MSAA
-
+#endif
 		//Create Window
 		if (fullScreen) {
 			const GLFWvidmode* vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
