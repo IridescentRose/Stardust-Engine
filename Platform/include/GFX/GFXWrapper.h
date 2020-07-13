@@ -70,6 +70,8 @@ namespace Stardust::GFX {
      */
     inline void gfxClear(int32_t flags){
 #if CURRENT_PLATFORM == PLATFORM_PSP
+        sceGuClearStencil(0);
+        sceGuClearDepth(0);
         sceGuClear(GU_FAST_CLEAR_BIT | flags);
 #elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
         glClear(flags);
@@ -275,6 +277,8 @@ namespace Stardust::GFX {
             for (int i = 0; i < indicesCount; i++) {
                 indices.push_back(mesh->indices[i]);
             }
+
+            sceKernelDcacheWritebackInvalidateAll();
 #elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
             //Generate VAO & buffers
             buffer_count = 0;
@@ -336,10 +340,7 @@ namespace Stardust::GFX {
         inline void draw() {
 #if CURRENT_PLATFORM == PLATFORM_PSP
             //Rendering Call
-
-            sceGuEnable(GU_TEXTURE_2D);
             sceGuShadeModel(GU_SMOOTH);
-
             sceGumDrawArray(GU_TRIANGLES, GU_TEXTURE_32BITF | GU_COLOR_8888 | GU_VERTEX_32BITF | GU_TRANSFORM_3D, indicesCount, indices.data(), verts.data());
 #elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
             //Setup Program
