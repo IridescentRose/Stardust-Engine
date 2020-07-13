@@ -49,7 +49,7 @@ bool Stardust::Platform::detail::initNetworks()
 	}
 
 
-	return Graphics::ShowNetworkDialog();
+	return PSP::ShowNetworkDialog();
 #elif CURRENT_PLATFORM == PLATFORM_WIN
 	WSAData data;
 	int res = WSAStartup(MAKEWORD(2, 2), &data);

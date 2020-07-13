@@ -193,6 +193,16 @@ namespace Stardust::GFX {
     }
 #endif
 
+
+#if CURRENT_PLATFORM == PLATFORM_PSP
+    typedef struct
+    {
+        float u, v;
+        unsigned int color;
+        float x, y, z;
+    }__attribute__((packed)) Vertex;
+#endif
+
     /**
      * Graphics Meshes, which define data arrays for position, color, uv, and indices.
      */
@@ -242,11 +252,29 @@ namespace Stardust::GFX {
     public:
 #endif
 
-        inline void addData(const Mesh* mesh){
+        inline void addData(const Mesh* mesh) {
 
 #if CURRENT_PLATFORM == PLATFORM_PSP
             //Generate data into relevant structure
-            
+
+            for (int i = 0; i < mesh->position.size() / 3; i++) {
+                Vertex v;
+                v.x = mesh->position[i * 3 + 0];
+                v.y = mesh->position[i * 3 + 1];
+                v.z = mesh->position[i * 3 + 2];
+
+                v.u = mesh->uv[i * 2 + 0];
+                v.v = mesh->uv[i * 2 + 1];
+        
+                v.color = GU_COLOR(mesh->color[i * 3 + 0], mesh->color[i * 3 + 1], mesh->color[i * 3 + 2], 1.0);
+                verts.push_back(v);
+            }
+
+            indicesCount = mesh->indices.size();
+
+            for (int i = 0; i < indicesCount; i++) {
+                indices.push_back(mesh->indices[i]);
+            }
 #elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
             //Generate VAO & buffers
             buffer_count = 0;
@@ -275,7 +303,9 @@ namespace Stardust::GFX {
         inline void deleteData(){
 #if CURRENT_PLATFORM == PLATFORM_PSP
             //Delete structure
-
+            verts.clear();
+            indicesCount = 0;
+            indices.clear();
 #elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
             //Delete VAO & buffers
             glDeleteVertexArrays(1, &vao);
@@ -306,7 +336,7 @@ namespace Stardust::GFX {
         inline void draw() {
 #if CURRENT_PLATFORM == PLATFORM_PSP
             //Rendering Call
-
+            sceGumDrawArray(GU_TRIANGLES, GU_TEXTURE_32BITF | GU_COLOR_8888 | GU_VERTEX_32BITF | GU_TRANSFORM_3D, indicesCount, indices.data(), verts.data());
 #elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
             //Setup Program
             glUseProgram(program);
@@ -332,10 +362,14 @@ namespace Stardust::GFX {
 
 #if CURRENT_PLATFORM == PLATFORM_PSP
         //TODO: Create PSP Vertex types
+        std::vector<Vertex> verts;
+        std::vector<int> indices;
 #elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
         GLuint vao;
         int buffer_count;
         std::vector<GLuint> buffers;
 #endif
     };
+
+    
 }

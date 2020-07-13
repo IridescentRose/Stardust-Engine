@@ -1,12 +1,12 @@
-#include <Graphics/RendererCore.h>
+#include <GFX/RenderCore.h>
 
 #include <malloc.h>
 #include <pspkernel.h>
 #include <pspctrl.h>
 #include <psputility.h>
 #include <string.h>
-
-namespace Stardust::Graphics{
+#undef PSP
+namespace Stardust::Platform::PSP{
     void ConfigureDialog(pspUtilityMsgDialogParams* dialog, size_t dialog_size);
 
 	void ShowMessage(const char* message);

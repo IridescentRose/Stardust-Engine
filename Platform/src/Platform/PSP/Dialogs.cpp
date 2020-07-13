@@ -1,6 +1,7 @@
 #include <Platform/Graphics.h>
 
-namespace Stardust::Graphics{
+#undef PSP
+namespace Stardust::Platform::PSP{
     pspUtilityMsgDialogParams dialog;
 	pspUtilityNetconfData networkData;
 
