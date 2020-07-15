@@ -5,7 +5,7 @@ out vec4 FragColor;
 uniform sampler2D tex;
 
 in vec2 uv;
-in vec3 color;
+in vec4 color;
 
 uniform int flags;
 
@@ -17,7 +17,7 @@ void main()
     vec4 mc = vec4(1.0f);
     
     mc = texture(tex, uv.xy);
-    mc *= vec4(color, 1.0f);
+    mc *= color;
     
     FragColor = mc;
 
