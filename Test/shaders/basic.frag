@@ -16,7 +16,7 @@ void main()
 {
     vec4 mc = vec4(1.0f);
     
-    //mc = texture(tex, uv.xy);
+    mc = texture(tex, uv.xy);
     mc *= vec4(color, 1.0f);
     
     FragColor = mc;

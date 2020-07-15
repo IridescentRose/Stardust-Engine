@@ -1,5 +1,7 @@
 #include <Platform/Graphics.h>
 
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb/stb_image.h>
 #include <GFX/GFXWrapper.h>
 
 #if CURRENT_PLATFORM == PLATFORM_PSP
@@ -31,6 +33,9 @@ namespace Stardust::GFX{
 
 #endif
 
+namespace Stardust::GFX{
+	TextureManager* g_TextureManager;
+}
 
 namespace Stardust::Platform::detail::Graphics {
 
@@ -55,6 +60,7 @@ namespace Stardust::Platform::detail::Graphics {
 
 	void initGraphicsContext()
 	{
+		GFX::g_TextureManager = new GFX::TextureManager();
 #if CURRENT_PLATFORM == PLATFORM_PSP
 		_fbp0 = getStaticVramBuffer(BUF_WIDTH, SCR_HEIGHT, GU_PSM_8888);
 		_fbp1 = getStaticVramBuffer(BUF_WIDTH, SCR_HEIGHT, GU_PSM_8888);

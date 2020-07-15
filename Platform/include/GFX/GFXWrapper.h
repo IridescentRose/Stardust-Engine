@@ -23,6 +23,9 @@
 #include <stdarg.h>
 #include <intraFont.h>
 
+#include <Platform/PSP/vram.h>
+#include <malloc.h>
+
 #elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
 #include <Platform/PC/Window.h>
 #include <glm/gtc/type_ptr.hpp>
@@ -32,6 +35,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #endif
+#include <stb/stb_image.h>
+#include <map>
 
 /**
  * A general purpose OpenGL-like Graphics Wrapper for Stardust.
@@ -341,7 +346,7 @@ namespace Stardust::GFX {
 #if CURRENT_PLATFORM == PLATFORM_PSP
             //Rendering Call
             sceGuShadeModel(GU_SMOOTH);
-            sceGumDrawArray(GU_TRIANGLES, GU_TEXTURE_32BITF | GU_COLOR_8888 | GU_VERTEX_32BITF | GU_TRANSFORM_3D, indicesCount, indices.data(), verts.data());
+            sceGumDrawArray(GU_TRIANGLES, GU_INDEX_16BIT | GU_TEXTURE_32BITF | GU_COLOR_8888 | GU_VERTEX_32BITF | GU_TRANSFORM_3D, indices.size(), (uint16_t*)indices.data(), verts.data());
 #elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
             //Setup Program
             glUseProgram(program);
@@ -368,12 +373,237 @@ namespace Stardust::GFX {
 #if CURRENT_PLATFORM == PLATFORM_PSP
         //TODO: Create PSP Vertex types
         std::vector<Vertex> verts;
-        std::vector<int> indices;
+        std::vector<short> indices;
 #elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
         GLuint vao;
         int buffer_count;
         std::vector<GLuint> buffers;
 #endif
+    };
+
+
+    /**
+     * Texture object representation.
+     */
+#if CURRENT_PLATFORM == PLATFORM_PSP
+    inline int powerOfTwo(int value) {
+        int poweroftwo = 1;
+        while (poweroftwo < value) {
+            poweroftwo <<= 1;
+        }
+        return poweroftwo;
+    }
+
+    inline void swizzle_fast(u8* out, const u8* in, unsigned int width, unsigned int height)
+    {
+        unsigned int blockx, blocky;
+        unsigned int j;
+
+        unsigned int width_blocks = (width / 16);
+        unsigned int height_blocks = (height / 8);
+
+        unsigned int src_pitch = (width - 16) / 4;
+        unsigned int src_row = width * 8;
+
+        const u8* ysrc = in;
+        u32* dst = (u32*)out;
+
+        for (blocky = 0; blocky < height_blocks; ++blocky)
+        {
+            const u8* xsrc = ysrc;
+            for (blockx = 0; blockx < width_blocks; ++blockx)
+            {
+                const u32* src = (u32*)xsrc;
+                for (j = 0; j < 8; ++j)
+                {
+                    *(dst++) = *(src++);
+                    *(dst++) = *(src++);
+                    *(dst++) = *(src++);
+                    *(dst++) = *(src++);
+                    src += src_pitch;
+                }
+                xsrc += 16;
+            }
+            ysrc += src_row;
+        }
+        }
+
+    struct Texture{
+        int width, height, pWidth, pHeight, ramSpace, colorMode, swizzled;
+        unsigned short* data; //32 bit pixel data in (likely) 8888 RGBA
+
+        int minFilter, maxFilter;
+        bool repeat;
+    };
+#else
+    typedef GLuint Texture;
+#endif
+
+    /**
+     * Texture Filters.
+     */
+#if CURRENT_PLATFORM == PLATFORM_PSP
+
+#define GFX_FILTER_NEAREST GU_NEAREST
+#define GFX_FILTER_LINEAR GU_LINEAR
+
+#elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
+
+#define GFX_FILTER_NEAREST GL_NEAREST
+#define GFX_FILTER_LINEAR GL_LINEAR
+
+#else
+#error No GFX Filter defines
+#endif
+
+    /**
+     * A Texture Manager which handles all loading and deletion of textures through an ID system.
+     */
+    class TextureManager{
+    public:
+        TextureManager(){
+            fullMap.clear();
+            texCount = 0;
+        }
+
+        /**
+         * Loads up a texture.
+         * 
+         * \param texture - Path to the texture
+         * \param filterMag - GFX Filters
+         * \param filterMin - GFX Filters
+         * \param repeat - Whether or not to repeat
+         * \return 
+         */
+        inline unsigned int loadTex(std::string texture, int filterMag, int filterMin, bool repeat){
+#if CURRENT_PLATFORM == PLATFORM_PSP
+            int OutBytesPerPixel = 4;
+            int Power2Width = 0;
+            int Power2Height = 0;
+
+            //GET WIDTH / HEIGHT
+            int width, height, channels;
+            stbi_set_flip_vertically_on_load(true);
+            unsigned short* data = (unsigned short*)stbi_load(texture.c_str(), &width, &height, &channels, STBI_rgb_alpha);
+
+            Power2Width = powerOfTwo(width);
+            Power2Height = powerOfTwo(height);
+
+            Texture* Image1 = new Texture();
+
+            int Swizzle = 1;
+            int Vram = 0;
+            int ColorMode = GU_PSM_8888;
+
+            Image1->width = width;
+            Image1->height = height;
+            Image1->pWidth = Power2Width;
+            Image1->pHeight = Power2Height;
+            Image1->ramSpace = Vram;
+            Image1->colorMode = ColorMode;
+            Image1->swizzled = Swizzle;
+            Image1->data = data;
+
+            unsigned short* swizzled_pixels = NULL;
+            if (Vram)
+            {
+                swizzled_pixels = (unsigned short*)getStaticVramTexture(Power2Width, Power2Height, ColorMode);
+            }
+            else
+            {
+                swizzled_pixels = (unsigned short*)memalign(16, Image1->pHeight * Image1->pWidth * OutBytesPerPixel);
+            }
+
+            swizzle_fast((u8*)swizzled_pixels, (const u8*)data, Image1->pWidth * OutBytesPerPixel, Image1->pHeight);
+
+            Image1->data = swizzled_pixels;
+
+            stbi_image_free(data);
+
+            //clear the cache or there will be some errors
+            sceKernelDcacheWritebackInvalidateAll();
+
+            Image1->repeat = repeat;
+            Image1->maxFilter = filterMag;
+            Image1->minFilter = filterMin;
+
+
+            fullMap.emplace(texCount, Image1);
+
+            return texCount++;
+#elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
+            int width, height, nrChannels;
+            stbi_set_flip_vertically_on_load(true);
+            unsigned char* data = stbi_load(texture.c_str(), &width, &height, &nrChannels, 4);
+
+            unsigned int* tex = new unsigned int(); //Default initialization to 0 apparently
+            glGenTextures(1, tex);
+
+            glBindTexture(GL_TEXTURE_2D, *tex);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+            glGenerateMipmap(GL_TEXTURE_2D);
+            stbi_image_free(data);
+
+            if(repeat){
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+            }else{
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+            }
+
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filterMag);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filterMin);
+
+            fullMap.emplace(texCount, tex);
+
+            return texCount++;
+#else
+#error No Texture Loading Functionality!
+#endif
+        }
+
+        inline void bindTex(unsigned int id) {
+            if (fullMap.find(id) != fullMap.end()) {
+#if CURRENT_PLATFORM == PLATFORM_PSP
+                sceGuEnable(GU_TEXTURE_2D);
+                Texture* tex = fullMap[id];
+
+                sceGuTexMode(tex->colorMode, 0, 0, tex->swizzled);
+                sceGuTexFunc(GU_TFX_MODULATE, GU_TCC_RGBA);
+                sceGuTexFilter(tex->minFilter, tex->maxFilter);
+                sceGuTexOffset(0.0f, 0.0f);
+                sceGuTexWrap(tex->repeat ? GU_REPEAT : GU_CLAMP, tex->repeat ? GU_REPEAT : GU_CLAMP);
+                sceGuTexImage(0, tex->pWidth, tex->pHeight, tex->pWidth, tex->data);
+
+#elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
+                glEnable(GL_TEXTURE_2D);
+                glBindTexture(GL_TEXTURE_2D, *fullMap[id]);
+#else
+#error No Texture Binding Functionality!
+#endif
+            }
+        }
+        
+        inline void deleteTex(unsigned int in){
+            if (fullMap.find(in) != fullMap.end()) {
+#if CURRENT_PLATFORM == PLATFORM_PSP
+                delete fullMap[in];
+                fullMap.erase(in);
+#elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
+                glDeleteTextures(1, fullMap[in]);
+                delete fullMap[in];
+                fullMap.erase(in);
+#else
+#error No Texture Deletion Functionality!
+#endif
+
+            }
+        }
+
+    private:
+        std::map<unsigned int, Texture*> fullMap;
+        int texCount;
     };
 
     
