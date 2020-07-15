@@ -125,7 +125,14 @@ typedef sf::Music SoundEffect;
 
 		inline SoundEffect* loadSound(std::string path, bool streaming) {
 #if CURRENT_PLATFORM == PLATFORM_PSP
-			return oslLoadSoundFile(path.c_str(), (streaming) ? OSL_FMT_STREAM : OSL_FMT_NONE);
+			int i = 0;
+			if (streaming) {
+				i = OSL_FMT_STREAM;
+			}
+			else {
+				i = OSL_FMT_NONE;
+			}
+			return oslLoadSoundFile(path.c_str(), i);
 #else
 			SoundEffect* m = new SoundEffect();
 			m->openFromFile(path.c_str());
@@ -183,7 +190,7 @@ typedef sf::Music SoundEffect;
 	}
 
 #if (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
-	inline void initPC(int width = 800, int height = 450, std::string title = "Stardust Engine", bool fullScreen = false, bool vsync = false) {
+	inline void initPC(int width = 800, int height = 450, std::string title = "Stardust Engine", bool fullScreen = false, bool vsync = true) {
 		PC::g_Window = new PC::Window(width, height, title, fullScreen, vsync);
 	}
 #endif

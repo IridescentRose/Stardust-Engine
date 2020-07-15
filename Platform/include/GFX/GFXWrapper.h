@@ -28,6 +28,7 @@
 
 #elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
 #include <Platform/PC/Window.h>
+#include <iostream>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/glm.hpp>
 #include <sstream>
@@ -263,6 +264,7 @@ namespace Stardust::GFX {
 
 #if CURRENT_PLATFORM == PLATFORM_PSP
             //Generate data into relevant structure
+            deleteData();
 
             for (int i = 0; i < mesh->position.size() / 3; i++) {
                 Vertex v;
@@ -273,7 +275,7 @@ namespace Stardust::GFX {
                 v.u = mesh->uv[i * 2 + 0];
                 v.v = mesh->uv[i * 2 + 1];
         
-                v.color = GU_COLOR(mesh->color[i * 3 + 0], mesh->color[i * 3 + 1], mesh->color[i * 3 + 2], 1.0);
+                v.color = GU_COLOR(mesh->color[i * 4 + 0], mesh->color[i * 4 + 1], mesh->color[i * 4 + 2], mesh->color[i * 4 + 3]);
                 verts.push_back(v);
             }
 
@@ -301,7 +303,7 @@ namespace Stardust::GFX {
             genBO(2, mesh->uv);
             
             
-            genBO(3, mesh->color);
+            genBO(4, mesh->color);
             
             genEBO(mesh->indices);
 #else
@@ -319,7 +321,9 @@ namespace Stardust::GFX {
             //Delete VAO & buffers
             glDeleteVertexArrays(1, &vao);
 
-            glDeleteBuffers(buffers.size(), buffers.data());
+            for (int i = 0; i < buffers.size(); i++) {
+                glDeleteBuffers(1, &buffers[i]);
+            }
             buffers.clear();
 
             buffer_count = 0;
@@ -436,7 +440,10 @@ namespace Stardust::GFX {
         bool repeat;
     };
 #else
-    typedef GLuint Texture;
+    struct Texture {
+        int width, height, pWidth, pHeight;
+        GLuint id;
+    };
 #endif
 
     /**
@@ -536,10 +543,13 @@ namespace Stardust::GFX {
             stbi_set_flip_vertically_on_load(true);
             unsigned char* data = stbi_load(texture.c_str(), &width, &height, &nrChannels, 4);
 
-            unsigned int* tex = new unsigned int(); //Default initialization to 0 apparently
-            glGenTextures(1, tex);
+            Texture* tex = new Texture(); //Default initialization to 0 apparently
+            glGenTextures(1, &tex->id);
 
-            glBindTexture(GL_TEXTURE_2D, *tex);
+            tex->width = tex->pWidth = width;
+            tex->height = tex->pHeight = height;
+
+            glBindTexture(GL_TEXTURE_2D, tex->id);
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
             glGenerateMipmap(GL_TEXTURE_2D);
             stbi_image_free(data);
@@ -578,7 +588,7 @@ namespace Stardust::GFX {
 
 #elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
                 glEnable(GL_TEXTURE_2D);
-                glBindTexture(GL_TEXTURE_2D, *fullMap[id]);
+                glBindTexture(GL_TEXTURE_2D, fullMap[id]->id);
 #else
 #error No Texture Binding Functionality!
 #endif
@@ -591,7 +601,7 @@ namespace Stardust::GFX {
                 delete fullMap[in];
                 fullMap.erase(in);
 #elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
-                glDeleteTextures(1, fullMap[in]);
+                glDeleteTextures(1, &fullMap[in]->id);
                 delete fullMap[in];
                 fullMap.erase(in);
 #else
@@ -601,10 +611,19 @@ namespace Stardust::GFX {
             }
         }
 
+        inline Texture* getTex(unsigned int id) {
+            if (fullMap.find(id) != fullMap.end()) {
+                return fullMap[id];
+            }
+            return NULL;
+        }
     private:
         std::map<unsigned int, Texture*> fullMap;
         int texCount;
     };
 
-    
+}
+
+namespace Stardust::GFX {
+    extern TextureManager* g_TextureManager;
 }

@@ -147,12 +147,14 @@
     <ClInclude Include="include\Core\Core.h" />
     <ClInclude Include="include\Core\GameState.h" />
     <ClInclude Include="include\Core\StateManager.h" />
+    <ClInclude Include="include\GFX\2D\Sprite.h" />
     <ClInclude Include="include\GFX\RenderCore.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Audio\AudioClip.cpp" />
     <ClCompile Include="src\Core\Core.cpp" />
     <ClCompile Include="src\Core\StateManager.cpp" />
+    <ClCompile Include="src\GFX\2D\Sprite.cpp" />
     <ClCompile Include="src\GFX\RenderCore.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

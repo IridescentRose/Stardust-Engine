@@ -15,6 +15,3 @@ namespace Stardust::Platform::detail::Graphics{
 #endif
 }
 
-namespace Stardust::GFX{
-    extern TextureManager* g_TextureManager;
-}

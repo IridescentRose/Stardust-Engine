@@ -18,11 +18,11 @@ OBJS = ../Platform/src/Platform/Platform.o \
 ../Core/src/Core/Core.o \
 ../Core/src/Core/StateManager.o \
 ../Core/src/GFX/RenderCore.o \
+../Core/src/GFX/2D/Sprite.o \
 # ../Core/src/Graphics/RendererCore.o \
 # ../Core/src/Graphics/Dialogs.o \
 # ../Core/src/Graphics/vram.o \
 # ../Core/src/Graphics/TextureUtil.o \
-# ../Core/src/Graphics/2D/SpriteBase.o \
 # ../Core/src/Graphics/2D/SpriteAdvanced.o \
 # ../Core/src/Graphics/2D/SpriteAnimated.o \
 # ../Core/src/Graphics/2D/Tilemap.o \
