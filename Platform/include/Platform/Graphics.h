@@ -1,4 +1,5 @@
 #include "Platform.h"
+#include <GFX/GFXWrapper.h>
 
 namespace Stardust::Platform::detail::Graphics{
 
@@ -12,4 +13,8 @@ namespace Stardust::Platform::detail::Graphics{
     void beginFrameDialog();
     void endFrameDialog();
 #endif
+}
+
+namespace Stardust::GFX{
+    extern TextureManager* g_TextureManager;
 }
