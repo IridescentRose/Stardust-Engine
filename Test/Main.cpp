@@ -2,7 +2,7 @@
 #include <GFX/RenderCore.h>
 #include <Platform/PC/Window.h>
 #include <GFX/GFXWrapper.h>
-#include <GFX/2D/SpriteAnimated.h>
+#include <GFX/2D/Tilemap.h>
 using namespace Stardust;
 
 int main() {
@@ -10,11 +10,28 @@ int main() {
 
 	float r = 0.0f;
 
-	unsigned int myTex = GFX::g_TextureManager->loadTex("fire_0.png", GFX_FILTER_NEAREST, GFX_FILTER_NEAREST, true);
-	GFX::Render2D::SpriteAnimated* sprite = new GFX::Render2D::SpriteAnimated(myTex, { 256, 256 }, 32);
+	unsigned int myTex = GFX::g_TextureManager->loadTex("./terrain_atlas.png", GFX_FILTER_NEAREST, GFX_FILTER_NEAREST, true);
+	
+	GFX::Render2D::Tilemap* tmap = new GFX::Render2D::Tilemap(new GFX::TextureAtlas(32), myTex);
+	srand(time(0));
+	for (int i = 0; i < 1000; i++) {
+		GFX::Render2D::Tile* tile = new GFX::Render2D::Tile();
 
-	sprite->setPosition(240, 136);
-	GFX::Render2D::PointLight light = { 240, 136, 255, 255, 255, 255, 100.0f, 1.0f };
+		tile->offset = { rand() % 480, rand() % 272 };
+		tile->extent = { 16, 16 };
+		tile->r = rand() % 255;
+		tile->g = rand() % 255;
+		tile->b = rand() % 255;
+		tile->a = rand() % 255;
+		tile->layer = 0;
+		tile->rotation = rand() % 3;
+		tile->texIndex = rand() % 512;
+		tile->physics = true;
+
+		tmap->addTile(tile);
+	}
+
+	tmap->buildMap();
 
 	while (true) {
 		GFX::g_RenderCore->beginFrame();
@@ -22,25 +39,13 @@ int main() {
 		r += 0.005f;
 		if (r >= 1.0f) {
 			r = 0.0f;
-
-			light.intensity = 1.0f;
-			light.range = 50.0f;
-			light.x += 2;
-
-
-			sprite->clearPointLights();
-			sprite->addPointLight(light);
-			sprite->calculateLighting();
-			sprite->tickPhase();
 		}
-
-
 
 		GFX::g_RenderCore->setClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		GFX::g_RenderCore->clear();
 
 		//Main loop
-		sprite->draw();
+		tmap->drawMap();
 
 		Platform::platformUpdate();
 		GFX::g_RenderCore->endFrame();

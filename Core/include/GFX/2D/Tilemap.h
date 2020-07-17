@@ -19,7 +19,7 @@ namespace Stardust::GFX::Render2D {
 		short texIndex;
 		char layer;
 		char rotation;
-		unsigned int rgba;
+		unsigned char r, g, b, a;
 		bool physics;
 	};
 
