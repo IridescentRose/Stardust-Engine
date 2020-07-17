@@ -13,7 +13,7 @@ PSP_LARGE_MEMORY = 1
 
 LIBDIR += ../Deps/lib/psp/ ../Stardust/lib/psp
 LDFLAGS =
-LIBS= -lstardust -lintraFont -ljson -lpspaudiolib -loslaudio -lpspaudio -lpspaudiocodec -lz -lpspgum_vfpu -lpspgu -lstdc++ -lpsprtc -lpspctrl -lm -lpspvfpu -lpspsdk -lpsppower -lpsphttp -lpspmath #Intrafont, PNG, Zlib, JSON, etc.
+LIBS= -lstardust -lintraFont -lpspaudiolib -loslaudio -lpspaudio -lpspaudiocodec -lz -lpspgum_vfpu -lpspgu -lstdc++ -lpsprtc -lpspctrl -lm -lpspvfpu -lpspsdk -lpsppower -lpsphttp -lpspmath #Intrafont, PNG, Zlib, JSON, etc.
 
 EXTRA_TARGETS = EBOOT.PBP
 PSP_EBOOT_TITLE = Stardust

@@ -1,3 +1,2 @@
-make -j16
-make -f MakefilePSP
+make -f MakefilePSP -j16
 pause
