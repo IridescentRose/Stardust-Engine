@@ -2,6 +2,7 @@
 #include <string>
 #include <GFX/GFXWrapper.h>
 #include <glm/glm.hpp>
+#include "Light.h"
 
 namespace Stardust::GFX::Render2D {
 	class Sprite{
@@ -18,6 +19,14 @@ namespace Stardust::GFX::Render2D {
 		void setScale(float x, float y);
 		void setColor(float r, float g, float b, float a);
 		void setTexture(unsigned int tex);
+
+		void setAmbientLight(AmbientLight light);
+		void addPointLight(PointLight light);
+		void calculateLighting();
+		void clearPointLights();
+
+		AmbientLight ambient;
+		std::vector<PointLight> pointLights;
 
 		void draw();
 

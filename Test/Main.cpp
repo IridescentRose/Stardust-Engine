@@ -14,17 +14,29 @@ int main() {
 	GFX::Render2D::SpriteAnimated* sprite = new GFX::Render2D::SpriteAnimated(myTex, { 256, 256 }, 32);
 
 	sprite->setPosition(240, 136);
+	GFX::Render2D::PointLight light = { 240, 136, 255, 255, 255, 255, 100.0f, 1.0f };
 
 	while (true) {
 		GFX::g_RenderCore->beginFrame();
 
-		r += 0.1f;
+		r += 0.005f;
 		if (r >= 1.0f) {
 			r = 0.0f;
+
+			light.intensity = 1.0f;
+			light.range = 50.0f;
+			light.x += 2;
+
+
+			sprite->clearPointLights();
+			sprite->addPointLight(light);
+			sprite->calculateLighting();
 			sprite->tickPhase();
 		}
 
-		GFX::g_RenderCore->setClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+
+
+		GFX::g_RenderCore->setClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		GFX::g_RenderCore->clear();
 
 		//Main loop

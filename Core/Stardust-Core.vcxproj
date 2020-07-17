@@ -149,7 +149,9 @@
     <ClInclude Include="include\Core\StateManager.h" />
     <ClInclude Include="include\GFX\2D\Sprite.h" />
     <ClInclude Include="include\GFX\2D\SpriteAnimated.h" />
+    <ClInclude Include="include\GFX\2D\Tilemap.h" />
     <ClInclude Include="include\GFX\RenderCore.h" />
+    <ClInclude Include="include\GFX\2D\Light.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Audio\AudioClip.cpp" />

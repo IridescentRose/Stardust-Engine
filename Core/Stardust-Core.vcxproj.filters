@@ -39,6 +39,12 @@
     <ClInclude Include="include\GFX\2D\SpriteAnimated.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\GFX\2D\Tilemap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GFX\2D\Light.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\Core.cpp">

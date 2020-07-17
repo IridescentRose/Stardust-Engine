@@ -37,6 +37,7 @@
 #endif
 #include <stb/stb_image.h>
 #include <map>
+#include <array>
 #include <glm/glm.hpp>
 
 /**
@@ -713,6 +714,41 @@ namespace Stardust::GFX {
     }
 
     //TODO: Add rotation to model matrix.
+
+    /**
+     * Basic texture atlas.
+     */
+    class TextureAtlas {
+    public:
+        TextureAtlas(short tileSide){
+            sideCount = { tileSide, tileSide };
+        }
+        TextureAtlas(glm::vec2 sideXY){
+            sideCount = sideXY;
+        }
+
+        inline std::array<float, 8> getTexture(int index){
+            int row = index / (int)sideCount.x;
+            int column = index % (int)sideCount.y;
+
+            float sizeX = 1.f / ((float)sideCount.x);
+            float sizeY = 1.f / ((float)sideCount.y);
+            float y = (float)row * sizeY;
+            float x = (float)column * sizeX;
+            float h = y + sizeY;
+            float w = x + sizeX;
+
+            return {
+                x, y,
+                w, y,
+                w, h,
+                x, h,
+            };
+        }
+
+    private:
+        glm::vec2 sideCount;
+    };
 
 }
 
