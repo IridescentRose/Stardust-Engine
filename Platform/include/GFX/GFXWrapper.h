@@ -229,7 +229,7 @@ namespace Stardust::GFX {
     class Model{
     public:
         Model() = default;
-        Model(const Mesh& mesh){
+        Model(Mesh& mesh){
             addData(mesh);
         }
         ~Model(){
@@ -238,12 +238,13 @@ namespace Stardust::GFX {
 
 #if (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
     private:
-        inline void genBO(int dims, const std::vector<float>& data){
+        inline void genBO(int dims, std::vector<float>& data){
             GLuint vbo;
             glGenBuffers(1, &vbo);
             glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
             glBufferData(GL_ARRAY_BUFFER, data.size() * sizeof(float), data.data(), GL_STATIC_DRAW);
+            //data.clear();
             glVertexAttribPointer(buffer_count, dims, GL_FLOAT, GL_FALSE, 0, 0);
             
             glEnableVertexAttribArray(buffer_count++);
@@ -251,18 +252,19 @@ namespace Stardust::GFX {
             buffers.push_back(vbo);
         }
 
-        inline void genEBO(const std::vector<GLuint>& indices){
+        inline void genEBO(std::vector<GLuint>& indices){
             GLuint ebo;
             glGenBuffers(1, &ebo);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
             glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), indices.data(), GL_STATIC_DRAW);
+            //indices.clear();
             indicesCount = indices.size();
         }
 
     public:
 #endif
 
-        inline void addData(const Mesh& mesh) {
+        inline void addData(Mesh& mesh) {
 
 #if CURRENT_PLATFORM == PLATFORM_PSP
             //Generate data into relevant structure

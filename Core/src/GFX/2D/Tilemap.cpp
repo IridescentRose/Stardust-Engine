@@ -96,7 +96,6 @@ namespace Stardust::GFX::Render2D {
 			t->r = r;
 			t->g = g;
 			t->b = b;
-			t->a = 255;
 		}
 
 		buildMap();

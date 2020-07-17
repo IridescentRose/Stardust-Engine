@@ -45,6 +45,9 @@
     <ClInclude Include="include\GFX\2D\Light.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\GFX\2D\TilemapAnim.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\Core.cpp">
@@ -66,6 +69,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\GFX\2D\Tilemap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GFX\2D\TilemapAnim.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

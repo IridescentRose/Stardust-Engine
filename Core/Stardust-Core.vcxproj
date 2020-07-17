@@ -150,6 +150,7 @@
     <ClInclude Include="include\GFX\2D\Sprite.h" />
     <ClInclude Include="include\GFX\2D\SpriteAnimated.h" />
     <ClInclude Include="include\GFX\2D\Tilemap.h" />
+    <ClInclude Include="include\GFX\2D\TilemapAnim.h" />
     <ClInclude Include="include\GFX\RenderCore.h" />
     <ClInclude Include="include\GFX\2D\Light.h" />
   </ItemGroup>
@@ -160,6 +161,7 @@
     <ClCompile Include="src\GFX\2D\Sprite.cpp" />
     <ClCompile Include="src\GFX\2D\SpriteAnimated.cpp" />
     <ClCompile Include="src\GFX\2D\Tilemap.cpp" />
+    <ClCompile Include="src\GFX\2D\TilemapAnim.cpp" />
     <ClCompile Include="src\GFX\RenderCore.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
