@@ -3,6 +3,7 @@
 #include <Platform/PC/Window.h>
 #include <GFX/GFXWrapper.h>
 #include <GFX/2D/TilemapAnim.h>
+#include <GFX/UI/TextRenderer.h>
 using namespace Stardust;
 
 int main() {
@@ -38,13 +39,16 @@ int main() {
 
 	tmap->buildMap();
 
+	GFX::UI::TextRenderer* txt = new GFX::UI::TextRenderer();
+	txt->init("./assets/font.pgf");
+	
 	while (true) {
 		GFX::g_RenderCore->beginFrame();
 
-		r += 0.5f;
+		r += 0.005f;
 		if (r >= 1.0f) {
 			r = 0.0f;
-			tmap->tickPhase();
+			//tmap->tickPhase();
 		}
 
 		GFX::g_RenderCore->setClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -52,6 +56,7 @@ int main() {
 
 		//Main loop
 		tmap->drawMap();
+		txt->draw("HELLO WORLD", { 240, 136 });
 
 		Platform::platformUpdate();
 		GFX::g_RenderCore->endFrame();

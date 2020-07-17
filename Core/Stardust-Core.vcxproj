@@ -154,6 +154,7 @@
     <ClInclude Include="include\GFX\RenderCore.h" />
     <ClInclude Include="include\GFX\2D\Light.h" />
     <ClInclude Include="include\GFX\3D\Camera.h" />
+    <ClInclude Include="include\GFX\UI\TextRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Audio\AudioClip.cpp" />
@@ -165,6 +166,7 @@
     <ClCompile Include="src\GFX\2D\TilemapAnim.cpp" />
     <ClCompile Include="src\GFX\RenderCore.cpp" />
     <ClCompile Include="src\GFX\3D\Camera.cpp" />
+    <ClCompile Include="src\GFX\UI\TextRenderer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
