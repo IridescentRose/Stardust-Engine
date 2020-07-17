@@ -1,7 +1,7 @@
 #version 330
 layout (location = 0) in vec3 aPos;
 layout (location = 1) in vec2 aTex;
-layout (location = 2) in vec3 aCol;
+layout (location = 2) in vec4 aCol;
 
 uniform mat4 proj;
 uniform mat4 view;
@@ -9,7 +9,7 @@ uniform mat4 model;
 
 //Optional
 out vec2 uv;
-out vec3 color;
+out vec4 color;
 
 void main()
 {
