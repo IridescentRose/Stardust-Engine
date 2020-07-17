@@ -10,6 +10,7 @@ namespace Stardust::GFX::Render2D {
 		Sprite();
 		~Sprite();
 
+		Sprite(unsigned int tex);
 		Sprite(unsigned int tex, glm::vec2 size);
 		Sprite(unsigned int tex, glm::vec2 pos1, glm::vec2 extent); //Cuts stuff
 
