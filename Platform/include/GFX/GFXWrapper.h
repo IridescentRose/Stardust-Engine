@@ -30,7 +30,6 @@
 #include <Platform/PC/Window.h>
 #include <iostream>
 #include <glm/gtc/type_ptr.hpp>
-#include <glm/glm.hpp>
 #include <sstream>
 #include <fstream>
 #include <glm/gtc/matrix_transform.hpp>
@@ -38,6 +37,7 @@
 #endif
 #include <stb/stb_image.h>
 #include <map>
+#include <glm/glm.hpp>
 
 /**
  * A general purpose OpenGL-like Graphics Wrapper for Stardust.
