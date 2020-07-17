@@ -29,6 +29,7 @@
 namespace Stardust::GFX{
 	GLuint program;
 	glm::mat4 _gfx_proj, _gfx_view, _gfx_model;
+	std::vector<glm::mat4> _matrixStack;
 }
 
 #endif

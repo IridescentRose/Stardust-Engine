@@ -13,6 +13,7 @@ namespace Stardust::GFX {
 	void RenderCore::init()
 	{
 		Platform::detail::Graphics::initGraphicsContext();
+		setDefault2DMode();
 	}
 	void RenderCore::cleanup()
 	{
@@ -42,9 +43,13 @@ namespace Stardust::GFX {
 		gfxClearColor(_r, _g, _b, _a);
 	}
 
-	void RenderCore::set2DMode(float bottom, float top, float left, float right, float znear, float zfar)
+	void RenderCore::set2DMode(float left, float right, float bottom, float top, float znear, float zfar)
 	{
-		gfxSetOrtho(bottom, top, left, right, znear, zfar);
+		gfxSetOrtho(left, right, bottom, top, znear, zfar);
+	}
+
+	void RenderCore::setDefault2DMode(){
+		set2DMode(0, 480, 272, 0, -30, 30);
 	}
 
 	void RenderCore::beginFrame()

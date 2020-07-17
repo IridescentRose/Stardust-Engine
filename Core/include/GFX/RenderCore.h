@@ -15,7 +15,8 @@ namespace Stardust::GFX {
 		void setClearColor(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
 		void setClearColor(float r, float g, float b, float a);
 
-		void set2DMode(float bottom, float top, float left, float right, float znear, float zfar);
+		void setDefault2DMode();
+		void set2DMode(float left, float right, float bottom, float top, float znear, float zfar);
 
 		void beginFrame();
 		void endFrame();

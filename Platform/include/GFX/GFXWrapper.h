@@ -50,6 +50,7 @@ namespace Stardust::GFX {
 #if (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
     extern glm::mat4 _gfx_proj, _gfx_view, _gfx_model;
     extern GLuint program;
+    extern std::vector<glm::mat4> _matrixStack;
 #endif
 
 /**
@@ -114,11 +115,11 @@ namespace Stardust::GFX {
      * \param znear - Z Near Coord
      * \param zfar - Z Far Coord
      */
-    inline void gfxSetOrtho(float bottom, float top, float left, float right, float znear, float zfar){
+    inline void gfxSetOrtho(float left, float right, float bottom, float top, float znear, float zfar){
 #if CURRENT_PLATFORM == PLATFORM_PSP
         sceGumMatrixMode(GU_PROJECTION);
         sceGumLoadIdentity();
-        sceGumOrtho(bottom, top, left, right, znear, zfar);
+        sceGumOrtho(left, right, bottom, top, znear, zfar);
 
         sceGumMatrixMode(GU_VIEW);
         sceGumLoadIdentity();
@@ -126,7 +127,7 @@ namespace Stardust::GFX {
         sceGumMatrixMode(GU_MODEL);
         sceGumLoadIdentity();
 #elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
-        _gfx_proj = glm::ortho(bottom, top, left, right, znear, zfar);
+        _gfx_proj = glm::ortho(left, right, bottom, top, znear, zfar);
         _gfx_view = glm::mat4(1.0f);
         _gfx_model = glm::mat4(1.0f);
 #else
@@ -227,7 +228,7 @@ namespace Stardust::GFX {
     class Model{
     public:
         Model() = default;
-        Model(const Mesh* mesh){
+        Model(const Mesh& mesh){
             addData(mesh);
         }
         ~Model(){
@@ -260,29 +261,29 @@ namespace Stardust::GFX {
     public:
 #endif
 
-        inline void addData(const Mesh* mesh) {
+        inline void addData(const Mesh& mesh) {
 
 #if CURRENT_PLATFORM == PLATFORM_PSP
             //Generate data into relevant structure
             deleteData();
 
-            for (int i = 0; i < mesh->position.size() / 3; i++) {
+            for (int i = 0; i < mesh.position.size() / 3; i++) {
                 Vertex v;
-                v.x = mesh->position[i * 3 + 0];
-                v.y = mesh->position[i * 3 + 1];
-                v.z = mesh->position[i * 3 + 2];
+                v.x = mesh.position[i * 3 + 0];
+                v.y = mesh.position[i * 3 + 1];
+                v.z = mesh.position[i * 3 + 2];
 
-                v.u = mesh->uv[i * 2 + 0];
-                v.v = mesh->uv[i * 2 + 1];
+                v.u = mesh.uv[i * 2 + 0];
+                v.v = mesh.uv[i * 2 + 1];
         
-                v.color = GU_COLOR(mesh->color[i * 4 + 0], mesh->color[i * 4 + 1], mesh->color[i * 4 + 2], mesh->color[i * 4 + 3]);
+                v.color = GU_COLOR(mesh.color[i * 4 + 0], mesh.color[i * 4 + 1], mesh.color[i * 4 + 2], mesh.color[i * 4 + 3]);
                 verts.push_back(v);
             }
 
-            indicesCount = mesh->indices.size();
+            indicesCount = mesh.indices.size();
 
             for (int i = 0; i < indicesCount; i++) {
-                indices.push_back(mesh->indices[i]);
+                indices.push_back(mesh.indices[i]);
             }
 
             sceKernelDcacheWritebackInvalidateAll();
@@ -298,14 +299,14 @@ namespace Stardust::GFX {
             glBindVertexArray(vao);
 
             //Default VBO.
-            genBO(3, mesh->position);
+            genBO(3, mesh.position);
             
-            genBO(2, mesh->uv);
+            genBO(2, mesh.uv);
             
             
-            genBO(4, mesh->color);
+            genBO(4, mesh.color);
             
-            genEBO(mesh->indices);
+            genEBO(mesh.indices);
 #else
 #error No Graphics Model Data Handling
 #endif
@@ -357,7 +358,16 @@ namespace Stardust::GFX {
             
             glUniformMatrix4fv(glGetUniformLocation(program, "proj"), 1, GL_FALSE, glm::value_ptr(_gfx_proj));
             glUniformMatrix4fv(glGetUniformLocation(program, "view"), 1, GL_FALSE, glm::value_ptr(_gfx_view));
-            glUniformMatrix4fv(glGetUniformLocation(program, "model"), 1, GL_FALSE, glm::value_ptr(_gfx_model));
+
+            glm::mat4 newModel = glm::mat4(1.0f);
+
+            for (int i = 0; i < _matrixStack.size(); i++) {
+                newModel *= _matrixStack[i];
+            }
+            newModel *= _gfx_model;
+
+
+            glUniformMatrix4fv(glGetUniformLocation(program, "model"), 1, GL_FALSE, glm::value_ptr(newModel));
 
             //Bind VAO
             bind();
@@ -490,7 +500,7 @@ namespace Stardust::GFX {
 
             //GET WIDTH / HEIGHT
             int width, height, channels;
-            stbi_set_flip_vertically_on_load(true);
+            //stbi_set_flip_vertically_on_load(true);
             unsigned short* data = (unsigned short*)stbi_load(texture.c_str(), &width, &height, &channels, STBI_rgb_alpha);
 
             Power2Width = powerOfTwo(width);
@@ -540,7 +550,7 @@ namespace Stardust::GFX {
             return texCount++;
 #elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
             int width, height, nrChannels;
-            stbi_set_flip_vertically_on_load(true);
+            //stbi_set_flip_vertically_on_load(true);
             unsigned char* data = stbi_load(texture.c_str(), &width, &height, &nrChannels, 4);
 
             Texture* tex = new Texture(); //Default initialization to 0 apparently
@@ -621,6 +631,88 @@ namespace Stardust::GFX {
         std::map<unsigned int, Texture*> fullMap;
         int texCount;
     };
+
+    
+    /**
+     * Pushes a matrix back onto the stack.
+     * 
+     */
+    inline void pushMatrix(){
+#if CURRENT_PLATFORM == PLATFORM_PSP
+        sceGumPushMatrix();
+#elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
+        _matrixStack.push_back(_gfx_model);
+        _gfx_model = glm::mat4(1.0f);
+#else
+#error No GFX Matrix Stack (Push)!
+#endif
+    }
+
+    /**
+     * Pops a matrix back off the stack.
+     * 
+     */
+    inline void popMatrix(){
+#if CURRENT_PLATFORM == PLATFORM_PSP
+        sceGumPopMatrix();
+#elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
+        _gfx_model = _matrixStack[_matrixStack.size() - 1];
+        _matrixStack.pop_back();
+#else
+#error No GFX Matrix Stack (Pop)!
+#endif
+    }
+
+    /**
+     * Loads the identity matrix.
+     * 
+     */
+    inline void clearModelMatrix(){
+#if CURRENT_PLATFORM == PLATFORM_PSP
+        sceGumMatrixMode(GU_MODEL);
+        sceGumLoadIdentity();
+#elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
+        _gfx_model = glm::mat4(1.0f);
+#else
+#error No GFX Matrix Clear.
+#endif
+    }
+
+    /**
+     * Translates a model by Vector V.
+     * 
+     * \param v - The translation
+     */
+    inline void translateModelMatrix(glm::vec3 v) {
+#if CURRENT_PLATFORM == PLATFORM_PSP
+        sceGumMatrixMode(GU_MODEL);
+        ScePspFVector3 vv = { v.x, v.y, v.z };
+        sceGumTranslate(&vv);
+#elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
+        _gfx_model = glm::translate(_gfx_model, v);
+#else
+#error No GFX Matrix Translate.
+#endif
+    }
+
+    /**
+     * Scales a model by Vector V.
+     *
+     * \param v - The scale
+     */
+    inline void scaleModelMatrix(glm::vec3 v) {
+#if CURRENT_PLATFORM == PLATFORM_PSP
+        sceGumMatrixMode(GU_MODEL);
+        ScePspFVector3 vv = { v.x, v.y, v.z };
+        sceGumScale(&vv);
+#elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
+        _gfx_model = glm::scale(_gfx_model, v);
+#else
+#error No GFX Matrix Scale.
+#endif
+    }
+
+    //TODO: Add rotation to model matrix.
 
 }
 

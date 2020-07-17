@@ -190,7 +190,7 @@ typedef sf::Music SoundEffect;
 	}
 
 #if (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
-	inline void initPC(int width = 800, int height = 450, std::string title = "Stardust Engine", bool fullScreen = false, bool vsync = true) {
+	inline void initPC(int width = 1280, int height = 720, std::string title = "Stardust Engine", bool fullScreen = false, bool vsync = false) {
 		PC::g_Window = new PC::Window(width, height, title, fullScreen, vsync);
 	}
 #endif

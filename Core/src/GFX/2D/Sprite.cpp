@@ -17,12 +17,14 @@ namespace Stardust::GFX::Render2D{
 	{
 		tex = t;
 
+		scaleFactor = { 1.0, 1.0 };
 		mesh.position = {
-		   -size.x,-size.y, 0,
-			size.x,-size.y, 0,
-			size.x, size.y, 0,
-		   -size.x, size.y, 0,
+		   -size.x / 2.0f,-size.y / 2.0f, 0, //0
+			size.x / 2.0f,-size.y / 2.0f, 0, //1
+			size.x/2.0f, size.y/2.0f, 0, //2
+		   -size.x / 2.0f, size.y / 2.0f, 0, //3
 		};
+
 
 		mesh.color = {
 			1.0f, 1.0f, 1.0f, 1.0f,
@@ -43,16 +45,17 @@ namespace Stardust::GFX::Render2D{
 		};
 
 		mesh.indices = {
-			0, 1, 2, 2, 3, 0
+			3, 2, 1, 1, 0, 3
 		};
 
-		model.addData(&mesh);
+		model.addData(mesh);
 	}
 
 	Sprite::Sprite(unsigned int t, glm::vec2 pos, glm::vec2 extent)
 	{
 		tex = t;
 
+		scaleFactor = { 1.0, 1.0 };
 		Texture* tD = g_TextureManager->getTex(t);
 
 		mesh.color = {
@@ -85,7 +88,7 @@ namespace Stardust::GFX::Render2D{
 			0, 1, 2, 2, 3, 0
 		};
 
-		model.addData(&mesh);
+		model.addData(mesh);
 	}
 
 	void Sprite::setLayer(int i)
@@ -95,7 +98,7 @@ namespace Stardust::GFX::Render2D{
 		mesh.position[1*3 + 2] = i;
 		mesh.position[2*3 + 2] = i;
 		mesh.position[3*3 + 2] = i;
-		//model.addData(&mesh);
+		model.addData(mesh);
 	}
 
 	void Sprite::setPosition(float x, float y)
@@ -118,7 +121,7 @@ namespace Stardust::GFX::Render2D{
 			r, g, b, a,
 		};
 
-		model.addData(&mesh);
+		model.addData(mesh);
 	}
 
 	void Sprite::setTexture(unsigned int t)
@@ -130,9 +133,15 @@ namespace Stardust::GFX::Render2D{
 	{
 
 		//Matrix translation
+		GFX::pushMatrix();
+		GFX::clearModelMatrix();
+		GFX::scaleModelMatrix(glm::vec3(scaleFactor.x, scaleFactor.y, 1.0f));
+		GFX::translateModelMatrix(glm::vec3(offset.x, offset.y, 1.0f));
 
 		g_TextureManager->bindTex(tex);
 		model.draw();
+
+		GFX::popMatrix();
 	}
 	
 
