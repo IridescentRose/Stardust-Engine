@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 
-namespace Stardust::Graphics::Render2D {
+namespace Stardust::GFX::Render2D {
 	struct PointLight {
 		int x, y;
 		uint8_t r, g, b, a;
