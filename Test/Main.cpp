@@ -18,7 +18,7 @@ int main() {
 	while (true) {
 		GFX::g_RenderCore->beginFrame();
 
-		r += 0.005f;
+		r += 0.1f;
 		if (r >= 1.0f) {
 			r = 0.0f;
 			sprite->tickPhase();
