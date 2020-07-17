@@ -29,16 +29,16 @@
 #elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
 #include <Platform/PC/Window.h>
 #include <iostream>
-#include <glm/gtc/type_ptr.hpp>
 #include <sstream>
 #include <fstream>
-#include <glm/gtc/matrix_transform.hpp>
 
 #endif
 #include <stb/stb_image.h>
 #include <map>
 #include <array>
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 /**
  * A general purpose OpenGL-like Graphics Wrapper for Stardust.
@@ -710,6 +710,24 @@ namespace Stardust::GFX {
         sceGumScale(&vv);
 #elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
         _gfx_model = glm::scale(_gfx_model, v);
+#else
+#error No GFX Matrix Scale.
+#endif
+    }
+
+    inline void gfxSetProjView(glm::mat4 proj, glm::mat4 view){
+#if CURRENT_PLATFORM == PLATFORM_PSP
+        sceGumMatrixMode(GU_PROJECTION);
+        ScePspFMatrix4 m = *((ScePspFMatrix4*)glm::value_ptr(proj));
+        sceGumLoadMatrix(&m);
+
+        sceGumMatrixMode(GU_VIEW);
+        ScePspFMatrix4 m1 = *((ScePspFMatrix4*)glm::value_ptr(view));
+        sceGumLoadMatrix(&m1);
+
+#elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
+        _gfx_proj = proj;
+        _gfx_view = view;
 #else
 #error No GFX Matrix Scale.
 #endif

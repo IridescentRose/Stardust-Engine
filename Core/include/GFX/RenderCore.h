@@ -1,6 +1,7 @@
 #pragma once
 #include <Platform/Platform.h>
 #include <Platform/Graphics.h>
+#include <GFX/3D/Camera.h>
 
 namespace Stardust::GFX {
 	class RenderCore {
@@ -21,8 +22,12 @@ namespace Stardust::GFX {
 		void beginFrame();
 		void endFrame();
 
+		void bindCamera(Render3D::Camera* cam);
+		void set3DMode();
+
 	private:
 		uint8_t r, g, b, a;
+		Render3D::Camera* renderCam;
 	};
 
 	extern RenderCore* g_RenderCore;

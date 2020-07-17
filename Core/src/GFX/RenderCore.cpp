@@ -12,6 +12,7 @@ namespace Stardust::GFX {
 	}
 	void RenderCore::init()
 	{
+		renderCam = NULL;
 		Platform::detail::Graphics::initGraphicsContext();
 		setDefault2DMode();
 	}
@@ -59,6 +60,20 @@ namespace Stardust::GFX {
 	void RenderCore::endFrame()
 	{
 		Platform::detail::Graphics::endFrame();
+	}
+
+	void RenderCore::bindCamera(Render3D::Camera* cam)
+	{
+		renderCam = cam;
+	}
+
+	void RenderCore::set3DMode()
+	{
+		//Bind our camera's rendering settings.
+		if(renderCam != NULL){
+			//Bind projection and view data.
+			gfxSetProjView(renderCam->getProjection(), renderCam->getView());
+		}
 	}
 
 	RenderCore* g_RenderCore = nullptr;
