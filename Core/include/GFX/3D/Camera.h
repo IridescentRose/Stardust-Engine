@@ -1,8 +1,7 @@
 #pragma once
-#include <psptypes.h>
 #include <glm/glm.hpp>
 
-namespace Stardust::Graphics::Render3D {
+namespace Stardust::GFX::Render3D {
 	class Camera {
 	public:
 		Camera(glm::vec3 position, glm::vec3 rotation, float fovy, float aspect, float zN, float zF);
@@ -10,10 +9,10 @@ namespace Stardust::Graphics::Render3D {
 		void setProjection(float fovy, float aspect, float zN, float zF);
 		void update();
 
-		inline ScePspFMatrix4 getProjection() {
+		inline glm::mat4 getProjection() {
 			return proj;
 		}
-		inline ScePspFMatrix4 getView() {
+		inline glm::mat4 getView() {
 			return view;
 		}
 
@@ -23,6 +22,6 @@ namespace Stardust::Graphics::Render3D {
 
 		float fov, aspectRatio, zNear, zFar;
 
-		ScePspFMatrix4 proj, view;
+		glm::mat4 proj, view;
 	};
 }
