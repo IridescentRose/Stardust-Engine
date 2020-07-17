@@ -1,0 +1,19 @@
+TARGET=TestApp
+TEST_OBJS = Main.o
+
+CC = clang
+CXX = clang++
+CFLAGS = -O3 -ffast-math -pthread -DCURRENT_PLATFORM=PLATFORM_NIX -I../Platform/include -I../Core/include -I../Utilities/include -I../Deps/include
+CXXFLAGS = $(CFLAGS) -std=c++17
+LDFLAGS = -L../Stardust/lib/nix -L/usr/local/lib -L/usr/local/lib/cmake -L/usr/lib -lstardust-utilities -lglfw -lsfml-audio -lstardust-core -lstardust-platform -lGL -ldl
+
+all: $(TARGET) 
+
+$(TARGET): $(TEST_OBJS)
+	$(CXX) -o $@ $< $(LDFLAGS)
+
+%.o: %.c
+	$(CXX) $(INCDIR) -c -o $@ $< $(CXXFLAGS)
+
+clean:
+	rm -f $(TEST_OBJS) $(TARGET)
