@@ -7,7 +7,6 @@ class GameStateManager;
 
 class GameState {
 public:
-	virtual ~GameState();
 	virtual void init() = 0;
 	virtual void cleanup() = 0;
 	
