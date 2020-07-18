@@ -5,6 +5,9 @@
 
 #if CURRENT_PLATFORM == PLATFORM_PSP
 #include <intraFont.h>
+#else
+#define GLT_MANUAL_VIEWPORT
+#include <gltext.h>
 #endif
 
 namespace Stardust::GFX::UI{
