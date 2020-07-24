@@ -1,0 +1,65 @@
+TARGET = Stardust
+OBJS = ../Platform/src/Platform/Platform.o \
+../Platform/src/Platform/PSP/Dialogs.o \
+../Platform/src/Platform/Graphics.o \
+../Platform/src/Platform/PSP/vram.o \
+../Utilities/src/Platform/Platform.o \
+../Utilities/src/Math/Frustum.o \
+../Utilities/src/Utilities/Timer.o \
+../Utilities/src/Utilities/Logger.o \
+../Utilities/src/Utilities/Input.o \
+../Utilities/src/Utilities/Thread.o \
+../Utilities/src/Events/Events.o \
+../Utilities/src/Network/NetworkDriver.o \
+../Utilities/src/Network/Socket.o \
+../Utilities/src/Network/ByteBuffer.o \
+../Utilities/src/Profiler/Profiler.o \
+../Utilities/src/Utilities/json/json_reader.o \
+../Utilities/src/Utilities/json/json_value.o \
+../Utilities/src/Utilities/json/json_writer.o \
+../Core/src/Audio/AudioClip.o \
+../Core/src/Core/Core.o \
+../Core/src/Core/StateManager.o \
+../Core/src/GFX/RenderCore.o \
+../Core/src/GFX/2D/Sprite.o \
+../Core/src/GFX/2D/SpriteAnimated.o \
+../Core/src/GFX/2D/Tilemap.o \
+../Core/src/GFX/2D/TilemapAnim.o \
+../Core/src/GFX/3D/Camera.o \
+../Core/src/GFX/3D/Skybox.o \
+../Core/src/GFX/UI/TextRenderer.o \
+../Core/src/GFX/UI/UIButton.o \
+# ../Core/src/Graphics/RendererCore.o \
+# ../Core/src/Graphics/Dialogs.o \
+# ../Core/src/Graphics/vram.o \
+# ../Core/src/Graphics/TextureUtil.o \
+# ../Core/src/Graphics/2D/SpriteAdvanced.o \
+# ../Core/src/Graphics/2D/Tilemap.o \
+# ../Core/src/Graphics/2D/TilemapAnim.o \
+# ../Core/src/Graphics/2D/CharacterSprite.o \
+# ../Core/src/Graphics/2D/AnimTickController.o \
+# ../Core/src/Graphics/2D/TopDownController.o \
+# ../Core/src/Graphics/2D/SideScrollerController.o \
+# ../Core/src/Graphics/3D/Camera.o \
+# ../Core/src/Graphics/3D/Mesh.o \
+# ../Core/src/Graphics/UI/Font.o \
+# ../Core/src/Graphics/UI/UIText.o \
+# ../Core/src/Graphics/UI/Dialog.o \
+# ../Core/src/Graphics/UI/MarqueeText.o \
+# ../Core/src/Graphics/UI/UISystem.o \
+# ../Core/src/Graphics/UI/UIButton.o \
+# ../Core/src/Engines/VN/VisualNovelEngine.o \
+
+alib = lib/psp/libstardust.a
+
+INCDIR = $(PSPPATH)/include
+INCDIR += ../Platform/include ../Utilities/include ../Core/include ../Deps/include
+CFLAGS = -O3 -G0 -mpreferred-stack-boundary=4 -ffast-math -gdwarf-2 -DCURRENT_PLATFORM=PLATFORM_PSP
+CXXFLAGS = -std=gnu++17
+ASFLAGS = $(CFLAGS)
+
+$(alib): $(OBJS)
+	$(AR) rcs $@ $^
+
+PSPSDK=$(shell psp-config --pspsdk-path)
+include $(PSPSDK)/lib/build.mak

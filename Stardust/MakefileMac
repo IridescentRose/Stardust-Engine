@@ -1,0 +1,55 @@
+PLAT_OBJS = ../Platform/src/Platform/Platform.o \
+../Platform/src/Platform/PC/Window.o \
+../Platform/src/Platform/PC/GL/glad.o \
+../Platform/src/Platform/Graphics.o \
+
+UTIL_OBJS = ../Utilities/src/Platform/Platform.o \
+../Utilities/src/Math/Frustum.o \
+../Utilities/src/Utilities/Timer.o \
+../Utilities/src/Utilities/Logger.o \
+../Utilities/src/Utilities/Thread.o \
+../Utilities/src/Events/Events.o \
+../Utilities/src/Network/NetworkDriver.o \
+../Utilities/src/Network/Socket.o \
+../Utilities/src/Network/ByteBuffer.o \
+../Utilities/src/Utilities/Input.o \
+../Utilities/src/Utilities/json/json_reader.o \
+../Utilities/src/Utilities/json/json_value.o \
+../Utilities/src/Utilities/json/json_writer.o \
+
+CORE_OBJS = ../Core/src/Core/Core.o \
+../Core/src/Core/StateManager.o \
+../Core/src/Audio/AudioClip.o \
+../Core/src/GFX/RenderCore.o \
+../Core/src/GFX/2D/Sprite.o \
+../Core/src/GFX/2D/SpriteAnimated.o \
+../Core/src/GFX/2D/Tilemap.o \
+../Core/src/GFX/2D/TilemapAnim.o \
+../Core/src/GFX/3D/Camera.o \
+../Core/src/GFX/UI/TextRenderer.o \
+
+util_lib = lib/mac/libstardust-utilities.a
+plat_lib = lib/mac/libstardust-platform.a
+core_lib = lib/mac/libstardust-core.a
+
+CC = clang
+CXX= clang++
+CFLAGS = -O3 -ffast-math -pthread -DCURRENT_PLATFORM=PLATFORM_NIX -I../Platform/include -I../Core/include -I../Utilities/include -I../Deps/include
+CXXFLAGS = $(CFLAGS) -std=c++17
+
+all: core_lib utility_lib platform_lib 
+
+%.o: %.cpp
+	$(CXX) $(INCDIR) -c -o $@ $< $(CXXFLAGS)
+
+platform_lib: $(PLAT_OBJS)
+	$(AR) rcs $(plat_lib) $^
+
+utility_lib: $(UTIL_OBJS)
+	$(AR) rcs $(util_lib) $^
+
+core_lib: $(CORE_OBJS)
+	$(AR) rcs $(core_lib) $^
+
+clean:
+	rm -f $(PLAT_OBJS) $(UTIL_OBJS) $(CORE_OBJS) ./$(plat_lib) ./$(util_lib) ./$(core_lib)
