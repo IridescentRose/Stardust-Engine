@@ -591,6 +591,100 @@ namespace Stardust::GFX {
 #endif
         }
 
+        /**
+         * Loads a texture from memory
+         *
+         * \param texture - Pointer to the texture data, width*height*4 bytes
+         * \param filterMag - GFX Filters
+         * \param filterMin - GFX Filters
+         * \param repeat - Whether or not to repeat
+         * \param width - The width of the texture
+         * \param height - The height of the texture
+         * \return
+         */
+        inline unsigned int loadTex(uint8_t* data, int filterMag, int filterMin, bool repeat, int width, int height) {
+#if CURRENT_PLATFORM == PLATFORM_PSP
+            int OutBytesPerPixel = 4;
+            int Power2Width = 0;
+            int Power2Height = 0;
+
+            Power2Width = powerOfTwo(width);
+            Power2Height = powerOfTwo(height);
+
+            Texture* Image1 = new Texture();
+
+            int Swizzle = 1;
+            int Vram = 0;
+            int ColorMode = GU_PSM_8888;
+
+            Image1->width = width;
+            Image1->height = height;
+            Image1->pWidth = Power2Width;
+            Image1->pHeight = Power2Height;
+            Image1->ramSpace = Vram;
+            Image1->colorMode = ColorMode;
+            Image1->swizzled = Swizzle;
+            Image1->data = data;
+
+            unsigned short* swizzled_pixels = NULL;
+            if (Vram)
+            {
+                swizzled_pixels = (unsigned short*)getStaticVramTexture(Power2Width, Power2Height, ColorMode);
+            }
+            else
+            {
+                swizzled_pixels = (unsigned short*)memalign(16, Image1->pHeight * Image1->pWidth * OutBytesPerPixel);
+            }
+
+            swizzle_fast((u8*)swizzled_pixels, (const u8*)data, Image1->pWidth * OutBytesPerPixel, Image1->pHeight);
+
+            Image1->data = swizzled_pixels;
+
+
+            //clear the cache or there will be some errors
+            sceKernelDcacheWritebackInvalidateAll();
+
+            Image1->repeat = repeat;
+            Image1->maxFilter = filterMag;
+            Image1->minFilter = filterMin;
+
+
+            fullMap.emplace(texCount, Image1);
+
+            return texCount++;
+#elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
+
+            Texture* tex = new Texture(); //Default initialization to 0 apparently
+            glGenTextures(1, &tex->id);
+
+            tex->width = tex->pWidth = width;
+            tex->height = tex->pHeight = height;
+
+            glBindTexture(GL_TEXTURE_2D, tex->id);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+            glGenerateMipmap(GL_TEXTURE_2D);
+
+            if (repeat) {
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+            }
+            else {
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+            }
+
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filterMag);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filterMin);
+
+            fullMap.emplace(texCount, tex);
+
+            return texCount++;
+#else
+#error No Texture Loading Functionality!
+#endif
+        }
+
+
         inline void bindTex(unsigned int id) {
             if (fullMap.find(id) != fullMap.end()) {
 #if CURRENT_PLATFORM == PLATFORM_PSP
