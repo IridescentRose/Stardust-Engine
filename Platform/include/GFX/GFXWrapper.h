@@ -529,16 +529,7 @@ namespace Stardust::GFX {
             Image1->swizzled = Swizzle;
             Image1->data = data;
 
-            unsigned short* swizzled_pixels = NULL;
-            if (Vram)
-            {
-                swizzled_pixels = (unsigned short*)getStaticVramTexture(Power2Width, Power2Height, ColorMode);
-            }
-            else
-            {
-                swizzled_pixels = (unsigned short*)memalign(16, Image1->pHeight * Image1->pWidth * OutBytesPerPixel);
-            }
-
+            unsigned short* swizzled_pixels = (unsigned short*)memalign(16, Image1->pHeight * Image1->pWidth * OutBytesPerPixel);
             swizzle_fast((u8*)swizzled_pixels, (const u8*)data, Image1->pWidth * OutBytesPerPixel, Image1->pHeight);
 
             Image1->data = swizzled_pixels;
@@ -625,18 +616,6 @@ namespace Stardust::GFX {
             Image1->colorMode = ColorMode;
             Image1->swizzled = Swizzle;
             Image1->data = data;
-
-
-            if (Vram)
-            {
-                Image1->data = (unsigned short*)getStaticVramTexture(Power2Width, Power2Height, ColorMode);
-                memcpy(Image1->data, data, Power2Width * Power2Height * OutBytesPerPixel);
-            }
-            else
-            {
-                //do nothing, it's already set to the data
-            }
-
 
             //clear the cache or there will be some errors
             sceKernelDcacheWritebackInvalidateAll();
