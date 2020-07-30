@@ -7,6 +7,9 @@
 #endif
 
 
+/**
+ * UNSTABLE API
+**/
 namespace Stardust::Utilities {
 
 #if (CURRENT_PLATFORM == PLATFORM_PSP) || (CURRENT_PLATFORM == PLATFORM_VITA)

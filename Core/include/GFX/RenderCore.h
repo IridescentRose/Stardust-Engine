@@ -3,6 +3,9 @@
 #include <Platform/Graphics.h>
 #include <GFX/3D/Camera.h>
 
+/**
+ * UNSTABLE
+**/
 namespace Stardust::GFX {
 	class RenderCore {
 	public:

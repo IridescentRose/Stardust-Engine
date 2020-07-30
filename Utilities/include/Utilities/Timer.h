@@ -12,13 +12,30 @@
 
 namespace Stardust::Utilities {
 
+	/**
+	 * Timer class which contains utilities for delta and elapsed time.
+	**/
 	class Timer {
 	public:
+		/**
+		 * Default constructor obtains current time and sets as base
+		**/
 		Timer();
 
+		/**
+		 * Sets elapsed time to 0, and last time to now.
+		**/
 		void reset();
 
+		/**
+		 * Returns the time since last deltaTime call / reset / construction.
+		 * This also updates the elapsed(); counter
+		**/
 		double deltaTime();
+		
+		/**
+		 * Total time since starting - requires deltaTime to be called beforehand to be updated
+		**/
 		double elapsed();
 		
 	private:

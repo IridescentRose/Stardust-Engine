@@ -3,6 +3,9 @@
 #include <Utilities/JSON.h>
 #include <vector>
 
+/**
+ * UNSTABLE
+**/
 namespace Stardust::Core {
 
 	class Component {

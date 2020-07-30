@@ -2,11 +2,24 @@
 #include <cstdlib>
 #include <string>
 
+/**
+ * A very simple UUID utility
+**/
 namespace Stardust::Utilities {
-	using UUID = std::string;
-
+	
+    /**
+     * UUIDs are strings
+    **/
+    using UUID = std::string;
+    
+    /**
+     * Usable UUID characters
+    **/
     const std::string CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
+    /**
+     * Generic UUID generation.
+    **/
     inline UUID generateUUID() {
         UUID uuid = std::string(36, ' ');
         int rnd = std::rand();

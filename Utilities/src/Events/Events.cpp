@@ -42,6 +42,7 @@ namespace Stardust::Events {
 		for (int i = 0; i < eventList.size(); i++) {
 			if (eventListeners.find(eventList[i]->event_type) != eventListeners.end()) {
 				eventListeners[eventList[i]->event_type](eventList[i]);
+				delete eventList[i];
 			}
 		}
 

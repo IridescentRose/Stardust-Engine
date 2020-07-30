@@ -2,6 +2,9 @@
 #include <Core/Core.h>
 #include <Platform/Platform.h>
 
+/**
+ * UNSTABLE
+**/
 namespace Stardust::Audio {
 	class AudioClip{
 	public:

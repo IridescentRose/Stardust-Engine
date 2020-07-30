@@ -6,6 +6,9 @@
 
 namespace Stardust::Utilities {
 	
+	/**
+	 * Basic logger levels for logging, ranging from Trace -> Error.
+	**/
 	enum LoggerLevel {
 		LOGGER_LEVEL_TRACE = -2,
 		LOGGER_LEVEL_DEBUG = -1,
@@ -14,15 +17,42 @@ namespace Stardust::Utilities {
 		LOGGER_LEVEL_ERROR = 2,
 	};
 
+	/**
+	 * The basic logger class for Stardust.
+	**/
 	class Logger {
 	public:
+		/**
+		 * Constructor - uses the name for message formatting and path for output.
+		 * 
+		 * @param name - Program / Logger name.
+		 * @param path - Output file - default is "stardust_log.log"
+		**/
 		Logger(std::string name, std::string path = "stardust_log.log");
+		
+		/**
+		 * Force flushes log and destroys the previously accumulated data.
+		**/
 		~Logger();
 
+		/**
+		 * Synchronizes current log to disk. 
+		 * Important for low disk-speed systems to avoid calling this as much as possible.
+		**/
 		void flushLog();
 
+		/**
+		 * Adds a message (formatted later) onto the log with severity.
+		 * If the logger level passed in is less than the currentLevel of this logger, it is not added.
+		 * 
+		 * @param message - Message to log
+		 * @param level - Logger level of the message.
+		**/
 		void log(std::string message, LoggerLevel level = LOGGER_LEVEL_INFO);
 
+		/**
+		 * A LoggerLevel to filter by. If it is lower, then the logged messages lower than this will not be included.
+		**/
 		int currentLevel;
 	private:
 		std::ofstream m_file;
@@ -30,8 +60,20 @@ namespace Stardust::Utilities {
 		std::string m_name;
 	};
 
+	/**
+	 * Core stardust logger! NOT FOR REGULAR USE.
+	 * Only acceptable use case is engine debugging.
+	 * In which case:
+	 * <code>
+	 * Stardust::Utilities::detail::core_Logger->currentLevel = LOGGER_LEVEL_TRACE;
+	 * </code>
+	**/
 	namespace detail {
 		extern Logger* core_Logger;
 	}
+
+	/**
+	 * Stardust provides a default logger for your applications
+	**/
 	extern Logger* app_Logger;
 }

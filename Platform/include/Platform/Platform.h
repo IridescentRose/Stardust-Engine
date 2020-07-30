@@ -101,6 +101,11 @@ namespace Stardust::Platform {
 	*/
 	void platformUpdate();
 
+	/**
+	 * Delays the system thread
+	 * 
+	 * @param millis - Time in MS
+	**/
 	inline void delayForMS(int millis) {
 #if CURRENT_PLATFORM == PLATFORM_PSP || CURRENT_PLATFORM == PLATFORM_VITA
 		sceKernelDelayThread(millis * 1000);

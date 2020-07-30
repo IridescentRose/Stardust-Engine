@@ -190,10 +190,25 @@ enum PspCtrlButtons
 #include <string>
 #include <glm/glm.hpp>
 
+/**
+ * Small input utility which uses GLFW_Keys and PSP_CTRL buttons.
+ * Both are accepted and they have default defines of -1 on the non-native platform
+**/
 namespace Stardust::Utilities {
 
+	/**
+	 * Is a key pressed down?
+	**/
 	bool KeyPressed(int key);
+
+	/**
+	 * Is a key held down?
+	**/
 	bool KeyHold(int key);
+
+	/**
+	 * Updates the input from the system-specific method
+	**/
 	void updateInputs();
 
 	/*
@@ -202,27 +217,77 @@ namespace Stardust::Utilities {
 	*/
 	float KeyStrength(int key);
 
+	/**
+	 * Adds an action bound to a specific key
+	 * 
+	 * @param action-- Action name
+	 * @param key - The key number
+	**/
 	void addActionKeyPair(std::string action, int key);
+
+	/**
+	 * Deletes all action key pairs.
+	**/
 	void clearActionKeyPairs();
+
+	/**
+	 * Sets a specific action to a different key (rebind).
+	 * 
+	 * @param action - Action name to rebind
+	 * @param key - New key
+	**/
 	void setActionKeyPair(std::string action, int key);
 
 	/**
-	* Bool - Held?
-	* Float - Strength
-	*/
+	 * Handles a bound action
+	 * Bool - Held?
+	 * Float - Strength
+	**/
 	typedef void (*ActionHandler)(bool, float);
 
+	/**
+	 * Adds a handler to an action upon a key press
+	 * 
+	 * @param action - Action name
+	 * @param handler - The handler for the action
+	**/
 	void addActionHandler(std::string action, ActionHandler handler);
+
+	/**
+	 * Removes all handlers for a specified action.
+	**/
 	void clearActionHandlers();
 
+	/**
+	 * A method to get the Key name of PSP buttons.
+	**/
 	std::string toString(int but);
 
+	/**
+	 * Loads a .json configuration of action key pairs
+	**/
 	void LoadConfiguration(std::string path);
+
+	
+	/**
+	 * Saves a .json configuration of action key pairs
+	**/
 	void SaveConfiguration(std::string path);
 
-	int buttonFromAction(std::string);
+	/**
+	 * Retrieves a key / button ID from an action
+	 * 
+	 * @param action - The ID to reverse lookup
+	**/
+	int buttonFromAction(std::string action);
 
+	/**
+	 * Waits for the next button press on PSP
+	**/
 	int nextAction();
 
+	/**
+	 * Gets the cursor position on PC, returns (-1, -1) on PSP
+	**/
 	glm::vec2 getCursorPos();
 }
