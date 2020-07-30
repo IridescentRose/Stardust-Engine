@@ -188,7 +188,7 @@ namespace Stardust::GFX::Render2D{
 		GFX::pushMatrix();
 		GFX::scaleModelMatrix(glm::vec3(scaleFactor.x, scaleFactor.y, 1.0f));
 		GFX::pushMatrix();
-		GFX::rotateModelMatrix(rotation.x, rotation.y, 0.0f);
+		GFX::rotateModelMatrix({ rotation.x, rotation.y, 0.0f });
 
 
 		g_TextureManager->bindTex(tex);

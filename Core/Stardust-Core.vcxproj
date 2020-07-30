@@ -148,6 +148,7 @@
     <ClInclude Include="include\Core\Core.h" />
     <ClInclude Include="include\Core\GameState.h" />
     <ClInclude Include="include\Core\StateManager.h" />
+    <ClInclude Include="include\GFX\2D\CharacterSprite.h" />
     <ClInclude Include="include\GFX\2D\Sprite.h" />
     <ClInclude Include="include\GFX\2D\SpriteAnimated.h" />
     <ClInclude Include="include\GFX\2D\Tilemap.h" />
@@ -163,6 +164,7 @@
     <ClCompile Include="src\Audio\AudioClip.cpp" />
     <ClCompile Include="src\Core\Core.cpp" />
     <ClCompile Include="src\Core\StateManager.cpp" />
+    <ClCompile Include="src\GFX\2D\CharacterSprite.cpp" />
     <ClCompile Include="src\GFX\2D\Sprite.cpp" />
     <ClCompile Include="src\GFX\2D\SpriteAnimated.cpp" />
     <ClCompile Include="src\GFX\2D\Tilemap.cpp" />
