@@ -21,6 +21,8 @@ namespace Stardust::GFX::Render2D {
 		void setColor(float r, float g, float b, float a);
 		void setTexture(unsigned int tex);
 
+		void rotate(float x, float y);
+
 		void setAmbientLight(AmbientLight light);
 		void addPointLight(PointLight light);
 		void calculateLighting();
@@ -34,7 +36,9 @@ namespace Stardust::GFX::Render2D {
 	protected:
 		glm::vec2 offset;
 		glm::vec2 scaleFactor;
+		glm::vec2 rotation;
 		Mesh mesh;
+
 
 		Model model;
 		unsigned int tex;

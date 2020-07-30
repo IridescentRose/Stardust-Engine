@@ -6,6 +6,7 @@ namespace Stardust::GFX::Render2D{
 		tex = -1;
 		offset = { 0, 0 };
 		scaleFactor = { 1.0, 1.0 };
+		rotation = {0, 0};
 	}
 
 	Sprite::~Sprite()
@@ -15,6 +16,7 @@ namespace Stardust::GFX::Render2D{
 
 	Sprite::Sprite(unsigned int t)
 	{
+		rotation = {0, 0};
 		tex = t;
 
 		Texture* tex2 = g_TextureManager->getTex(t);
@@ -55,6 +57,7 @@ namespace Stardust::GFX::Render2D{
 
 	Sprite::Sprite(unsigned int t, glm::vec2 size)
 	{
+		rotation = {0, 0};
 		tex = t;
 
 		scaleFactor = { 1.0, 1.0 };
@@ -94,6 +97,7 @@ namespace Stardust::GFX::Render2D{
 	Sprite::Sprite(unsigned int t, glm::vec2 pos, glm::vec2 extent)
 	{
 		tex = t;
+		rotation = {0, 0};
 
 		scaleFactor = { 1.0, 1.0 };
 		Texture* tD = g_TextureManager->getTex(t);
@@ -169,6 +173,11 @@ namespace Stardust::GFX::Render2D{
 		tex = t;
 	}
 
+	void Sprite::rotate(float x, float y){
+		rotation = {x, y};
+	}
+
+
 	void Sprite::draw()
 	{
 
@@ -178,10 +187,14 @@ namespace Stardust::GFX::Render2D{
 		GFX::translateModelMatrix(glm::vec3(offset.x, offset.y, 1.0f));
 		GFX::pushMatrix();
 		GFX::scaleModelMatrix(glm::vec3(scaleFactor.x, scaleFactor.y, 1.0f));
+		GFX::pushMatrix();
+		GFX::rotateModelMatrix(rotation.x, rotation.y, 0.0f);
+
 
 		g_TextureManager->bindTex(tex);
 		model.draw();
 
+		GFX::popMatrix();
 		GFX::popMatrix();
 		GFX::popMatrix();
 	}
