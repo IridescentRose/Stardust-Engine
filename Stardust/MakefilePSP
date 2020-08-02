@@ -1,6 +1,7 @@
 TARGET = Stardust
 OBJS = ../Platform/src/Platform/Platform.o \
 ../Platform/src/Platform/PSP/Dialogs.o \
+../Platform/src/Platform/PSP/Power.o \
 ../Platform/src/Platform/Graphics.o \
 ../Platform/src/Platform/PSP/vram.o \
 ../Utilities/src/Platform/Platform.o \
@@ -29,26 +30,6 @@ OBJS = ../Platform/src/Platform/Platform.o \
 ../Core/src/GFX/3D/Skybox.o \
 ../Core/src/GFX/UI/TextRenderer.o \
 ../Core/src/GFX/UI/UIButton.o \
-# ../Core/src/Graphics/RendererCore.o \
-# ../Core/src/Graphics/Dialogs.o \
-# ../Core/src/Graphics/vram.o \
-# ../Core/src/Graphics/TextureUtil.o \
-# ../Core/src/Graphics/2D/SpriteAdvanced.o \
-# ../Core/src/Graphics/2D/Tilemap.o \
-# ../Core/src/Graphics/2D/TilemapAnim.o \
-# ../Core/src/Graphics/2D/CharacterSprite.o \
-# ../Core/src/Graphics/2D/AnimTickController.o \
-# ../Core/src/Graphics/2D/TopDownController.o \
-# ../Core/src/Graphics/2D/SideScrollerController.o \
-# ../Core/src/Graphics/3D/Camera.o \
-# ../Core/src/Graphics/3D/Mesh.o \
-# ../Core/src/Graphics/UI/Font.o \
-# ../Core/src/Graphics/UI/UIText.o \
-# ../Core/src/Graphics/UI/Dialog.o \
-# ../Core/src/Graphics/UI/MarqueeText.o \
-# ../Core/src/Graphics/UI/UISystem.o \
-# ../Core/src/Graphics/UI/UIButton.o \
-# ../Core/src/Engines/VN/VisualNovelEngine.o \
 
 alib = lib/psp/libstardust.a
 
