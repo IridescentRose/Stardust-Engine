@@ -186,6 +186,9 @@ enum PspCtrlButtons
 	/** Memory stick present. */
 	PSP_CTRL_MS = -1,
 };
+
+#define PSP_CTRL_ANALOG_X 0x3
+#define PSP_CTRL_ANALOG_Y 0x5
 #endif
 #include <string>
 #include <glm/glm.hpp>

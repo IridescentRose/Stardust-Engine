@@ -720,24 +720,21 @@ namespace Stardust::GFX {
 #endif
     }
 
-     /**
-     * Rotates a model by Vector angles v.
+    /**
+     * Rotate a model by Vector V.
      *
      * \param v - The scale
      */
     inline void rotateModelMatrix(glm::vec3 v) {
 #if CURRENT_PLATFORM == PLATFORM_PSP
         sceGumMatrixMode(GU_MODEL);
-        sceGumRotateX(v.x);
-        sceGumRotateX(v.y);
-        sceGumRotateX(v.z);
-#elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
-        _gfx_model = glm::mat4(1.0f);
-        _gfx_model = glm::rotate(_gfx_model, glm::radians(v.x), { 1, 0, 0 });
-		_gfx_model = glm::rotate(_gfx_model, glm::radians(v.y), { 0, 1, 0 });
-		_gfx_model = glm::rotate(_gfx_model, glm::radians(v.z), { 0, 0, 1 });
+        sceGumRotateX(v.x / 180.0f * 3.14159f);
+        sceGumRotateY(v.y / 180.0f * 3.14159f);
+        sceGumRotateZ(v.z / 180.0f * 3.14159f);
 #else
-#error No GFX Matrix Scale.
+        _gfx_model = glm::rotate(_gfx_model, v.x, { 1, 0, 0 });
+        _gfx_model = glm::rotate(_gfx_model, v.y, { 0, 1, 0 });
+        _gfx_model = glm::rotate(_gfx_model, v.z, { 0, 0, 1 });
 #endif
     }
 
