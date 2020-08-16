@@ -29,10 +29,15 @@ namespace std {
 
 
 #elif CURRENT_PLATFORM == PLATFORM_VITA
+// VitaSDK Headers
 #include <vitasdk.h> 
-// FIXME
-typedef uint64_t u64;
-typedef uint32_t u32;
+// SoLoud - For Sound
+#include <soloud.h>
+#include <soloud_wav.h>
+#include <soloud_wavstream.h>
+
+// Also define the SoLoud Engine in here
+SoLoud::Soloud SoundEngine;
 #endif
 
 #if CURRENT_PLATFORM == PLATFORM_WIN
@@ -124,10 +129,23 @@ namespace Stardust::Platform {
 
 #if CURRENT_PLATFORM == PLATFORM_PSP
 typedef OSL_SOUND SoundEffect;
+#elif CURRENT_PLATFORM == PLATFORM_VITA
+typedef SoLoud::WavStream SoundEffect;
 #else
 typedef sf::Music SoundEffect;
 #endif
 
+		/*
+			SoLoud (the Sound Library used for Vita) does not make use of pointers,
+			which makes things difficult due to the current formatting of SoundEffects.
+
+			Because of this, Vita-specific inlines are defined under the more general ones
+
+			- MotoLegacy
+		*/
+
+		// General loadSound()
+#if CURRENT_PLATFORM != PLATFORM_VITA
 		inline SoundEffect* loadSound(std::string path, bool streaming) {
 #if CURRENT_PLATFORM == PLATFORM_PSP
 			int i = 0;
@@ -144,7 +162,20 @@ typedef sf::Music SoundEffect;
 			return m;
 #endif
 		}
+#endif	// !PLATFORM_VITA
 
+		// Vita-Specific loadSound()
+#if CURRENT_PLATFORM == PLATFORM_VITA
+		inline SoundEffect loadSound(std::string path, bool streaming = false) {
+			SoundEffect m;
+			m.load(path.c_str());
+
+			return m;
+		}
+#endif // PLATFORM_VITA
+
+		// General playSoundEffect()
+#if CURRENT_PLATFORM != PLATFORM_VITA
 		inline void playSoundEffect(SoundEffect* effect, int channel) {
 
 #if CURRENT_PLATFORM == PLATFORM_PSP
@@ -154,7 +185,17 @@ typedef sf::Music SoundEffect;
 #endif
 
 		}
+#endif // !PLATFORM_VITA
 
+		// Vita-specific playSoundEffect()
+#if CURRENT_PLATFORM == PLATFORM_VITA
+		inline void playSoundEffect(SoundEffect effect, int channel = 0) {
+			SoundEngine.play(effect);
+		}
+#endif // PLATFORM_VITA
+
+		// General pauseSoundEffect()
+#if CURRENT_PLATFORM != PLATFORM_VITA
 		inline void pauseSoundEffect(SoundEffect* effect) {
 
 #if CURRENT_PLATFORM == PLATFORM_PSP
@@ -162,9 +203,20 @@ typedef sf::Music SoundEffect;
 #else
 			effect->pause();
 #endif
-
 		}
+#endif // !PLATFORM_VITA
 
+		// Vita-specific pauseSoundEffect()
+#ifdef PLATFORM_VITA
+		inline void pauseSoundEffect(SoundEffect effect) {
+			// TODO: SoLoud Requires a handle and cannot be passed
+			// a sound in itself.
+			//SoundEngine.setPause(effect, 1);
+		}
+#endif // PLATFORM_VITA
+
+		// General stopSoundEffect()
+#if CURRENT_PLATFORM != PLATFORM_VITA
 		inline void stopSoundEffect(SoundEffect* effect) {
 
 #if CURRENT_PLATFORM == PLATFORM_PSP
@@ -172,8 +224,15 @@ typedef sf::Music SoundEffect;
 #else
 			effect->stop();
 #endif
-
 		}
+#endif // !PLATFORM_VITA
+
+		// Vita-specific stopSoundEffect()
+#if CURRENT_PLATFORM == PLATFORM_VITA
+		inline void stopSoundEffect(SoundEffect effect) {
+			effect.stop();
+		}
+#endif // PLATFORM_VITA
 
 		inline void deleteSound(SoundEffect* effect) {
 #if CURRENT_PLATFORM == PLATFORM_PSP
@@ -183,6 +242,8 @@ typedef sf::Music SoundEffect;
 #endif
 		}
 
+		// General setSoundLoop()
+#if CURRENT_PLATFORM != PLATFORM_VITA
 		inline void setSoundLoop(SoundEffect* effect, bool loop) {
 #if CURRENT_PLATFORM == PLATFORM_PSP
 			oslSetSoundLoop(effect, loop);
@@ -190,7 +251,14 @@ typedef sf::Music SoundEffect;
 			effect->setLoop(loop);
 #endif
 		}
+#endif // !PLATFORM_VITA
 
+		// Vita-specific setSoundLoop()
+#if CURRENT_PLATFORM == PLATFORM_VITA
+		inline void setSoundLoop(SoundEffect effect, bool loop) {
+			effect.setLooping(loop);
+		}
+#endif // PLATFORM_VITA
 
 	}
 
