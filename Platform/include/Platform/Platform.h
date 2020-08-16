@@ -27,6 +27,11 @@ namespace std {
 	}
 }
 
+// Define general SCE Methods as PSP counterparts
+#define SCE_HTTP_METHOD_GET PSP_HTTP_METHOD_GET
+#define SCE_O_WRONLY		PSP_O_WRONLY
+#define SCE_O_CREAT 		PSP_O_CREAT
+
 
 #elif CURRENT_PLATFORM == PLATFORM_VITA
 // VitaSDK Headers
