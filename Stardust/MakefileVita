@@ -1,5 +1,6 @@
 TARGET = libstardust
 OBJS = ../Platform/src/Platform/Platform.o \
+../Platform/src/Platform/PSP/Power.o \
 ../Utilities/src/Platform/Platform.o \
 ../Utilities/src/Math/Frustum.o \
 ../Utilities/src/Utilities/Timer.o \
@@ -14,10 +15,13 @@ OBJS = ../Platform/src/Platform/Platform.o \
 ../Utilities/src/Utilities/json/json_reader.o \
 ../Utilities/src/Utilities/json/json_value.o \
 ../Utilities/src/Utilities/json/json_writer.o \
+../Core/src/Audio/AudioClip.o \
+../Core/src/Core/Core.o \
+../Core/src/Core/StateManager.o \
 
 #../Platform/src/Platform/Platform.o \ 					# Done
 #../Platform/src/Platform/PSP/Dialogs.o \
-#../Platform/src/Platform/PSP/Power.o \
+#../Platform/src/Platform/PSP/Power.o \					# Done
 #../Platform/src/Platform/Graphics.o \
 #../Platform/src/Platform/PSP/vram.o \
 #../Utilities/src/Platform/Platform.o \					# Done
@@ -34,9 +38,9 @@ OBJS = ../Platform/src/Platform/Platform.o \
 #../Utilities/src/Utilities/json/json_reader.o \ 		# Done
 #../Utilities/src/Utilities/json/json_value.o \ 		# Done
 #../Utilities/src/Utilities/json/json_writer.o \ 		# Done
-#../Core/src/Audio/AudioClip.o \
-#../Core/src/Core/Core.o \
-#../Core/src/Core/StateManager.o \
+#../Core/src/Audio/AudioClip.o \						# Done
+#../Core/src/Core/Core.o \								# Done
+#../Core/src/Core/StateManager.o \						# Done
 #../Core/src/GFX/RenderCore.o \
 #../Core/src/GFX/2D/Sprite.o \
 #../Core/src/GFX/2D/SpriteAnimated.o \

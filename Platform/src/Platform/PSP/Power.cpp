@@ -1,5 +1,10 @@
 #include <Platform/PSP/Power.h>
+
+#if CURRENT_PLATFORM == PLATFORM_PSP
 #include <psppower.h>
+#else
+#include <vitasdk.h>
+#endif
 
 namespace Stardust::Platform::PSP{
     int GetBatteryPercentage(){
@@ -17,7 +22,7 @@ namespace Stardust::Platform::PSP{
         if(lifetime / 60 > 0){
             res += std::to_string(lifetime / 60) + "h";
         }
-        res += std::to_string(lifetime % 60 + "m");
+        res += std::to_string(lifetime % 60) + "m";
         return res;
     }
 }

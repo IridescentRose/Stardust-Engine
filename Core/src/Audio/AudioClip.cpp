@@ -7,7 +7,11 @@ namespace Stardust::Audio {
 	}
 	AudioClip::~AudioClip()
 	{
-		Platform::detail::deleteSound(snd);
+		#if CURRENT_PLATFORM == PLATFORM_VITA
+			Platform::detail::deleteSound(&snd);
+		#else
+			Platform::detail::deleteSound(snd);
+		#endif
 	}
 
 	void AudioClip::Play(int c)

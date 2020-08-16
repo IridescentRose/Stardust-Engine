@@ -20,6 +20,10 @@ namespace Stardust::Audio {
 		void SetPan(float pan);
 
 	private:
+#if CURRENT_PLATFORM == PLATFORM_VITA
+		Platform::detail::SoundEffect snd;
+#else
 		Platform::detail::SoundEffect* snd;
+#endif
 	};
 }
