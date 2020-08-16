@@ -11,7 +11,10 @@ namespace Stardust::Platform {
 PSP_MODULE_INFO("Stardust-Application", 0, 1, 0);
 PSP_MAIN_THREAD_ATTR(THREAD_ATTR_VFPU | THREAD_ATTR_USER);
 PSP_HEAP_SIZE_KB(-1024);
+#endif
 
+#if CURRENT_PLATFORM == PLATFORM_VITA
+#include <Utilities/Logger.h>
 #endif
 
 bool Stardust::Platform::detail::initNetworks()
@@ -29,7 +32,6 @@ bool Stardust::Platform::detail::initNetworks()
 
 	result = sceNetInit(128 * 1024, 42, 0, 42, 0); //Creates the network manager with a buffer
 	if (result < 0) { //These If Blocks close the game on an error
-
 		Utilities::detail::core_Logger->log("Failed sceNetInit", Utilities::LOGGER_LEVEL_WARN);
 		return false;
 	}
@@ -52,8 +54,7 @@ bool Stardust::Platform::detail::initNetworks()
 
 	return PSP::ShowNetworkDialog();
 #elif CURRENT_PLATFORM == PLATFORM_VITA
-	// MOTO FIXME
-	//Utilities::detail::core_Logger->log("Attempting Network Init");
+	Utilities::detail::core_Logger->log("Attempting Network Init");
 	sceSysmoduleLoadModule(SCE_SYSMODULE_NET);
 	sceSysmoduleLoadModule(SCE_SYSMODULE_HTTP);
 
@@ -65,8 +66,7 @@ bool Stardust::Platform::detail::initNetworks()
 	netInitParam.flags = 0;
 	result = sceNetInit(&netInitParam); //Creates the network manager with a buffer
 	if (result < 0) { //These If Blocks close the game on an error
-		// MOTO FIXME
-		//Utilities::detail::core_Logger->log("Failed sceNetInit", Utilities::LOGGER_LEVEL_WARN);
+		Utilities::detail::core_Logger->log("Failed sceNetInit", Utilities::LOGGER_LEVEL_WARN);
 		return false;
 	}
 
@@ -110,8 +110,7 @@ void Stardust::Platform::detail::closeNetworks()
 	sceSysmoduleUnloadModule(SCE_SYSMODULE_NET);
 	sceSysmoduleUnloadModule(SCE_SYSMODULE_HTTP);
 
-	// MOTO FIXME
-	//Utilities::detail::core_Logger->log("Cleaning up Networking Driver");
+	Utilities::detail::core_Logger->log("Cleaning up Networking Driver");
 #endif
 }
 
@@ -125,80 +124,56 @@ bool Stardust::Platform::detail::getHTTPFile(const char* url, const char* filepa
 	ret = sceHttpInit(20000);
 
 	if (ret < 0) {
-// MOTO FIXME
-#if CURRENT_PLATFORM != PLATFORM_VITA
 		Utilities::detail::core_Logger->log("HTTP INIT FAIL");
-#endif
 		return false;
 	}
 
 	templ = sceHttpCreateTemplate((char*)"xxx-agent/0.0.1 libhttp/1.0.0", 1, 1);
 
 	if (templ < 0) {
-// MOTO FIXME
-#if CURRENT_PLATFORM != PLATFORM_VITA
 		Utilities::detail::core_Logger->log("HTTP TEMPLATE FAIL");
-#endif
 		return false;
 	}
 
 	ret = sceHttpSetResolveTimeOut(templ, 3000000);
 
 	if (ret < 0) {
-// MOTO FIXME
-#if CURRENT_PLATFORM != PLATFORM_VITA
 		Utilities::detail::core_Logger->log("HTTP RESOLVE FAIL");
-#endif
 		return false;
 	}
 
 	ret = sceHttpSetRecvTimeOut(templ, 60000000);
 
 	if (ret < 0) {
-// MOTO FIXME
-#if CURRENT_PLATFORM != PLATFORM_VITA
 		Utilities::detail::core_Logger->log("HTTP RECV FAIL");
-#endif
 		return false;
 	}
 
 	ret = sceHttpSetSendTimeOut(templ, 60000000);
 
 	if (ret < 0) {
-// MOTO FIXME
-#if CURRENT_PLATFORM != PLATFORM_VITA
 		Utilities::detail::core_Logger->log("HTTP SEND FAIL");
-#endif
 		return false;
 	}
 
 	connection = sceHttpCreateConnectionWithURL(templ, url, 0);
 
 	if (ret < 0) {
-// MOTO FIXME
-#if CURRENT_PLATFORM != PLATFORM_VITA
 		Utilities::detail::core_Logger->log("HTTP CONNECTION FAIL");
-#endif
 		return false;
 	}
 
 	request = sceHttpCreateRequestWithURL(connection, SCE_HTTP_METHOD_GET, (char*)url, 0);
 
 	if (ret < 0) {
-// MOTO FIXME
-#if CURRENT_PLATFORM != PLATFORM_VITA
 		Utilities::detail::core_Logger->log("HTTP REQUEST URL FAIL");
-#endif
 		return false;
 	}
 
 	ret = sceHttpSendRequest(request, 0, 0);
 
 	if (ret < 0) {
-// MOTO FIXME
-#if CURRENT_PLATFORM != PLATFORM_VITA
 		Utilities::detail::core_Logger->log("HTTP SEND REQUEST FAIL");
-#endif
 		return false;
 	}
 
@@ -206,10 +181,7 @@ bool Stardust::Platform::detail::getHTTPFile(const char* url, const char* filepa
 	ret = sceHttpGetStatusCode(request, &status);
 
 	if (ret < 0) {
-// MOTO FIXME
-#if CURRENT_PLATFORM != PLATFORM_VITA
 		Utilities::detail::core_Logger->log("HTTP STATUS FAIL");
-#endif
 		return false;
 	}
 
@@ -223,10 +195,7 @@ bool Stardust::Platform::detail::getHTTPFile(const char* url, const char* filepa
 #endif
 
 	if (ret < 0) {
-// MOTO FIXME
-#if CURRENT_PLATFORM != PLATFORM_VITA
 		Utilities::detail::core_Logger->log("HTTP LENGTH FAIL");
-#endif
 		return false;
 	}
 
@@ -253,10 +222,7 @@ bool Stardust::Platform::detail::getHTTPFile(const char* url, const char* filepa
 
 
 			if (ret < 0) {
-// MOTO FIXME
-#if CURRENT_PLATFORM != PLATFORM_VITA
 				Utilities::detail::core_Logger->log("HTTP WRITE ERR");
-#endif
 				return false;
 			}
 		}

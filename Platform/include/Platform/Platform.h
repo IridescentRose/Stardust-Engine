@@ -31,6 +31,22 @@ namespace std {
 #define SCE_HTTP_METHOD_GET PSP_HTTP_METHOD_GET
 #define SCE_O_WRONLY		PSP_O_WRONLY
 #define SCE_O_CREAT 		PSP_O_CREAT
+#define SCE_CTRL_SELECT 	PSP_CTRL_SELECT
+#define SCE_CTRL_START 		PSP_CTRL_START
+#define SCE_CTRL_SELECT 	PSP_CTRL_SELECT
+#define SCE_CTRL_UP 		PSP_CTRL_UP
+#define SCE_CTRL_DOWN 		PSP_CTRL_DOWN
+#define SCE_CTRL_LEFT 		PSP_CTRL_LEFT
+#define SCE_CTRL_RIGHT 		PSP_CTRL_RIGHT
+#define SCE_CTRL_LTRIGGER 	PSP_CTRL_LTRIGGER
+#define SCE_CTRL_RTRIGGER 	PSP_CTRL_RTRIGGER
+#define SCE_CTRL_TRIANGLE 	PSP_CTRL_TRIANGLE
+#define SCE_CTRL_CIRCLE 	PSP_CTRL_CIRCLE
+#define SCE_CTRL_CROSS 		PSP_CTRL_CROSS
+#define SCE_CTRL_SQUARE 	PSP_CTRL_SQUARE
+#define SCE_CTRL_HOME 		PSP_CTRL_HOME
+#define SCE_CTRL_VOLUP 		PSP_CTRL_VOLUP
+#define SCE_CTRL_VOLDOWN 	PSP_CTRL_VOLDOWN
 
 
 #elif CURRENT_PLATFORM == PLATFORM_VITA
@@ -43,6 +59,20 @@ namespace std {
 
 // Also define the SoLoud Engine in here
 SoLoud::Soloud SoundEngine;
+
+// Unsigned Typedefs
+typedef uint64_t u64;
+typedef uint32_t u32;
+
+// Missing/Tweaked Input Defs
+#define SCE_CTRL_HOME 		SCE_CTRL_PSBUTTON
+#define PSP_CTRL_HOLD 		-1
+#define PSP_CTRL_NOTE 		-1
+#define PSP_CTRL_SCREEN 	-1
+#define PSP_CTRL_WLAN_UP 	-1
+#define PSP_CTRL_REMOTE 	-1
+#define PSP_CTRL_DISC 		-1
+#define PSP_CTRL_MS 		-1
 #endif
 
 #if CURRENT_PLATFORM == PLATFORM_WIN

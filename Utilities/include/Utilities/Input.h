@@ -1,15 +1,20 @@
 #pragma once
 #include <Platform/Platform.h>
 
-#if CURRENT_PLATFORM == PLATFORM_PSP
+#if (CURRENT_PLATFORM == PLATFORM_PSP) || (CURRENT_PLATFORM == PLATFORM_VITA)
 #include <malloc.h>
+#include <string.h>
+
+#if CURRENT_PLATFORM == PLATFORM_PSP
 #include <pspkernel.h>
 #include <pspctrl.h>
 #include <psputility.h>
-#include <string.h>
+#else
+#include <vitasdk.h>
+#endif
 
-#define PSP_CTRL_ANALOG_X 0x3
-#define PSP_CTRL_ANALOG_Y 0x5
+#define SCE_CTRL_ANALOG_X 0x3
+#define SCE_CTRL_ANALOG_Y 0x5
 
 /* Printable keys */
 #define GLFW_KEY_SPACE              -1
@@ -142,31 +147,31 @@
 enum PspCtrlButtons
 {
 	/** Select button. */
-	PSP_CTRL_SELECT = -1,
+	SCE_CTRL_SELECT = -1,
 	/** Start button. */
-	PSP_CTRL_START = -1,
+	SCE_CTRL_START = -1,
 	/** Up D-Pad button. */
-	PSP_CTRL_UP = -1,
+	SCE_CTRL_UP = -1,
 	/** Right D-Pad button. */
-	PSP_CTRL_RIGHT = -1,
+	SCE_CTRL_RIGHT = -1,
 	/** Down D-Pad button. */
-	PSP_CTRL_DOWN = -1,
+	SCE_CTRL_DOWN = -1,
 	/** Left D-Pad button. */
-	PSP_CTRL_LEFT = -1,
+	SCE_CTRL_LEFT = -1,
 	/** Left trigger. */
-	PSP_CTRL_LTRIGGER = -1,
+	SCE_CTRL_LTRIGGER = -1,
 	/** Right trigger. */
-	PSP_CTRL_RTRIGGER = -1,
+	SCE_CTRL_RTRIGGER = -1,
 	/** Triangle button. */
-	PSP_CTRL_TRIANGLE = -1,
+	SCE_CTRL_TRIANGLE = -1,
 	/** Circle button. */
-	PSP_CTRL_CIRCLE = -1,
+	SCE_CTRL_CIRCLE = -1,
 	/** Cross button. */
-	PSP_CTRL_CROSS = -1,
+	SCE_CTRL_CROSS = -1,
 	/** Square button. */
-	PSP_CTRL_SQUARE = -1,
+	SCE_CTRL_SQUARE = -1,
 	/** Home button. In user mode this bit is set if the exit dialog is visible. */
-	PSP_CTRL_HOME = -1,
+	SCE_CTRL_HOME = -1,
 	/** Hold button. */
 	PSP_CTRL_HOLD = -1,
 	/** Music Note button. */
@@ -174,9 +179,9 @@ enum PspCtrlButtons
 	/** Screen button. */
 	PSP_CTRL_SCREEN = -1,
 	/** Volume up button. */
-	PSP_CTRL_VOLUP = -1,
+	SCE_CTRL_VOLUP = -1,
 	/** Volume down button. */
-	PSP_CTRL_VOLDOWN = -1,
+	SCE_CTRL_VOLDOWN = -1,
 	/** Wlan switch up. */
 	PSP_CTRL_WLAN_UP = -1,
 	/** Remote hold position. */
@@ -187,8 +192,8 @@ enum PspCtrlButtons
 	PSP_CTRL_MS = -1,
 };
 
-#define PSP_CTRL_ANALOG_X 0x3
-#define PSP_CTRL_ANALOG_Y 0x5
+#define SCE_CTRL_ANALOG_X 0x3
+#define SCE_CTRL_ANALOG_Y 0x5
 #endif
 #include <string>
 #include <glm/glm.hpp>
