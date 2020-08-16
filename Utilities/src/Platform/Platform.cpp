@@ -7,20 +7,24 @@
 #include <stdlib.h>
 #include <time.h>
 
+// MOTO FIXME
+#if CURRENT_PLATFORM != PLATFORM_VITA
 #ifndef STARDUST_UTILITIES_ONLY
 #include <GFX/RenderCore.h>
+#endif
 #endif
 
 #include <Utilities/Input.h>
 
 #if CURRENT_PLATFORM == PLATFORM_PSP
-
 #include <psppower.h>
 #include <pspkernel.h>
 #include <pspmath.h>
 #include <sound_utils/oslib.h>
 #include <sound_utils/audio.h>
 #include <intraFont.h>
+#elif CURRENT_PLATFORM == PLATFORM_VITA
+#include <vitasdk.h>
 #endif
 
 namespace Stardust::Platform {
@@ -69,6 +73,9 @@ namespace Stardust::Platform {
 		oslDeinitAudio();
 		sceKernelExitGame();
 #endif
+#if CURRENT_PLATFORM == PLATFORM_VITA
+		sceKernelExitProcess(0);
+#endif
 	}
 
 	void platformUpdate()
@@ -102,9 +109,12 @@ namespace Stardust::Platform {
 		
 		srand(time(NULL));
 
+// MOTO FIXME
+#if CURRENT_PLATFORM != PLATFORM_VITA
 #ifndef STARDUST_UTILITIES_ONLY
 		GFX::g_RenderCore = new GFX::RenderCore();
 		GFX::g_RenderCore->init();
+#endif
 #endif
 
 #if CURRENT_PLATFORM == PLATFORM_PSP

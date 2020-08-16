@@ -1,32 +1,39 @@
 TARGET = libstardust
 OBJS = ../Platform/src/Platform/Platform.o \
+../Utilities/src/Platform/Platform.o \
+../Utilities/src/Math/Frustum.o \
 ../Utilities/src/Utilities/Timer.o \
 ../Utilities/src/Utilities/Logger.o \
 ../Utilities/src/Utilities/Input.o \
 ../Utilities/src/Utilities/Thread.o \
+../Utilities/src/Events/Events.o \
+../Utilities/src/Network/NetworkDriver.o \
+../Utilities/src/Network/Socket.o \
+../Utilities/src/Network/ByteBuffer.o \
+../Utilities/src/Profiler/Profiler.o \
 ../Utilities/src/Utilities/json/json_reader.o \
 ../Utilities/src/Utilities/json/json_value.o \
 ../Utilities/src/Utilities/json/json_writer.o \
 
-#../Platform/src/Platform/Platform.o \ 		# Done
+#../Platform/src/Platform/Platform.o \ 					# Done
 #../Platform/src/Platform/PSP/Dialogs.o \
 #../Platform/src/Platform/PSP/Power.o \
 #../Platform/src/Platform/Graphics.o \
 #../Platform/src/Platform/PSP/vram.o \
-#../Utilities/src/Platform/Platform.o \
-#../Utilities/src/Math/Frustum.o \
-#../Utilities/src/Utilities/Timer.o \		# Done
-#../Utilities/src/Utilities/Logger.o \		# Done
-#../Utilities/src/Utilities/Input.o \		# Done
-#../Utilities/src/Utilities/Thread.o \		# Done
-#../Utilities/src/Events/Events.o \
-#../Utilities/src/Network/NetworkDriver.o \
-#../Utilities/src/Network/Socket.o \
-#../Utilities/src/Network/ByteBuffer.o \
-#../Utilities/src/Profiler/Profiler.o \
-#../Utilities/src/Utilities/json/json_reader.o \ # Done
-#../Utilities/src/Utilities/json/json_value.o \ # Done
-#../Utilities/src/Utilities/json/json_writer.o \ # Done
+#../Utilities/src/Platform/Platform.o \					# Done
+#../Utilities/src/Math/Frustum.o \						# Done
+#../Utilities/src/Utilities/Timer.o \					# Done
+#../Utilities/src/Utilities/Logger.o \					# Done
+#../Utilities/src/Utilities/Input.o \					# Done
+#../Utilities/src/Utilities/Thread.o \					# Done
+#../Utilities/src/Events/Events.o \						# Done
+#../Utilities/src/Network/NetworkDriver.o \				# Done
+#../Utilities/src/Network/Socket.o \					# Done
+#../Utilities/src/Network/ByteBuffer.o \				# Done
+#../Utilities/src/Profiler/Profiler.o \					# Done
+#../Utilities/src/Utilities/json/json_reader.o \ 		# Done
+#../Utilities/src/Utilities/json/json_value.o \ 		# Done
+#../Utilities/src/Utilities/json/json_writer.o \ 		# Done
 #../Core/src/Audio/AudioClip.o \
 #../Core/src/Core/Core.o \
 #../Core/src/Core/StateManager.o \
