@@ -159,8 +159,10 @@
     <ClInclude Include="include\GFX\3D\Camera.h" />
     <ClInclude Include="include\GFX\UI\TextRenderer.h" />
     <ClInclude Include="include\GFX\UI\UIButton.h" />
+    <ClInclude Include="include\GFX\3D\LODModel.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\GFX\3D\LODModel.cpp" />
     <ClCompile Include="src\Audio\AudioClip.cpp" />
     <ClCompile Include="src\Core\Core.cpp" />
     <ClCompile Include="src\Core\StateManager.cpp" />

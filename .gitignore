@@ -354,6 +354,6 @@ MigrationBackup/
 *.png
 
 libs
-
+*.lib
 .DS_STORE
 Stardust/include

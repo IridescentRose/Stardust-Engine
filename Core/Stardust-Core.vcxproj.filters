@@ -63,6 +63,9 @@
     <ClInclude Include="include\GFX\2D\CharacterSprite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\GFX\3D\LODModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\Core.cpp">
@@ -102,6 +105,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\GFX\2D\CharacterSprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GFX\3D\LODModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
