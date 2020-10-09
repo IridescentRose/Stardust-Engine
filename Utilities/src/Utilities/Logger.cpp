@@ -1,5 +1,6 @@
 #include <Utilities/Logger.h>
 #include <iostream>
+#include <Utilities/Timer.h>
 namespace Stardust::Utilities {
 	Logger::Logger(std::string name, std::string path) {
 		m_file = std::ofstream(path, std::ios::trunc);
@@ -21,6 +22,7 @@ namespace Stardust::Utilities {
 		if (level < currentLevel)
 			return;
 
+		m_filebuf << "[" << g_AppTimer.elapsed() << "]";
 		m_filebuf << "[" << m_name << "]";
 
 		switch (level) {
