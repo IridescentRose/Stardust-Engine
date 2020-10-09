@@ -42,13 +42,12 @@ The engine is broken up into multiple submodules that make up the engine, and th
 - Cross Platform - In progress
 
 ## Schedule
-The schedule is work in progress... Hopefully a full v1.0 will be ready by late August.
+The schedule is work in progress...
 
 Current Schedule:
-* v0.5 - Model Loading, LOD, Scene, GameObject, Component rework!
-* v0.6 - Lighting, Shadows, Reflections, Billboards
-* v0.7 - Terrain, Particles (3D & 2D)
+* v0.6 - Model Loading, Lighting, Billboards, Particles
+* v0.7 - Terrain, Shadows, Reflections
 * v0.8 - 3D Physics & Audio
-* v0.9 - Scripting (Python)
+* v0.9 - Scripting (Lua/LuaJIT)
 * v1.0 - Editor
 * v1.1 - Post Processor
