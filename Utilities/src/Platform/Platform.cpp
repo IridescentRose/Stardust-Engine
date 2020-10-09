@@ -21,6 +21,7 @@
 #include <sound_utils/oslib.h>
 #include <sound_utils/audio.h>
 #include <intraFont.h>
+#include <Network/NetworkDriver.h>
 #endif
 
 namespace Stardust::Platform {
@@ -67,6 +68,11 @@ namespace Stardust::Platform {
 		delete Utilities::app_Logger;
 #if CURRENT_PLATFORM == PLATFORM_PSP
 		oslDeinitAudio();
+
+		if (Network::netEnabled) {
+			Network::g_NetworkDriver.Cleanup();
+		}
+
 		sceKernelExitGame();
 #endif
 	}

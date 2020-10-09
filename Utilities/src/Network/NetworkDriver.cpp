@@ -10,10 +10,12 @@ namespace Stardust::Network {
 	}
 
 	bool NetworkDriver::Init() {
+		netEnabled = true;
 		return Platform::detail::initNetworks();
 	}
 
 	void NetworkDriver::Cleanup() {
+		netEnabled = false;
 		Platform::detail::closeNetworks();
 	}
 
@@ -126,4 +128,5 @@ namespace Stardust::Network {
 	}
 
 	NetworkDriver g_NetworkDriver;
+	bool netEnabled = false;
 }
