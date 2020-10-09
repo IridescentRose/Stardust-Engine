@@ -54,6 +54,10 @@ namespace Stardust::Utilities {
 		 * A LoggerLevel to filter by. If it is lower, then the logged messages lower than this will not be included.
 		**/
 		int currentLevel;
+		/**
+		 * Autoflush?
+		 */
+		bool autoFlush;
 	private:
 		std::ofstream m_file;
 		std::stringstream m_filebuf;

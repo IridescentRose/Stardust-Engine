@@ -7,6 +7,7 @@ namespace Stardust::Utilities {
 		m_filebuf = std::stringstream();
 		currentLevel = 0;
 		m_name = name;
+		autoFlush = false;
 	}
 	
 	Logger::~Logger() {
@@ -50,6 +51,9 @@ namespace Stardust::Utilities {
 		}
 
 		m_filebuf << message << std::endl;
+		if (autoFlush) {
+			m_file << message << std::endl;
+		}
 	}
 	namespace detail {
 		Logger* core_Logger;
