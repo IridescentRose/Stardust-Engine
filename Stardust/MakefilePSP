@@ -30,6 +30,10 @@ OBJS = ../Platform/src/Platform/Platform.o \
 ../Core/src/GFX/3D/Skybox.o \
 ../Core/src/GFX/UI/TextRenderer.o \
 ../Core/src/GFX/UI/UIButton.o \
+../Core/src/GFX/3D/LODModel.o \
+../Core/src/Components/LODModelComponent.o \
+../Core/src/Components/ModelComponent.o \
+
 
 alib = lib/psp/libstardust.a
 

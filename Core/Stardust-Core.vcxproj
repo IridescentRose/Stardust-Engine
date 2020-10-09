@@ -144,6 +144,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="include\Audio\AudioClip.h" />
+    <ClInclude Include="include\Components\LODModelComponent.h" />
+    <ClInclude Include="include\Components\ModelComponent.h" />
     <ClInclude Include="include\Core\Controller.h" />
     <ClInclude Include="include\Core\Core.h" />
     <ClInclude Include="include\Core\GameState.h" />
@@ -162,6 +164,8 @@
     <ClInclude Include="include\GFX\3D\LODModel.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Components\LODModelComponent.cpp" />
+    <ClCompile Include="src\Components\ModelComponent.cpp" />
     <ClCompile Include="src\GFX\3D\LODModel.cpp" />
     <ClCompile Include="src\Audio\AudioClip.cpp" />
     <ClCompile Include="src\Core\Core.cpp" />

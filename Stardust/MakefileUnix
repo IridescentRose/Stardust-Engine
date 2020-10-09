@@ -27,6 +27,10 @@ CORE_OBJS = ../Core/src/Core/Core.o \
 ../Core/src/GFX/2D/TilemapAnim.o \
 ../Core/src/GFX/3D/Camera.o \
 ../Core/src/GFX/UI/TextRenderer.o \
+../Core/src/GFX/3D/LODModel.o \
+../Core/src/Components/LODModelComponent.o \
+../Core/src/Components/ModelComponent.o \
+
 
 util_lib = lib/nix/libstardust-utilities.a
 plat_lib = lib/nix/libstardust-platform.a
