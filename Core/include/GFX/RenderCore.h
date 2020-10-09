@@ -28,9 +28,9 @@ namespace Stardust::GFX {
 		void bindCamera(Render3D::Camera* cam);
 		void set3DMode();
 
+		Render3D::Camera* renderCam;
 	private:
 		uint8_t r, g, b, a;
-		Render3D::Camera* renderCam;
 	};
 
 	extern RenderCore* g_RenderCore;
