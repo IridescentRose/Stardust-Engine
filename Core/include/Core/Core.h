@@ -2,11 +2,18 @@
 #include <Utilities/UUID.h>
 #include <Utilities/JSON.h>
 #include <vector>
+#include <glm/glm.hpp>
 
 /**
  * UNSTABLE
 **/
 namespace Stardust::Core {
+
+	struct Transform {
+		glm::vec3 pos;
+		glm::vec3 rot;
+		glm::vec3 scale;
+	};
 
 	class Component {
 	public:
@@ -113,11 +120,27 @@ namespace Stardust::Core {
 			child.clear();
 		}
 
-		GameObject* parent;
+		inline void setTransform(Transform trans) {
+			transform = trans;
+		}
+
+		inline Transform getTransform() {
+			return transform;
+		}
+
+		inline GameObject* getParent() {
+			return parent;
+		}
+		inline void setParent(GameObject* obj) {
+			parent = obj;
+		}
+
 		std::vector<GameObject> child;
 
-		Utilities::UUID id;
 	private:
+		GameObject* parent;
+		Utilities::UUID id;
+		Transform transform;
 		std::string name;
 		std::vector<std::string> tags;
 		std::vector<Component> components;
@@ -127,11 +150,7 @@ namespace Stardust::Core {
 	class Scene {
 	public:
 		Scene();
-		Scene(std::string file);
 		~Scene();
-
-		void loadScene(std::string file);
-		void saveScene(std::string file);
 
 		void Update();
 		void Draw();
