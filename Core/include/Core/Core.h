@@ -3,6 +3,7 @@
 #include <Utilities/JSON.h>
 #include <vector>
 #include <glm/glm.hpp>
+#include <Math/Matrix.h>
 
 /**
  * UNSTABLE
@@ -13,7 +14,13 @@ namespace Stardust::Core {
 		glm::vec3 pos;
 		glm::vec3 rot;
 		glm::vec3 scale;
+
+		glm::mat4 toModelMatrix() {
+			return Math::makeTransformMatrix(pos, rot, scale);
+		}
 	};
+
+	class GameObject;
 
 	class Component {
 	public:
@@ -23,6 +30,7 @@ namespace Stardust::Core {
 		virtual void Update();
 		virtual void Draw();
 
+		GameObject* parent;
 	};
 
 	enum DefaultLayers {
@@ -38,6 +46,11 @@ namespace Stardust::Core {
 			layer = LAYER_DEFAULT;
 			parent = NULL;
 			child.clear();
+			transform = {
+				{0, 0, 0},
+				{0, 0, 0},
+				{1, 1, 1},
+			};
 		}
 
 		GameObject(Utilities::UUID i) {
@@ -47,6 +60,11 @@ namespace Stardust::Core {
 			layer = LAYER_DEFAULT;
 			parent = NULL;
 			child.clear();
+			transform = {
+				{0, 0, 0},
+				{0, 0, 0},
+				{1, 1, 1},
+			};
 		}
 
 		inline Utilities::UUID getUUID() {
@@ -85,6 +103,7 @@ namespace Stardust::Core {
 
 		inline void addComponents(Component cmp) {
 			components.push_back(cmp);
+			cmp.parent = this;
 		}
 		inline void clearComponents() {
 			components.clear();
