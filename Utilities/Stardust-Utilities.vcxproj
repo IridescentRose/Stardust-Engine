@@ -134,6 +134,11 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <Optimization>Full</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <FloatingPointModel>Fast</FloatingPointModel>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -155,7 +160,6 @@
     <ClCompile Include="src\Utilities\json\json_value.cpp" />
     <ClCompile Include="src\Utilities\json\json_writer.cpp" />
     <ClCompile Include="src\Utilities\Logger.cpp" />
-    <ClCompile Include="src\Utilities\Thread.cpp" />
     <ClCompile Include="src\Utilities\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -164,7 +168,6 @@
     <ClInclude Include="include\Math\Frustum.h" />
     <ClInclude Include="include\Math\MathFuncs.h" />
     <ClInclude Include="include\Math\Matrix.h" />
-    <ClInclude Include="include\Math\Quaternion.h" />
     <ClInclude Include="include\Math\Ray.h" />
     <ClInclude Include="include\Math\Vector.h" />
     <ClInclude Include="include\Network\ByteBuffer.h" />
@@ -174,7 +177,6 @@
     <ClInclude Include="include\Profiler\Profiler.h" />
     <ClInclude Include="include\Utilities\JSON.h" />
     <ClInclude Include="include\Utilities\Logger.h" />
-    <ClInclude Include="include\Utilities\Thread.h" />
     <ClInclude Include="include\Utilities\Timer.h" />
     <ClInclude Include="include\Utilities\UUID.h" />
     <ClInclude Include="src\Utilities\json\json_tool.h" />

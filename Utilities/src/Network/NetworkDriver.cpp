@@ -44,9 +44,9 @@ namespace Stardust::Network {
 		Utilities::detail::core_Logger->log("Sending Network Packet Queue");
 
 
-		int len = packetQueue.size();
-		for (int i = 0; i < len; i++) {
-			int packetLength;
+		size_t len = packetQueue.size();
+		for (size_t i = 0; i < len; i++) {
+			size_t packetLength;
 
 			if(extendedID){
 				packetLength = packetQueue.front()->buffer->GetUsedSpace() + 2;
@@ -58,13 +58,13 @@ namespace Stardust::Network {
 			ByteBuffer* bbuf = new ByteBuffer(packetLength + 5); //512 KB
 
 			//Header
-			bbuf->WriteVarInt32(packetLength);
+			bbuf->WriteVarInt32(static_cast<uint32_t>(packetLength));
 
 			if(extendedID){
 				bbuf->WriteBEUInt16(packetQueue.front()->ID);
 			}
 			else {
-				bbuf->WriteBEUInt8(packetQueue.front()->ID);
+				bbuf->WriteBEUInt8(static_cast<uint8_t>(packetQueue.front()->ID));
 			}
 			//Add body
 			for (int i = 0; i < packetQueue.front()->buffer->GetUsedSpace(); i++) {
@@ -97,8 +97,8 @@ namespace Stardust::Network {
 	{
 		Utilities::detail::core_Logger->log("Handling Packets...", Utilities::LOGGER_LEVEL_TRACE);
 
-		int len = unhandledPackets.size();
-		for(int i = 0; i < len; i++){
+		size_t len = unhandledPackets.size();
+		for(size_t i = 0; i < len; i++){
 			PacketIn* p = unhandledPackets.front();
 
 			if (packetHandlers.find(p->ID) != packetHandlers.end()) {

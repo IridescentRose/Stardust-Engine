@@ -237,8 +237,8 @@ float getY()
 
 		Json::Value listen = root["listeners"];
 
-		for (int i = 0; i < listen.size(); i++) {
-			Json::Value temp = listen[i];
+		for (size_t i = 0; i < listen.size(); i++) {
+			Json::Value temp = listen[static_cast<int>(i)];
 			std::string str = temp["name"].asString();
 			int but = temp["button"].asInt();
 

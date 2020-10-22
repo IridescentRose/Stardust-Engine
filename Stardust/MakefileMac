@@ -7,7 +7,6 @@ UTIL_OBJS = ../Utilities/src/Platform/Platform.o \
 ../Utilities/src/Math/Frustum.o \
 ../Utilities/src/Utilities/Timer.o \
 ../Utilities/src/Utilities/Logger.o \
-../Utilities/src/Utilities/Thread.o \
 ../Utilities/src/Events/Events.o \
 ../Utilities/src/Network/NetworkDriver.o \
 ../Utilities/src/Network/Socket.o \

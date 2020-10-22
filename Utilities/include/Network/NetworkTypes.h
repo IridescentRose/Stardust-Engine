@@ -24,7 +24,7 @@ namespace Stardust::Network {
 	 * Upon being sent through the driver interface this packet is deleted.
 	**/
 	struct PacketOut : public NonCopyable{
-		PacketOut(size_t size) {
+		PacketOut(size_t size): ID(0) {
 			buffer = new ByteBuffer(size);
 		}
 		uint16_t ID;
@@ -36,7 +36,7 @@ namespace Stardust::Network {
 	 * Packets received will always have an ID and its data stored in the ByteBuffer.
 	**/
 	struct PacketIn : public NonCopyable{
-		PacketIn(size_t size) {
+		PacketIn(size_t size): ID(0) {
 			buffer = new ByteBuffer(size);
 		}
 		uint16_t ID;

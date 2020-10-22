@@ -107,6 +107,9 @@ inline float NetworkToHostFloat4(const void* a_Value)
 	return x;
 }
 
+#ifdef GetFreeSpace
+#undef GetFreeSpace
+#endif
 
 
 bool ByteBuffer::Write(const void* a_Bytes, size_t a_Count)

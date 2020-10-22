@@ -74,7 +74,7 @@ namespace Stardust::Network {
 		/**
 		 * Threshold for zlib compression.
 		**/
-		int threshold;
+		size_t threshold;
 	};
 
 	/**
