@@ -229,19 +229,23 @@ namespace Stardust::GFX {
      */
     class Model{
     public:
-        Model() : noTex(false), indicesCount(0),
+        Model() : noTex(false), indicesCount(0)
         #if (CURRENT_PLATFORM == PLATFORM_PSP)
-            verts(), indices()
-        #endif        
+            , verts(), indices()
+        #elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
+            , buffer_count(0), ebo(0)
+        #endif
         {
 #if (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
             vao = 0;
 #endif
         }
-        Model(const Mesh& mesh) : noTex(false), indicesCount(0),
+        Model(const Mesh& mesh) : noTex(false), indicesCount(0)
         #if (CURRENT_PLATFORM == PLATFORM_PSP)
-            verts(), indices()
-        #endif 
+            , verts(), indices()
+        #elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
+            , buffer_count(0), ebo(0)
+        #endif
         {
 #if (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
             vao = 0;
@@ -273,7 +277,7 @@ namespace Stardust::GFX {
             glGenBuffers(1, &ebo);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
             glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), indices.data(), GL_STATIC_DRAW);
-            indicesCount = indices.size();
+            indicesCount = static_cast<GLsizei>(indices.size());
         }
 
     public:
@@ -334,7 +338,7 @@ namespace Stardust::GFX {
 #elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
             //Delete VAO & buffers
             glDeleteVertexArrays(1, &vao);
-            glDeleteBuffers(buffers.size(), buffers.data());
+            glDeleteBuffers(static_cast<GLsizei>(buffers.size()), buffers.data());
 
             glDeleteBuffers(1, &ebo);
             
