@@ -1,0 +1,25 @@
+PLAT_OBJS = src/Platform/Platform.o \
+src/Platform/PC/Window.o \
+src/Platform/PC/GL/glad.o \
+src/Platform/Graphics.o \
+
+plat_lib = lib/nix/libstardust-platform.a
+
+EXTERN_WARN_IGN = -Wno-strict-aliasing -Wno-misleading-indentation -Wno-sign-compare -Wno-shift-negative-value -Wno-implicit-fallthrough -Wno-unused-parameter
+
+
+CC = clang
+CXX= clang++
+CFLAGS = -O3 -Wall -Wextra -Werror $(EXTERN_WARN_IGN) -ffast-math -pthread -DCURRENT_PLATFORM=PLATFORM_NIX -I../Platform/include -I../Core/include -I../Utilities/include -I../Deps/include
+CXXFLAGS = $(CFLAGS) -Weffc++ -std=c++17
+
+all: platform_lib 
+
+%.o: %.cpp
+	$(CXX) $(INCDIR) -c -o $@ $< $(CXXFLAGS)
+
+platform_lib: $(PLAT_OBJS)
+	$(AR) rcs $(plat_lib) $^
+
+clean:
+	rm -f $(PLAT_OBJS) $(UTIL_OBJS) $(CORE_OBJS) ./$(plat_lib) ./$(util_lib) ./$(core_lib)
