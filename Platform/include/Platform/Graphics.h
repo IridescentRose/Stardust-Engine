@@ -3,15 +3,15 @@
 
 namespace Stardust::Platform::detail::Graphics{
 
-    void initGraphicsContext();
-    void cleanupGraphicsContext();
+    auto initGraphicsContext() -> void;
+    auto cleanupGraphicsContext() -> void;
 
-    void beginFrame();
-    void endFrame();
+    auto beginFrame() -> void;
+    auto endFrame() -> void;
 
 #if CURRENT_PLATFORM == PLATFORM_PSP
-    void beginFrameDialog();
-    void endFrameDialog();
+    auto beginFrameDialog() -> void;
+    auto endFrameDialog() -> void;
 #endif
 }
 

@@ -14,7 +14,7 @@ namespace Stardust::Utilities::JSON {
 	 * 
 	 * @param path - The path to your JSON.
 	**/
-	inline Json::Value openJSON(std::string path) {
+	inline auto openJSON(std::string path) -> Json::Value {
 		Json::Value val;
 		std::ifstream file(path);
 		file >> val;

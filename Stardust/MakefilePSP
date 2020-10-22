@@ -9,7 +9,6 @@ OBJS = ../Platform/src/Platform/Platform.o \
 ../Utilities/src/Utilities/Timer.o \
 ../Utilities/src/Utilities/Logger.o \
 ../Utilities/src/Utilities/Input.o \
-../Utilities/src/Utilities/Thread.o \
 ../Utilities/src/Events/Events.o \
 ../Utilities/src/Network/NetworkDriver.o \
 ../Utilities/src/Network/Socket.o \

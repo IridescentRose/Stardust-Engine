@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <cstring>
 #include <string>
+#include <NonCopy.h>
 /*
  Based off of https://github.com/cuberite/cuberite/blob/master/src/ByteBuffer.h
 */
@@ -10,7 +11,7 @@
 #define MAX_STRING_SIZE (512 KiB)
 
 namespace Stardust::Network {
-	class ByteBuffer {
+	class ByteBuffer : public NonCopyable {
 	public:
 		ByteBuffer(size_t a_BufferSize);
 		~ByteBuffer();

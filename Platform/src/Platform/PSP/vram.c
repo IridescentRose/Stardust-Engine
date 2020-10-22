@@ -47,8 +47,7 @@
 
 static unsigned int staticOffset = 0;
 
-static unsigned int getMemorySize(unsigned int width, unsigned int height, unsigned int psm)
-{
+static unsigned int getMemorySize(unsigned int width, unsigned int height, unsigned int psm) {
 	switch (psm)
 	{
 		case GU_PSM_T4:

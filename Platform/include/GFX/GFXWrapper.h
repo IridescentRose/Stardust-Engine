@@ -77,7 +77,7 @@ namespace Stardust::GFX {
      *              - GFX_DEPTH_BUFFER      - clears depth buffer
      *              - GFX_STENCIL_BUFFER    - clears stencil buffer
      */
-    inline void gfxClear(int32_t flags){
+    inline auto gfxClear(int32_t flags) -> void{
 #if CURRENT_PLATFORM == PLATFORM_PSP
         sceGuClearStencil(0);
         sceGuClearDepth(0);
@@ -97,7 +97,7 @@ namespace Stardust::GFX {
      * \param b - Color value from 0.0 - 1.0
      * \param a - Color value from 0.0 - 1.0
      */
-    inline void gfxClearColor(float r, float g, float b, float a){
+    inline auto gfxClearColor(float r, float g, float b, float a) -> void{
 #if CURRENT_PLATFORM == PLATFORM_PSP
         sceGuClearColor(GU_COLOR(r, g, b, a));
 #elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
@@ -117,7 +117,7 @@ namespace Stardust::GFX {
      * \param znear - Z Near Coord
      * \param zfar - Z Far Coord
      */
-    inline void gfxSetOrtho(float left, float right, float bottom, float top, float znear, float zfar){
+    inline auto gfxSetOrtho(float left, float right, float bottom, float top, float znear, float zfar) -> void{
 #if CURRENT_PLATFORM == PLATFORM_PSP
         sceGumMatrixMode(GU_PROJECTION);
         sceGumLoadIdentity();
@@ -142,7 +142,7 @@ namespace Stardust::GFX {
      * These are internal shaders.
      */
 #if (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
-    inline GLuint compileShader(const char* source, GLenum shaderType){
+    inline auto compileShader(const char* source, GLenum shaderType) -> GLuint{
         auto shader = glCreateShader(shaderType);
 
         glShaderSource(shader, 1, &source, nullptr);
@@ -160,7 +160,7 @@ namespace Stardust::GFX {
         return shader;
     }
 
-    inline GLuint linkShaders(GLuint vshader, GLuint fshader){
+    inline auto linkShaders(GLuint vshader, GLuint fshader) -> GLuint{
         auto prog = glCreateProgram();
         glAttachShader(prog, vshader);
         glAttachShader(prog, fshader);
@@ -179,7 +179,7 @@ namespace Stardust::GFX {
         return prog;
     }
 
-    inline std::string getFile(std::string path){
+    inline auto getFile(std::string path) -> std::string{
         std::ifstream file(path);
         std::stringstream str;
 
@@ -187,7 +187,7 @@ namespace Stardust::GFX {
         return str.str();
     }
 
-    inline GLuint loadShaders(std::string vs, std::string fs) {
+    inline auto loadShaders(std::string vs, std::string fs) -> GLuint {
         std::string vss = getFile(vs);
         std::string fss = getFile(fs);
         GLuint vertShader, fragShader;
@@ -229,25 +229,37 @@ namespace Stardust::GFX {
      */
     class Model{
     public:
-        Model() {
+        Model() : noTex(false), indicesCount(0)
+        #if (CURRENT_PLATFORM == PLATFORM_PSP)
+            , verts(), indices()
+        #elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
+            , buffer_count(0), ebo(0)
+        #endif
+        {
 #if (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
             vao = 0;
 #endif
-            noTex = false;
         }
-        Model(const Mesh& mesh) {
+        Model(const Mesh& mesh) : noTex(false), indicesCount(0)
+        #if (CURRENT_PLATFORM == PLATFORM_PSP)
+            , verts(), indices()
+        #elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
+            , buffer_count(0), ebo(0)
+        #endif
+        {
 #if (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
             vao = 0;
 #endif
             addData(mesh);
         }
+
         ~Model(){
             deleteData();
         }
 
 #if (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
     private:
-        inline void genBO(int dims, const std::vector<float>& data){
+        inline auto genBO(int dims, const std::vector<float>& data) -> void {
             GLuint vbo;
             glGenBuffers(1, &vbo);
             glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -260,19 +272,18 @@ namespace Stardust::GFX {
             buffers.push_back(vbo);
         }
 
-        inline void genEBO(const std::vector<GLuint>& indices){
+        inline auto genEBO(const std::vector<GLuint>& indices) -> void {
             
             glGenBuffers(1, &ebo);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
             glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), indices.data(), GL_STATIC_DRAW);
-            indicesCount = indices.size();
+            indicesCount = static_cast<GLsizei>(indices.size());
         }
 
     public:
 #endif
 
-        inline void addData(const Mesh& mesh) {
-
+        inline auto addData(const Mesh& mesh) -> void {
 #if CURRENT_PLATFORM == PLATFORM_PSP
             //Generate data into relevant structure
             deleteData();
@@ -318,7 +329,7 @@ namespace Stardust::GFX {
 #endif
         }
 
-        inline void deleteData(){
+        inline auto deleteData() -> void {
 #if CURRENT_PLATFORM == PLATFORM_PSP
             //Delete structure
             verts.clear();
@@ -327,7 +338,7 @@ namespace Stardust::GFX {
 #elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
             //Delete VAO & buffers
             glDeleteVertexArrays(1, &vao);
-            glDeleteBuffers(buffers.size(), buffers.data());
+            glDeleteBuffers(static_cast<GLsizei>(buffers.size()), buffers.data());
 
             glDeleteBuffers(1, &ebo);
             
@@ -340,7 +351,7 @@ namespace Stardust::GFX {
 #endif
         }
 
-        inline void bind() {
+        inline auto bind() -> void {
 #if CURRENT_PLATFORM == PLATFORM_PSP
             //No binding needed
 #elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
@@ -350,7 +361,7 @@ namespace Stardust::GFX {
 #error No Graphics Model Data Binding
 #endif
         }
-        inline void draw() {
+        inline auto draw() -> void {
 #if CURRENT_PLATFORM == PLATFORM_PSP
             //Rendering Call
             sceGuShadeModel(GU_SMOOTH);
@@ -408,7 +419,7 @@ namespace Stardust::GFX {
      * Texture object representation.
      */
 #if CURRENT_PLATFORM == PLATFORM_PSP
-    inline int powerOfTwo(int value) {
+    inline auto powerOfTwo(int value) -> int {
         int poweroftwo = 1;
         while (poweroftwo < value) {
             poweroftwo <<= 1;
@@ -416,8 +427,7 @@ namespace Stardust::GFX {
         return poweroftwo;
     }
 
-    inline void swizzle_fast(u8* out, const u8* in, unsigned int width, unsigned int height)
-    {
+    inline auto swizzle_fast(u8* out, const u8* in, unsigned int width, unsigned int height) -> void {
         unsigned int blockx, blocky;
         unsigned int j;
 
@@ -486,9 +496,7 @@ namespace Stardust::GFX {
      */
     class TextureManager{
     public:
-        TextureManager(){
-            fullMap.clear();
-            texCount = 0;
+        TextureManager() : fullMap(), texCount(0) {
         }
 
         /**
@@ -500,7 +508,7 @@ namespace Stardust::GFX {
          * \param repeat - Whether or not to repeat
          * \return 
          */
-        inline unsigned int loadTex(std::string texture, int filterMag, int filterMin, bool repeat){
+        inline auto loadTex(std::string texture, int filterMag, int filterMin, bool repeat) -> unsigned int{
 #if CURRENT_PLATFORM == PLATFORM_PSP
             int OutBytesPerPixel = 4;
             int Power2Width = 0;
@@ -591,7 +599,7 @@ namespace Stardust::GFX {
 #endif
         }
 
-        inline void bindTex(unsigned int id) {
+        inline auto bindTex(unsigned int id) -> void {
             if (fullMap.find(id) != fullMap.end()) {
 #if CURRENT_PLATFORM == PLATFORM_PSP
                 sceGuEnable(GU_TEXTURE_2D);
@@ -613,7 +621,7 @@ namespace Stardust::GFX {
             }
         }
         
-        inline void deleteTex(unsigned int in){
+        inline auto deleteTex(unsigned int in) -> void {
             if (fullMap.find(in) != fullMap.end()) {
 #if CURRENT_PLATFORM == PLATFORM_PSP
                 delete fullMap[in];
@@ -629,7 +637,7 @@ namespace Stardust::GFX {
             }
         }
 
-        inline Texture* getTex(unsigned int id) {
+        inline auto getTex(unsigned int id) -> Texture* {
             if (fullMap.find(id) != fullMap.end()) {
                 return fullMap[id];
             }
@@ -645,7 +653,7 @@ namespace Stardust::GFX {
      * Pushes a matrix back onto the stack.
      * 
      */
-    inline void pushMatrix(){
+    inline auto pushMatrix() -> void{
 #if CURRENT_PLATFORM == PLATFORM_PSP
         sceGumPushMatrix();
 #elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
@@ -660,7 +668,7 @@ namespace Stardust::GFX {
      * Pops a matrix back off the stack.
      * 
      */
-    inline void popMatrix(){
+    inline auto popMatrix() -> void{
 #if CURRENT_PLATFORM == PLATFORM_PSP
         sceGumPopMatrix();
 #elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
@@ -675,7 +683,7 @@ namespace Stardust::GFX {
      * Loads the identity matrix.
      * 
      */
-    inline void clearModelMatrix(){
+    inline auto clearModelMatrix() -> void{
 #if CURRENT_PLATFORM == PLATFORM_PSP
         sceGumMatrixMode(GU_MODEL);
         sceGumLoadIdentity();
@@ -691,7 +699,7 @@ namespace Stardust::GFX {
      * 
      * \param v - The translation
      */
-    inline void translateModelMatrix(glm::vec3 v) {
+    inline auto translateModelMatrix(glm::vec3 v) -> void {
 #if CURRENT_PLATFORM == PLATFORM_PSP
         sceGumMatrixMode(GU_MODEL);
         ScePspFVector3 vv = { v.x, v.y, v.z };
@@ -708,7 +716,7 @@ namespace Stardust::GFX {
      *
      * \param v - The scale
      */
-    inline void scaleModelMatrix(glm::vec3 v) {
+    inline auto scaleModelMatrix(glm::vec3 v) -> void {
 #if CURRENT_PLATFORM == PLATFORM_PSP
         sceGumMatrixMode(GU_MODEL);
         ScePspFVector3 vv = { v.x, v.y, v.z };
@@ -725,7 +733,7 @@ namespace Stardust::GFX {
      *
      * \param v - The scale
      */
-    inline void rotateModelMatrix(glm::vec3 v) {
+    inline auto rotateModelMatrix(glm::vec3 v) -> void {
 #if CURRENT_PLATFORM == PLATFORM_PSP
         sceGumMatrixMode(GU_MODEL);
         sceGumRotateX(v.x / 180.0f * 3.14159f);
@@ -739,7 +747,7 @@ namespace Stardust::GFX {
     }
 
 #if CURRENT_PLATFORM == PLATFORM_PSP
-    inline void gfxSetProjView(ScePspFMatrix4 proj, ScePspFMatrix4 view) {
+    inline auto gfxSetProjView(ScePspFMatrix4 proj, ScePspFMatrix4 view) -> void {
         sceGumMatrixMode(GU_PROJECTION);
         sceGumLoadMatrix(&proj);
 
@@ -748,7 +756,7 @@ namespace Stardust::GFX {
     }
 
 #elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
-    inline void gfxSetProjView(glm::mat4 proj, glm::mat4 view) {
+    inline auto gfxSetProjView(glm::mat4 proj, glm::mat4 view) -> void {
         _gfx_proj = proj;
         _gfx_view = view;
     }
@@ -756,7 +764,7 @@ namespace Stardust::GFX {
 #error No GFX Matrix Scale.
 #endif
 
-    inline void gfxSetView(glm::mat4 view) {
+    inline auto gfxSetView(glm::mat4 view) -> void {
 #if CURRENT_PLATFORM == PLATFORM_PSP
         
         sceGumMatrixMode(GU_VIEW);
@@ -777,14 +785,12 @@ namespace Stardust::GFX {
      */
     class TextureAtlas {
     public:
-        TextureAtlas(short tileSide){
-            sideCount = { tileSide, tileSide };
+        TextureAtlas(short tileSide): sideCount({tileSide, tileSide}) {
         }
-        TextureAtlas(glm::vec2 sideXY){
-            sideCount = sideXY;
+        TextureAtlas(glm::vec2 sideXY): sideCount(sideXY){
         }
 
-        inline std::array<float, 8> getTexture(int index){
+        inline auto getTexture(int index) -> std::array<float, 8> {
             int row = index / (int)sideCount.x;
             int column = index % (int)sideCount.y;
 

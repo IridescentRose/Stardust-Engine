@@ -1,0 +1,22 @@
+TARGET = Stardust-Platform
+OBJS = src/Platform/Platform.o \
+src/Platform/PSP/Dialogs.o \
+src/Platform/PSP/Power.o \
+src/Platform/Graphics.o \
+src/Platform/PSP/vram.o \
+
+alib = lib/psp/libstardust-platform.a
+
+EXTERN_WARN_IGN = -Wno-strict-aliasing -Wno-misleading-indentation -Wno-sign-compare -Wno-shift-negative-value -Wno-implicit-fallthrough -Wno-unused-parameter
+
+INCDIR = $(PSPPATH)/include
+INCDIR += ../Platform/include ../Utilities/include ../Core/include ../Deps/include
+CFLAGS = -O3 -G0 -Wall -Wextra -Werror $(EXTERN_WARN_IGN) -mpreferred-stack-boundary=4 -ffast-math -gdwarf-2 -DCURRENT_PLATFORM=PLATFORM_PSP
+CXXFLAGS = -Weffc++ -std=c++17
+ASFLAGS = $(CFLAGS)
+
+$(alib): $(OBJS)
+	$(AR) rcs $@ $^
+
+PSPSDK=$(shell psp-config --pspsdk-path)
+include $(PSPSDK)/lib/build.mak

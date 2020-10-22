@@ -106,7 +106,7 @@ namespace Stardust::Platform {
 		initPC();
 #endif
 		
-		srand(time(NULL));
+		srand(static_cast<unsigned int>(time(NULL)));
 
 #ifndef STARDUST_UTILITIES_ONLY
 		GFX::g_RenderCore = new GFX::RenderCore();

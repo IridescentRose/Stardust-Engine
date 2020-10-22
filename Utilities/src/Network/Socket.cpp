@@ -12,7 +12,7 @@ namespace Stardust::Network {
 	bool ClientSocket::Connect(unsigned short port, const char* ip)
 	{
 		Utilities::detail::core_Logger->log("Opening Connection [" + std::string(ip) + "]" + "@" + std::to_string(port) + "!", Utilities::LOGGER_LEVEL_INFO);
-		m_socket = socket(PF_INET, SOCK_STREAM, 0);
+		m_socket = static_cast<int>(socket(PF_INET, SOCK_STREAM, 0));
 		struct sockaddr_in name;
 		name.sin_family = AF_INET;
 		name.sin_port = htons(port);
@@ -47,7 +47,7 @@ namespace Stardust::Network {
 
 	ServerSocket::ServerSocket(unsigned short port)
 	{
-		m_socket = socket(AF_INET, SOCK_STREAM, 0);
+		m_socket = static_cast<int>(socket(AF_INET, SOCK_STREAM, 0));
 
 		if (m_socket == -1) {
 			throw std::runtime_error("Fatal: Could not open socket! Errno: " + std::to_string(errno));
@@ -75,7 +75,7 @@ namespace Stardust::Network {
 		}
 
 		auto addrlen = sizeof(sockaddr);
-		m_Connection = accept(m_socket, (struct sockaddr*) & sockaddr, (socklen_t*)&addrlen);
+		m_Connection = static_cast<int>(accept(m_socket, (struct sockaddr*) & sockaddr, (socklen_t*)&addrlen));
 		Utilities::detail::core_Logger->log("Found potential connection...", Utilities::LOGGER_LEVEL_DEBUG);
 
 		if (m_Connection < 0) {
@@ -110,7 +110,7 @@ namespace Stardust::Network {
 		}
 
 		auto addrlen = sizeof(sockaddr);
-		m_Connection = accept(m_socket, (struct sockaddr*) & sockaddr, (socklen_t*)&addrlen);
+		m_Connection = static_cast<int>(accept(m_socket, (struct sockaddr*) & sockaddr, (socklen_t*)&addrlen));
 		Utilities::detail::core_Logger->log("Found potential connection...", Utilities::LOGGER_LEVEL_DEBUG);
 
 		if (m_Connection < 0) {
@@ -141,7 +141,7 @@ namespace Stardust::Network {
 
 	void ClientSocket::Send(size_t size, char* buffer)
 	{
-		int res = send(m_socket, buffer, size, 0);
+		int res = send(m_socket, buffer, static_cast<int>(size), 0);
 		if (res < 0) {
 			Utilities::detail::core_Logger->log("Failed to send a packet!", Utilities::LOGGER_LEVEL_WARN);
 			Utilities::detail::core_Logger->log("Packet Size: " + std::to_string(size), Utilities::LOGGER_LEVEL_WARN);
@@ -150,7 +150,7 @@ namespace Stardust::Network {
 
 	void ServerSocket::Send(size_t size, char* buffer)
 	{
-		int res = send(m_Connection, buffer, size, 0);
+		int res = send(m_Connection, buffer, static_cast<int>(size), 0);
 		if (res < 0) {
 			Utilities::detail::core_Logger->log("Failed to send a packet!", Utilities::LOGGER_LEVEL_WARN);
 			Utilities::detail::core_Logger->log("Packet Size: " + std::to_string(size), Utilities::LOGGER_LEVEL_WARN);
@@ -198,7 +198,7 @@ namespace Stardust::Network {
 			do {
 				size_t totalReceived = 0;
 				while (1 > totalReceived) {
-					size_t received = recv(m_socket, &data[dataLen] + totalReceived, 1 - totalReceived, 0);
+					size_t received = recv(m_socket, &data[dataLen] + totalReceived, static_cast < int>(1 - totalReceived), 0);
 					if (received <= 0) {
 						Platform::delayForMS(1);
 					}
@@ -257,7 +257,7 @@ namespace Stardust::Network {
 				if(compressedSize > threshold){
 					ByteBuffer* bbuf2 = new ByteBuffer(pIn->buffer->GetUsedSpace());
 
-					for (int i = 0; i < compressedSize; i++){
+					for (size_t i = 0; i < compressedSize; i++){
 						uint8_t byte = 0;
 						pIn->buffer->ReadBEUInt8(byte);
 						bbuf2->WriteBEUInt8(byte);
@@ -269,7 +269,7 @@ namespace Stardust::Network {
 					infstream.zalloc = Z_NULL;
 					infstream.zfree = Z_NULL;
 					infstream.opaque = Z_NULL;
-					infstream.avail_in = bbuf2->GetUsedSpace(); // size of input
+					infstream.avail_in = static_cast<uInt>(bbuf2->GetUsedSpace()); // size of input
 					infstream.next_in = (Bytef*)bbuf2->m_Buffer; // input char array
 					infstream.avail_out = 200 KiB; // size of output
 					infstream.next_out = (Bytef*)byteBuffer; // output char array
@@ -289,7 +289,7 @@ namespace Stardust::Network {
 
 					pIn->buffer = new ByteBuffer(compressedSize);
 
-					for(int i = 0; i < compressedSize; i++){
+					for(size_t i = 0; i < compressedSize; i++){
 						pIn->buffer->WriteBEUInt8(byteBuffer[i]);
 					}
 
@@ -335,7 +335,7 @@ namespace Stardust::Network {
 			do {
 				size_t totalReceived = 0;
 				while (1 > totalReceived) {
-					size_t received = recv(m_Connection, &data[dataLen] + totalReceived, 1 - totalReceived, 0);
+					size_t received = recv(m_Connection, &data[dataLen] + totalReceived, static_cast<int>(1 - totalReceived), 0);
 					if (received <= 0) {
 						Platform::delayForMS(1);
 					}

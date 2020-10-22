@@ -15,9 +15,9 @@ namespace Stardust::Math {
 
     class ViewFrustum {
     public:
-        void update(const mat4& projViewMatrix) noexcept;
+        auto update(const mat4& projViewMatrix) noexcept -> void;
 
-        bool isBoxInFrustum(const AABB& box) const noexcept;
+        auto isBoxInFrustum(const AABB& box) const noexcept -> bool;
 
     private:
         std::array<Plane, 6> m_planes;

@@ -25,18 +25,18 @@ namespace Stardust::Utilities {
 		/**
 		 * Sets elapsed time to 0, and last time to now.
 		**/
-		void reset();
+		auto reset() -> void;
 
 		/**
 		 * Returns the time since last deltaTime call / reset / construction.
 		 * This also updates the elapsed(); counter
 		**/
-		double deltaTime();
+		auto deltaTime() -> double;
 		
 		/**
 		 * Total time since starting - requires deltaTime to be called beforehand to be updated
 		**/
-		double elapsed();
+		auto elapsed() -> double;
 		
 	private:
 

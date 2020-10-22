@@ -2,15 +2,15 @@
 #include <psppower.h>
 
 namespace Stardust::Platform::PSP{
-    int GetBatteryPercentage(){
+    auto GetBatteryPercentage() -> int {
         return scePowerGetBatteryLifePercent();
     }
 
-    bool GetBatteryCharging(){
+    auto GetBatteryCharging() -> bool{
         return scePowerIsBatteryCharging();
     }
 
-    std::string GetBatteryLifeTime(){
+    auto GetBatteryLifeTime() -> std::string {
         int lifetime = scePowerGetBatteryLifeTime();
         std::string res = "";
 

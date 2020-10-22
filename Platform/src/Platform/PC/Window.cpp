@@ -3,12 +3,11 @@
 #include <iostream>
 
 namespace Stardust::Platform::PC {
-	void error_callback(int error, const char* str){
+	auto error_callback(int error, const char* str) -> void {
 		std::cout << "ERROR: CODE " << error << " REASON: " << str << std::endl;
 	}
 
-	Window::Window(int w, int h, std::string t, bool f, bool v) : width(w), height(h), title(t), fullScreen(f), vsync(v)
-	{
+	Window::Window(int w, int h, std::string t, bool f, bool v) : width(w), height(h), title(t), fullScreen(f), vsync(v) {
 		m_Window = nullptr;
 		
 		glfwSetErrorCallback(error_callback);
@@ -64,19 +63,16 @@ namespace Stardust::Platform::PC {
 		setVsync(v);
 	}
 
-	Window::~Window()
-	{
+	Window::~Window() {
 		//Callbacks
 		glfwDestroyWindow(m_Window);
 		glfwTerminate();
 	}
 
-	void Window::update()
-	{
+	auto Window::update() -> void{
 		glfwPollEvents();
 	}
-	void Window::draw()
-	{
+	auto Window::draw() -> void {
 		glfwSwapBuffers(m_Window);
 	}
 	Window* g_Window;

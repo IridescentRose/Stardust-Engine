@@ -20,7 +20,7 @@ namespace Stardust::Utilities {
     /**
      * Generic UUID generation.
     **/
-    inline UUID generateUUID() {
+    inline auto generateUUID() -> UUID {
         UUID uuid = std::string(36, ' ');
         int rnd = std::rand();
         
@@ -34,7 +34,7 @@ namespace Stardust::Utilities {
         for (int i = 0; i < 36; i++) {
             if (i != 8 && i != 13 && i != 18 && i != 14 && i != 23) {
                 if (rnd <= 0x02) {
-                    rnd = 0x2000000 + (std::rand() * 0x1000000) | 0;
+                    rnd = 0x2000000 + (std::rand() * 0x1000000);
                 }
                 rnd >>= 4;
                 uuid[i] = CHARS[(i == 19) ? ((rnd & 0xf) & 0x3) | 0x8 : rnd & 0xf];

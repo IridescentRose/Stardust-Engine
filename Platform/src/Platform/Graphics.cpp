@@ -48,20 +48,19 @@ namespace Stardust::Platform::detail::Graphics {
 #endif
 
 #if CURRENT_PLATFORM == PLATFORM_PSP
-	void beginFrameDialog() {
+	auto beginFrameDialog() -> void {
 		sceGuStart(GU_DIRECT, list);
 		sceGuClear(GU_COLOR_BUFFER_BIT);
 		sceGuFinish();
 		sceGuSync(0, 0);
 	}
-	void endFrameDialog() {
+	auto endFrameDialog() -> void {
 		sceDisplayWaitVblankStart();
 		sceGuSwapBuffers();
 	}
 #endif
 
-	void initGraphicsContext()
-	{
+	auto initGraphicsContext() -> void {
 		GFX::g_TextureManager = new GFX::TextureManager();
 #if CURRENT_PLATFORM == PLATFORM_PSP
 		_fbp0 = getStaticVramBuffer(BUF_WIDTH, SCR_HEIGHT, GU_PSM_8888);
@@ -118,8 +117,7 @@ namespace Stardust::Platform::detail::Graphics {
 		sceGuEnable(GU_TEXTURE_2D);
 #elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
 
-		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-		{
+		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
 			throw std::runtime_error("Failed to initialize GLAD");
 		}
 		glViewport(0, 0, PC::g_Window->getWidth(), PC::g_Window->getHeight());
@@ -144,8 +142,7 @@ namespace Stardust::Platform::detail::Graphics {
 #error No platform graphics context creation exists!
 #endif
 	}
-	void cleanupGraphicsContext()
-	{
+	auto cleanupGraphicsContext() -> void {
 #if CURRENT_PLATFORM == PLATFORM_PSP
 		sceGuTerm();
 #elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
@@ -154,8 +151,7 @@ namespace Stardust::Platform::detail::Graphics {
 #error No platform graphics context destruction exists!
 #endif
 	}
-	void beginFrame()
-	{
+	auto beginFrame() -> void {
 #if CURRENT_PLATFORM == PLATFORM_PSP
 		sceGuStart(GU_DIRECT, list);
 #elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
@@ -164,8 +160,7 @@ namespace Stardust::Platform::detail::Graphics {
 #error No platform graphics begin frame exists!
 #endif
 	}
-	void endFrame()
-	{
+	auto endFrame() -> void {
 #if CURRENT_PLATFORM == PLATFORM_PSP
 		sceGuFinish();
 		sceGuSync(0, 0);

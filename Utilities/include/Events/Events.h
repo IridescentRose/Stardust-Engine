@@ -64,12 +64,12 @@ namespace Stardust::Events {
 		 * 
 		 * @param e - Event to be moved onto the bus
 		**/
-		void addEvent(Event* e);
+		auto addEvent(Event* e) -> void;
 
 		/**
 		 * Clear all of the events in the bus. Not recommended unless there is a change of program state.
 		**/
-		void clearEvents();
+		auto clearEvents() -> void;
 
 		/**
 		 * Adds a handler for a specific event type.
@@ -77,25 +77,25 @@ namespace Stardust::Events {
 		 * @param e - The event type ID to handle.
 		 * @param h - A pointer to the handler function (should be a static class member or external function).
 		**/
-		void addEventHandler(int e, EventHandler h);
+		auto addEventHandler(int e, EventHandler h) -> void;
 
 		/**
 		 * Deletes a specific event handler.
 		 * 
 		 * @param e - The event type ID to remove a handler for.
 		**/
-		void deleteListener(int e);
+		auto deleteListener(int e) -> void;
 
 		/**
 		 * Removes all event handlers. Not recommended unless there is a change of program state.
 		**/
-		void clearEventHandlers();
+		auto clearEventHandlers() -> void;
 
 		/**
 		 * Propagate takes all events currently in the bus and pushes them to their respective handlers upon this command.
 		 * Events are automatically freed after the handler is called - make sure you are not referencing the events after propagate!
 		**/
-		void propagate();
+		auto propagate() -> void;
 
 	private:
 		std::vector<Event*> eventList;

@@ -15,20 +15,20 @@ namespace Stardust::Math {
 		vec3 extent; //Bounds
 	};
 
-	inline bool collided2D(const AABB2D& aabb, const vec2& v) {
+	inline auto collided2D(const AABB2D& aabb, const vec2& v) -> bool {
 		return (v.x > aabb.offset.x && v.x < (aabb.extent + aabb.offset).x && v.y > aabb.offset.y&& v.y < (aabb.extent + aabb.offset).y);
 	}
-	inline bool collided(const AABB& aabb, const vec3& v) {
+	inline auto collided(const AABB& aabb, const vec3& v) -> bool {
 		return (v.x > aabb.offset.x&& v.x < (aabb.extent + aabb.offset).x && v.y > aabb.offset.y&& v.y < (aabb.extent + aabb.offset).y && v.z > aabb.offset.z&& v.z < (aabb.extent + aabb.offset).z);
 	}
 
-	inline bool AABBIntersect2D(const AABB2D& a, const AABB2D& b) {
+	inline auto AABBIntersect2D(const AABB2D& a, const AABB2D& b) -> bool {
 		//∀i∈x,y
 		return (a.offset.x <= (b.extent + b.offset).x && (a.extent + a.offset).x >= b.offset.x) &&
 			(a.offset.y <= (b.extent + b.offset).y && (a.extent + a.offset).y >= b.offset.y);
 	}
 
-	inline bool AABBIntersect3D(const AABB& a, const AABB& b) {
+	inline auto AABBIntersect3D(const AABB& a, const AABB& b) -> bool {
 		//∀i∈x,y
 		return (a.offset.x <= (b.extent + b.offset).x && (a.extent + a.offset).x >= b.offset.x) &&
 			(a.offset.y <= (b.extent + b.offset).y && (a.extent + a.offset).y >= b.offset.y) &&
