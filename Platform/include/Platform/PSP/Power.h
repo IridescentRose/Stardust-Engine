@@ -8,7 +8,7 @@
 #undef PSP
 
 namespace Stardust::Platform::PSP{
-    int GetBatteryPercentage();
-    bool GetBatteryCharging();
-    std::string GetBatteryLifeTime();
+    auto GetBatteryPercentage() -> int;
+    auto GetBatteryCharging() -> bool;
+    auto GetBatteryLifeTime() -> std::string;
 }

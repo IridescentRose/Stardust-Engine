@@ -89,24 +89,24 @@ namespace Stardust::Platform {
 	/*
 	Init Platform performs all needed platform initialization code
 	*/
-	void initPlatform(const char* appName = "APP");
+	auto initPlatform(const char* appName = "APP") -> void;
 
 	/*
 	Exit Platform performs all needed platform exit code (this is for forced exits)
 	*/
-	void exitPlatform();
+	auto exitPlatform() -> void;
 
 	/*
 	Performs all per frame operations
 	*/
-	void platformUpdate();
+	auto platformUpdate() -> void;
 
 	/**
 	 * Delays the system thread
 	 * 
 	 * @param millis - Time in MS
 	**/
-	inline void delayForMS(int millis) {
+	inline auto delayForMS(int millis) -> void {
 #if CURRENT_PLATFORM == PLATFORM_PSP || CURRENT_PLATFORM == PLATFORM_VITA
 		sceKernelDelayThread(millis * 1000);
 #else
@@ -115,12 +115,12 @@ namespace Stardust::Platform {
 	}
 
 	namespace detail{
-		bool initNetworks();
-		void closeNetworks();
-		bool getHTTPFile(const char* url, const char* filepath);
+		auto initNetworks() -> bool;
+		auto closeNetworks() -> void;
+		auto getHTTPFile(const char* url, const char* filepath) -> bool;
 
-		void closeSockets(int fd);
-		bool setBlocking(int fd, int blocking);
+		auto closeSockets(int fd) -> void;
+		auto setBlocking(int fd, int blocking) -> bool;
 
 #if CURRENT_PLATFORM == PLATFORM_PSP
 typedef OSL_SOUND SoundEffect;
@@ -128,7 +128,7 @@ typedef OSL_SOUND SoundEffect;
 typedef sf::Music SoundEffect;
 #endif
 
-		inline SoundEffect* loadSound(std::string path, bool streaming) {
+		inline auto loadSound(std::string path, bool streaming) -> SoundEffect*{
 #if CURRENT_PLATFORM == PLATFORM_PSP
 			int i = 0;
 			if (streaming) {
@@ -145,7 +145,7 @@ typedef sf::Music SoundEffect;
 #endif
 		}
 
-		inline void playSoundEffect(SoundEffect* effect, int channel) {
+		inline auto playSoundEffect(SoundEffect* effect, int channel) -> void {
 
 #if CURRENT_PLATFORM == PLATFORM_PSP
 			oslPlaySound(effect, channel);
@@ -155,7 +155,7 @@ typedef sf::Music SoundEffect;
 
 		}
 
-		inline void pauseSoundEffect(SoundEffect* effect) {
+		inline auto pauseSoundEffect(SoundEffect* effect) -> void {
 
 #if CURRENT_PLATFORM == PLATFORM_PSP
 			oslPauseSound(effect, -1);
@@ -165,7 +165,7 @@ typedef sf::Music SoundEffect;
 
 		}
 
-		inline void stopSoundEffect(SoundEffect* effect) {
+		inline auto stopSoundEffect(SoundEffect* effect) -> void {
 
 #if CURRENT_PLATFORM == PLATFORM_PSP
 			oslStopSound(effect);
@@ -175,7 +175,7 @@ typedef sf::Music SoundEffect;
 
 		}
 
-		inline void deleteSound(SoundEffect* effect) {
+		inline auto deleteSound(SoundEffect* effect) -> void {
 #if CURRENT_PLATFORM == PLATFORM_PSP
 			oslDeleteSound(effect);
 #else
@@ -183,7 +183,7 @@ typedef sf::Music SoundEffect;
 #endif
 		}
 
-		inline void setSoundLoop(SoundEffect* effect, bool loop) {
+		inline auto setSoundLoop(SoundEffect* effect, bool loop) -> void {
 #if CURRENT_PLATFORM == PLATFORM_PSP
 			oslSetSoundLoop(effect, loop);
 #else
@@ -195,7 +195,7 @@ typedef sf::Music SoundEffect;
 	}
 
 #if (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
-	inline void initPC(int width = 1280, int height = 720, std::string title = "Stardust Engine", bool fullScreen = false, bool vsync = false) {
+	inline auto initPC(int width = 1280, int height = 720, std::string title = "Stardust Engine", bool fullScreen = false, bool vsync = false) -> void {
 		PC::g_Window = new PC::Window(width, height, title, fullScreen, vsync);
 	}
 #endif

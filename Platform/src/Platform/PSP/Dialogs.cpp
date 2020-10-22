@@ -5,8 +5,7 @@ namespace Stardust::Platform::PSP{
     pspUtilityMsgDialogParams dialog;
 	pspUtilityNetconfData networkData;
 
-	void ConfigureDialog(pspUtilityMsgDialogParams* dialog, size_t dialog_size)
-	{
+	auto ConfigureDialog(pspUtilityMsgDialogParams* dialog, size_t dialog_size) -> void {
 		memset(dialog, 0, dialog_size);
 
 		dialog->base.size = dialog_size;
@@ -19,8 +18,7 @@ namespace Stardust::Platform::PSP{
 		dialog->base.soundThread = 0x10;
 	}
 
-	void ShowMessage(const char* message)
-	{
+	auto ShowMessage(const char* message) -> void {
 		ConfigureDialog(&dialog, sizeof(dialog));
 		dialog.mode = PSP_UTILITY_MSGDIALOG_MODE_TEXT;
 		dialog.options = PSP_UTILITY_MSGDIALOG_OPTION_TEXT;
@@ -55,8 +53,7 @@ namespace Stardust::Platform::PSP{
 		}
 	}
 
-	bool ShowNetworkDialog()
-	{
+	auto ShowNetworkDialog() -> bool {
 		bool done = true;
 		int result = -1;
 
@@ -113,8 +110,7 @@ namespace Stardust::Platform::PSP{
 		return false;
 	}
 
-	int ShowMessageYesNo(const char* message)
-	{
+	auto ShowMessageYesNo(const char* message) -> int {
 		ConfigureDialog(&dialog, sizeof(dialog));
 		dialog.mode = PSP_UTILITY_MSGDIALOG_MODE_TEXT;
 		dialog.options = PSP_UTILITY_MSGDIALOG_OPTION_TEXT;
@@ -161,8 +157,7 @@ namespace Stardust::Platform::PSP{
 			return 0;
 	}
 
-	int ShowOSK(unsigned short* descritpion, unsigned short* outtext, int maxtextinput)
-	{
+	auto ShowOSK(unsigned short* descritpion, unsigned short* outtext, int maxtextinput) -> int{
 		//osk params
 		SceUtilityOskData oskData;
 		SceUtilityOskParams oskParams;
@@ -233,8 +228,7 @@ namespace Stardust::Platform::PSP{
 		return 0;
 	}
 
-	void ShowMessageError(const char* message, int error)
-	{
+	auto ShowMessageError(const char* message, int error) -> void {
 		ConfigureDialog(&dialog, sizeof(dialog));
 		dialog.mode = PSP_UTILITY_MSGDIALOG_MODE_ERROR;
 		dialog.options = PSP_UTILITY_MSGDIALOG_OPTION_ERROR;
@@ -271,7 +265,6 @@ namespace Stardust::Platform::PSP{
 
 			}
 
-			
 			Platform::detail::Graphics::endFrameDialog();
 		}
 	}
