@@ -202,23 +202,23 @@ namespace Stardust::Utilities {
 	/**
 	 * Is a key pressed down?
 	**/
-	bool KeyPressed(int key);
+	auto KeyPressed(int key) -> bool;
 
 	/**
 	 * Is a key held down?
 	**/
-	bool KeyHold(int key);
+	auto KeyHold(int key) -> bool;
 
 	/**
 	 * Updates the input from the system-specific method
 	**/
-	void updateInputs();
+	auto updateInputs() -> void;
 
 	/*
 		Returns from -1 -> 1 of the intensity of the selection.
 		If it is not a joystick, it will always return 1
 	*/
-	float KeyStrength(int key);
+	auto KeyStrength(int key) -> float;
 
 	/**
 	 * Adds an action bound to a specific key
@@ -226,12 +226,12 @@ namespace Stardust::Utilities {
 	 * @param action-- Action name
 	 * @param key - The key number
 	**/
-	void addActionKeyPair(std::string action, int key);
+	auto addActionKeyPair(std::string action, int key) -> void;
 
 	/**
 	 * Deletes all action key pairs.
 	**/
-	void clearActionKeyPairs();
+	auto clearActionKeyPairs() -> void;
 
 	/**
 	 * Sets a specific action to a different key (rebind).
@@ -239,7 +239,7 @@ namespace Stardust::Utilities {
 	 * @param action - Action name to rebind
 	 * @param key - New key
 	**/
-	void setActionKeyPair(std::string action, int key);
+	auto setActionKeyPair(std::string action, int key) -> void;
 
 	/**
 	 * Handles a bound action
@@ -254,43 +254,43 @@ namespace Stardust::Utilities {
 	 * @param action - Action name
 	 * @param handler - The handler for the action
 	**/
-	void addActionHandler(std::string action, ActionHandler handler);
+	auto addActionHandler(std::string action, ActionHandler handler) -> void;
 
 	/**
 	 * Removes all handlers for a specified action.
 	**/
-	void clearActionHandlers();
+	auto clearActionHandlers() -> void;
 
 	/**
 	 * A method to get the Key name of PSP buttons.
 	**/
-	std::string toString(int but);
+	auto toString(int but) -> std::string;
 
 	/**
 	 * Loads a .json configuration of action key pairs
 	**/
-	void LoadConfiguration(std::string path);
+	auto LoadConfiguration(std::string path) -> void;
 
 	
 	/**
 	 * Saves a .json configuration of action key pairs
 	**/
-	void SaveConfiguration(std::string path);
+	auto SaveConfiguration(std::string path) -> void;
 
 	/**
 	 * Retrieves a key / button ID from an action
 	 * 
 	 * @param action - The ID to reverse lookup
 	**/
-	int buttonFromAction(std::string action);
+	auto buttonFromAction(std::string action) -> int;
 
 	/**
 	 * Waits for the next button press on PSP
 	**/
-	int nextAction();
+	auto nextAction() -> int;
 
 	/**
 	 * Gets the cursor position on PC, returns (-1, -1) on PSP
 	**/
-	glm::vec2 getCursorPos();
+	auto getCursorPos() -> glm::vec2;
 }

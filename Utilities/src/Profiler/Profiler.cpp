@@ -42,64 +42,6 @@ namespace Stardust::Profiling {
 			methodData.push_back(newData);
 		}
 	}
-
-	void Profiler::beginProfileSubMethod()
-	{
-		subT.reset();
-	}
-	void Profiler::endProfileSubMethod(std::string macroMethod, std::string subMethod)
-	{
-		subT.deltaTime();
-		double time = subT.elapsed() * 1000;
-		subT.reset();
-
-
-		ProfileRun r;
-		r.fromStart = Utilities::g_AppTimer.elapsed() - time;
-		r.time = time;
-
-		int methodID = findMethod(macroMethod);
-
-		if (methodID != -1) {
-			int res = -1;
-			for (int i = 0; i < methodData[methodID].subProfiles.size(); i++) {
-				if (methodData[methodID].subProfiles[i].method == subMethod) {
-					res = i;
-					break;
-				}
-			}
-
-			if (res != 1) {
-				methodData[methodID].subProfiles[res].runs.push_back(r);
-			}
-			else {
-				ProfileData subData;
-				subData.method = subMethod;
-				subData.subProfiles.clear();
-				subData.runs.clear();
-				subData.runs.push_back(r);
-
-				methodData[methodID].subProfiles.push_back(subData);
-			}
-
-		}
-		else {
-			ProfileData newData;
-			newData.method = macroMethod;
-			newData.runs.clear();
-			newData.subProfiles.clear();
-
-			ProfileData subData;
-			subData.method = subMethod;
-			subData.subProfiles.clear();
-			subData.runs.clear();
-			subData.runs.push_back(r);
-
-			newData.subProfiles.push_back(subData);
-
-			methodData.push_back(newData);
-		}
-	}
 	
 	bool mysort(ProfileRun i, ProfileRun j) {
 		return i.time < j.time;

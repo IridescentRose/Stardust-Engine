@@ -44,21 +44,12 @@ namespace Stardust::Profiling {
 		/**
 		 * Begins profiling a method - sets internal state.
 		**/
-		void beginProfileMethod();
+		auto beginProfileMethod() -> void;
 
 		/**
 		 * Ends profiling a method and collects statistics.
 		**/
-		void endProfileMethod(std::string methodName);
-
-		/**
-		 * DEPRECATED
-		**/
-		void beginProfileSubMethod();
-		/**
-		 * DEPRECATED
-		**/
-		void endProfileSubMethod(std::string macroMethod, std::string subMethod);
+		auto endProfileMethod(std::string methodName) -> void;
 
 		/**
 		 * Outputs all profiled data to an output file.
@@ -66,12 +57,12 @@ namespace Stardust::Profiling {
 		 * 
 		 * @param fileName - Defaults to "stardust_profiler.log"
 		**/
-		void outputStats(std::string fileName = "stardust_profiler.log");
+		auto outputStats(std::string fileName = "stardust_profiler.log") -> void;
 
 
 	private:
 		
-		int findMethod(std::string name);
+		auto findMethod(std::string name) -> int;
 
 		std::vector<ProfileData> methodData;
 		Utilities::Timer t;

@@ -11,11 +11,11 @@ namespace Stardust::Math {
 		}
 
 		//Number of steps
-		inline void step(float multiplier) {
+		inline auto step(float multiplier) -> void {
 			m_newPos += m_dir * multiplier;
 		}
 
-		inline vec2 getEnd() {
+		inline auto getEnd() -> vec2 {
 			return m_newPos;
 		}
 
@@ -33,11 +33,11 @@ namespace Stardust::Math {
 		}
 
 		//Number of steps
-		inline void step(float multiplier) {
+		inline auto step(float multiplier) -> void {
 			m_newPos += m_dir * multiplier;
 		}
 
-		inline vec3 getEnd() {
+		inline auto getEnd() -> vec3 {
 			return m_newPos;
 		}
 

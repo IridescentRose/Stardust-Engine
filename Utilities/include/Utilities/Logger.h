@@ -39,7 +39,7 @@ namespace Stardust::Utilities {
 		 * Synchronizes current log to disk. 
 		 * Important for low disk-speed systems to avoid calling this as much as possible.
 		**/
-		void flushLog();
+		auto flushLog() -> void;
 
 		/**
 		 * Adds a message (formatted later) onto the log with severity.
@@ -48,7 +48,7 @@ namespace Stardust::Utilities {
 		 * @param message - Message to log
 		 * @param level - Logger level of the message.
 		**/
-		void log(std::string message, LoggerLevel level = LOGGER_LEVEL_INFO);
+		auto log(std::string message, LoggerLevel level = LOGGER_LEVEL_INFO) -> void;
 
 		/**
 		 * A LoggerLevel to filter by. If it is lower, then the logged messages lower than this will not be included.

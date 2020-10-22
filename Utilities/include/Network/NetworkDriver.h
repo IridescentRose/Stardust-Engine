@@ -3,8 +3,9 @@
 #include <Network/Socket.h>
 #include <queue>
 #include <map>
-#include <Utilities/Thread.h>
 #include "NetworkTypes.h"
+#include <NonCopy.h>
+#include <NonMovable.h>
 
 namespace Stardust::Network {
 	/**
@@ -15,7 +16,7 @@ namespace Stardust::Network {
 	/**
 	 * Basic network interface for Stardust applications.
 	**/
-	class NetworkDriver {
+	class NetworkDriver : public NonCopyable, NonMovable {
 	public:
 		
 		/**
