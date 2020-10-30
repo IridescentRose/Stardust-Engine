@@ -32,6 +32,13 @@ namespace Stardust::Math {
 		return res;
 	}
 
+#ifdef near
+#undef near
+#endif
+
+#ifdef far
+#undef far
+#endif
 	inline auto makePerspective(float fovy, float aspectRatio, float near, float far) -> mat4 {
 		return glm::perspective(fovy, aspectRatio, near, far);
 	}

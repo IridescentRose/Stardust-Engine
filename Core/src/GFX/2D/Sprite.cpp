@@ -178,7 +178,7 @@ namespace Stardust::GFX::Render2D{
 	}
 
 
-	void Sprite::draw()
+	void Sprite::draw() 
 	{
 
 		//Matrix translation

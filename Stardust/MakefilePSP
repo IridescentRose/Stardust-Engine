@@ -23,6 +23,7 @@ OBJS = ../Platform/src/Platform/Platform.o \
 ../Core/src/GFX/RenderCore.o \
 ../Core/src/GFX/2D/Sprite.o \
 ../Core/src/GFX/2D/SpriteAnimated.o \
+../Core/src/GFX/2D/CharacterSprite.o \
 ../Core/src/GFX/2D/Tilemap.o \
 ../Core/src/GFX/2D/TilemapAnim.o \
 ../Core/src/GFX/3D/Camera.o \

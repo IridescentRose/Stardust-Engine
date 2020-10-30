@@ -12,7 +12,9 @@ void GameStateManager::changeState(GameState* state)
 	if (states.size() > 0) {
 		for (auto s : states) {
 			s->cleanup();
-			delete s;
+			if (s != nullptr) {
+				delete s;
+			}
 		}
 	}
 

@@ -36,6 +36,7 @@ namespace Stardust::GFX::Render2D {
 			coords[4], coords[5],
 			coords[6], coords[7],
 		};
+		model.addData(mesh);
 	}
 
 	void CharacterSprite::addAnimEvent(std::string eventName, CharacterAnimInfo* info){
@@ -58,5 +59,23 @@ namespace Stardust::GFX::Render2D {
 				indexEnd = currentAnim->animLength + currentIndex;
 			}
 		}
+	}
+
+	void CharacterSprite::draw() {
+		GFX::pushMatrix();
+		GFX::clearModelMatrix();
+		GFX::translateModelMatrix(glm::vec3(offset.x, offset.y, 1.0f));
+		GFX::pushMatrix();
+		GFX::scaleModelMatrix(glm::vec3(scaleFactor.x, scaleFactor.y, 1.0f));
+		GFX::pushMatrix();
+		GFX::rotateModelMatrix({ rotation.x, rotation.y, 0.0f });
+
+
+		g_TextureManager->bindTex(tex);
+		model.draw();
+
+		GFX::popMatrix();
+		GFX::popMatrix();
+		GFX::popMatrix();
 	}
 }

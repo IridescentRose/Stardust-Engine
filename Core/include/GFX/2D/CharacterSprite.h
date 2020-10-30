@@ -8,6 +8,7 @@ namespace Stardust::GFX::Render2D {
 	};
 	
 	class CharacterSprite : public Sprite{
+	public:
 		CharacterSprite(glm::vec2 characterSize, TextureAtlas* atlas, unsigned int texture);
 
 		void tickPhase();

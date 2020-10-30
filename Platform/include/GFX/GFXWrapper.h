@@ -296,6 +296,7 @@ namespace Stardust::GFX {
 
                 v.u = mesh.uv[i * 2 + 0];
                 v.v = mesh.uv[i * 2 + 1];
+                //std::cout << v.u << " " << v.v << std::endl();
         
                 v.color = GU_COLOR(mesh.color[i * 4 + 0], mesh.color[i * 4 + 1], mesh.color[i * 4 + 2], mesh.color[i * 4 + 3]);
                 verts.push_back(v);
