@@ -28,11 +28,10 @@
 
 #elif (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
 #include <Platform/PC/Window.h>
+#endif
 #include <iostream>
 #include <sstream>
 #include <fstream>
-
-#endif
 #include <stb/stb_image.h>
 #include <map>
 #include <array>
