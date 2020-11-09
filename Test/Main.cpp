@@ -5,10 +5,15 @@
 #include <GFX/2D/TilemapAnim.h>
 #include <GFX/UI/TextRenderer.h>
 #include <Utilities/Input.h>
+#include <StardustScript.h>
 using namespace Stardust;
 
 int main() {
 	Platform::initPlatform();
+	Scripting::initScripting();
+
+	Scripting::loadScript("test.lua");
+	Scripting::callScript();
 
 	float r = 0.0f;
 
@@ -58,6 +63,8 @@ int main() {
 		GFX::g_RenderCore->endFrame();
 	}
 
+
+	Scripting::cleanupScripting();
 	Platform::exitPlatform();
 	return 0;
 }
