@@ -73,7 +73,7 @@
     <LinkIncremental>false</LinkIncremental>
     <OutDir>../Stardust/lib/win</OutDir>
     <IntDir>obj</IntDir>
-    <IncludePath>$(ProjectDir)../Deps/include;$(ProjectDir)/include;$(ProjectDir)../Platform/include;$(ProjectDir)../Core/include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)../Deps/include;$(ProjectDir)/include;$(ProjectDir)../Platform/include;$(ProjectDir)../Utilities/include;$(ProjectDir)../Core/include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
@@ -149,6 +149,7 @@
     <ClInclude Include="include\StardustScript.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\InputLib.cpp" />
     <ClCompile Include="src\StardustScript.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

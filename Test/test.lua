@@ -1,2 +1,8 @@
 -- A simple test script
-print("Hello world!")
+Platform.init();
+
+while not Input.isPressed(88) do
+	Platform.update();
+end
+
+Platform.exit();

@@ -33,13 +33,14 @@ OBJS = ../Platform/src/Platform/Platform.o \
 ../Core/src/GFX/3D/LODModel.o \
 ../Core/src/Components/LODModelComponent.o \
 ../Core/src/Components/ModelComponent.o \
+../Script/src/StardustScript.o \
 
 
 alib = lib/psp/libstardust.a
 
 INCDIR = $(PSPPATH)/include
-INCDIR += ../Platform/include ../Utilities/include ../Core/include ../Deps/include
-CFLAGS = -O3 -G0 -mpreferred-stack-boundary=4 -ffast-math -gdwarf-2 -DCURRENT_PLATFORM=PLATFORM_PSP
+INCDIR += ../Platform/include ../Utilities/include ../Core/include ../Deps/include ../Script/include
+CFLAGS = -O3 -G0 -mpreferred-stack-boundary=4 -ffast-math -gdwarf-2 -DCURRENT_PLATFORM=PLATFORM_PSP -DLUA_32BITS
 CXXFLAGS = -std=gnu++17
 ASFLAGS = $(CFLAGS)
 

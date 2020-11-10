@@ -7,4 +7,6 @@ namespace Stardust::Scripting {
 	void loadScript(std::string path);
 	void callScript();
 	void cleanupScripting();
+
+	void initScriptInputLib(lua_State* L);
 }

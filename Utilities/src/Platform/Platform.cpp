@@ -101,6 +101,7 @@ namespace Stardust::Platform {
 		vfpu_srand(time(NULL));
 		VirtualFileInit();
 		oslInitAudio();
+
 #endif
 #if (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
 		initPC();
