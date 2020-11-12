@@ -9,4 +9,6 @@ namespace Stardust::Scripting {
 	void cleanupScripting();
 
 	void initScriptInputLib(lua_State* L);
+	void initScriptLoggingLib(lua_State* L);
+	void initScriptTimerLib(lua_State* L);
 }

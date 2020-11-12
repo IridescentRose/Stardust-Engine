@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -150,7 +150,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\InputLib.cpp" />
+    <ClCompile Include="src\LoggingLib.cpp" />
     <ClCompile Include="src\StardustScript.cpp" />
+    <ClCompile Include="src\TimerLib.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
