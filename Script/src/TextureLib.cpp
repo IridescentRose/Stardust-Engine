@@ -42,9 +42,10 @@ namespace Stardust::Scripting {
 			repeat = lua_toboolean(L, 4);
 		}
 
-		GFX::g_TextureManager->loadTex(path, filterMag, filterMin, repeat);
+		auto id = GFX::g_TextureManager->loadTex(path, filterMag, filterMin, repeat);
 
-		return 0;
+		lua_pushinteger(L, id);
+		return 1;
 	}
 
 	static const luaL_Reg textureLib[]{

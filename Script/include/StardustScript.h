@@ -12,4 +12,5 @@ namespace Stardust::Scripting {
 	void initScriptLoggingLib(lua_State* L);
 	void initScriptRenderLib(lua_State* L);
 	void initScriptTextureLib(lua_State* L);
+	void initScriptNetDriverLib(lua_State* L);
 }
