@@ -93,6 +93,7 @@ namespace Stardust::Scripting {
 		initScriptInputLib(L);
 		initScriptLoggingLib(L);
 		initScriptRenderLib(L);
+		initScriptTextureLib(L);
 	}
 
 	void loadScript(std::string path) {
