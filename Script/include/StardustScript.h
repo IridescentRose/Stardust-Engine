@@ -10,5 +10,5 @@ namespace Stardust::Scripting {
 
 	void initScriptInputLib(lua_State* L);
 	void initScriptLoggingLib(lua_State* L);
-	void initScriptTimerLib(lua_State* L);
+	void initScriptRenderLib(lua_State* L);
 }

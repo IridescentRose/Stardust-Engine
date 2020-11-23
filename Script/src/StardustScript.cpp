@@ -92,6 +92,7 @@ namespace Stardust::Scripting {
 		initPlatformLib(L);
 		initScriptInputLib(L);
 		initScriptLoggingLib(L);
+		initScriptRenderLib(L);
 	}
 
 	void loadScript(std::string path) {

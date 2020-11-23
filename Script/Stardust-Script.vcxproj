@@ -151,6 +151,7 @@
   <ItemGroup>
     <ClCompile Include="src\InputLib.cpp" />
     <ClCompile Include="src\LoggingLib.cpp" />
+    <ClCompile Include="src\RendererLib.cpp" />
     <ClCompile Include="src\StardustScript.cpp" />
     <ClCompile Include="src\TimerLib.cpp" />
   </ItemGroup>
