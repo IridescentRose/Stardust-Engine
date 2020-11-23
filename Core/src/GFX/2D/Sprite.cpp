@@ -43,9 +43,9 @@ namespace Stardust::GFX::Render2D{
 
 		mesh.uv = {
 			0, 0,
-			hPercent, 0,
-			hPercent, wPercent,
-			0, wPercent
+			wPercent, 0,
+			wPercent, hPercent,
+			0, hPercent
 		};
 
 		mesh.indices = {
@@ -80,11 +80,12 @@ namespace Stardust::GFX::Render2D{
 		float hPercent = (float)tD->height / (float)tD->pHeight;
 		float wPercent = (float)tD->width / (float)tD->pWidth;
 
+
 		mesh.uv = {
 			0, 0,
-			hPercent, 0,
-			hPercent, wPercent,
-			0, wPercent
+			wPercent, 0,
+			wPercent, hPercent,
+			0, hPercent
 		};
 
 		mesh.indices = {

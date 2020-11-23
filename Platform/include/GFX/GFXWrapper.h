@@ -499,6 +499,73 @@ namespace Stardust::GFX {
         TextureManager() : fullMap(), texCount(0) {
         }
 
+        inline auto loadTexFromRAM(uint8_t* buffer, size_t len, int filterMag, int filterMin, bool repeat) -> unsigned int {
+            int OutBytesPerPixel = 4;
+            int Power2Width = 0;
+            int Power2Height = 0;
+
+            //GET WIDTH / HEIGHT
+            int width, height, channels;
+            //stbi_set_flip_vertically_on_load(true);
+            unsigned short* data = (unsigned short*)stbi_load_from_memory(buffer, len, &width, &height, &channels, STBI_rgb_alpha);
+
+            Power2Width = powerOfTwo(width);
+            Power2Height = powerOfTwo(height);
+
+            Texture* Image1 = new Texture();
+
+            int Swizzle = 1;
+            int Vram = 0;
+            int ColorMode = GU_PSM_8888;
+
+            Image1->width = width;
+            Image1->height = height;
+            Image1->pWidth = Power2Width;
+            Image1->pHeight = Power2Height;
+            Image1->ramSpace = Vram;
+            Image1->colorMode = ColorMode;
+            Image1->swizzled = Swizzle;
+
+            unsigned int* dataBuffer = (unsigned int*)memalign(16, Image1->pHeight * Image1->pWidth * OutBytesPerPixel);
+
+            for (int y = 0; y < height; y++) {
+                for (int x = 0; x < width; x++) {
+                    dataBuffer[x + y * Power2Width] = ((unsigned int*)data)[x + y * width];
+                }
+            }
+
+            stbi_image_free(data);
+            Image1->data = (uint16_t*)dataBuffer;
+
+            unsigned short* swizzled_pixels = NULL;
+            if (Vram)
+            {
+                swizzled_pixels = (unsigned short*)getStaticVramTexture(Power2Width, Power2Height, ColorMode);
+            }
+            else
+            {
+                swizzled_pixels = (unsigned short*)memalign(16, Image1->pHeight * Image1->pWidth * OutBytesPerPixel);
+            }
+
+            swizzle_fast((u8*)swizzled_pixels, (const u8*)dataBuffer, Image1->pWidth * OutBytesPerPixel, Image1->pHeight);
+
+            free(dataBuffer);
+            Image1->data = swizzled_pixels;
+
+
+            //clear the cache or there will be some errors
+            sceKernelDcacheWritebackInvalidateAll();
+
+            Image1->repeat = repeat;
+            Image1->maxFilter = filterMag;
+            Image1->minFilter = filterMin;
+
+
+            fullMap.emplace(texCount, Image1);
+
+            return texCount++;
+        }
+
         /**
          * Loads up a texture.
          * 
@@ -535,7 +602,17 @@ namespace Stardust::GFX {
             Image1->ramSpace = Vram;
             Image1->colorMode = ColorMode;
             Image1->swizzled = Swizzle;
-            Image1->data = data;
+
+            unsigned int* dataBuffer = (unsigned int*)memalign(16, Image1->pHeight * Image1->pWidth * OutBytesPerPixel);
+
+            for (int y = 0; y < height; y++) {
+                for (int x = 0; x < width; x++) {
+                    dataBuffer[x + y * Power2Width] = ((unsigned int*)data)[x + y * width];
+                }
+            }
+
+            stbi_image_free(data);
+            Image1->data = (uint16_t*)dataBuffer;
 
             unsigned short* swizzled_pixels = NULL;
             if (Vram)
@@ -547,11 +624,11 @@ namespace Stardust::GFX {
                 swizzled_pixels = (unsigned short*)memalign(16, Image1->pHeight * Image1->pWidth * OutBytesPerPixel);
             }
 
-            swizzle_fast((u8*)swizzled_pixels, (const u8*)data, Image1->pWidth * OutBytesPerPixel, Image1->pHeight);
+            swizzle_fast((u8*)swizzled_pixels, (const u8*)dataBuffer, Image1->pWidth * OutBytesPerPixel, Image1->pHeight);
 
+            free(dataBuffer);
             Image1->data = swizzled_pixels;
 
-            stbi_image_free(data);
 
             //clear the cache or there will be some errors
             sceKernelDcacheWritebackInvalidateAll();
