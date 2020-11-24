@@ -85,10 +85,12 @@ namespace Stardust::Platform {
 
 		Utilities::updateInputs();
 #if (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
-		PC::g_Window->update();
-		if(PC::g_Window->shouldClose()){
-			exitPlatform();
-			exit(0);
+		if (PC::g_Window != nullptr) {
+			PC::g_Window->update();
+			if (PC::g_Window->shouldClose()) {
+				exitPlatform();
+				exit(0);
+			}
 		}
 #endif
 	}
@@ -104,14 +106,18 @@ namespace Stardust::Platform {
 
 #endif
 #if (CURRENT_PLATFORM == PLATFORM_WIN) || (CURRENT_PLATFORM == PLATFORM_NIX)
-		initPC();
+		if (std::string(appName) != "headless") {
+			initPC();
+		}
 #endif
 		
 		srand(static_cast<unsigned int>(time(NULL)));
 
 #ifndef STARDUST_UTILITIES_ONLY
-		GFX::g_RenderCore = new GFX::RenderCore();
-		GFX::g_RenderCore->init();
+		if (std::string(appName) != "headless") {
+			GFX::g_RenderCore = new GFX::RenderCore();
+			GFX::g_RenderCore->init();
+		}
 #endif
 
 #if CURRENT_PLATFORM == PLATFORM_PSP
