@@ -69,36 +69,16 @@ namespace Stardust::Network {
 
 		Utilities::detail::core_Logger->log("Socket Bound!", Utilities::LOGGER_LEVEL_DEBUG);
 
-		Utilities::detail::core_Logger->log("Listening on socket...", Utilities::LOGGER_LEVEL_DEBUG);
-		if (listen(m_socket, 1) < 0) {
-			throw std::runtime_error("Fatal: Could not listen on socket. Errno: " + std::to_string(errno));
-		}
-
-		auto addrlen = sizeof(sockaddr);
-		m_Connection = static_cast<int>(accept(m_socket, (struct sockaddr*) & sockaddr, (socklen_t*)&addrlen));
-		Utilities::detail::core_Logger->log("Found potential connection...", Utilities::LOGGER_LEVEL_DEBUG);
-
-		if (m_Connection < 0) {
-			throw std::runtime_error("Fatal: Could not accept connection. Errno: " + std::to_string(errno));
-		}
-
 #if CURRENT_PLATFORM == PLATFORM_PSP
 		int yes = 1;
 		if (setsockopt(m_Connection, IPPROTO_TCP, TCP_NODELAY, &yes, sizeof(yes)) == -1) {
 			throw std::runtime_error("Fatal: Could not set no delay! Errno " + std::to_string(errno));
 		}
 #endif
-
-		Utilities::detail::core_Logger->log("New Connection from " + std::string(inet_ntoa(sockaddr.sin_addr)) + " on port " + std::to_string(ntohs(sockaddr.sin_port)), Utilities::LOGGER_LEVEL_INFO);
-		SetBlock(false);
-
-		connected = true;
 	}
 
-	void ServerSocket::ListenState()
-	{
-		Platform::detail::closeSockets(m_Connection);
-		
+	Connection* ServerSocket::ListenState()
+	{	
 		sockaddr_in sockaddr;
 		sockaddr.sin_family = AF_INET;
 		sockaddr.sin_addr.s_addr = INADDR_ANY;
@@ -110,23 +90,29 @@ namespace Stardust::Network {
 		}
 
 		auto addrlen = sizeof(sockaddr);
-		m_Connection = static_cast<int>(accept(m_socket, (struct sockaddr*) & sockaddr, (socklen_t*)&addrlen));
+		auto conn = static_cast<int>(accept(m_socket, (struct sockaddr*) & sockaddr, (socklen_t*)&addrlen));
 		Utilities::detail::core_Logger->log("Found potential connection...", Utilities::LOGGER_LEVEL_DEBUG);
 
-		if (m_Connection < 0) {
+		if (conn < 0) {
 			throw std::runtime_error("Fatal: Could not accept connection. Errno: " + std::to_string(errno));
 		}
 
 		Utilities::detail::core_Logger->log("New Connection from " + std::string((inet_ntoa(sockaddr.sin_addr))) + " on port " + std::to_string(ntohs(sockaddr.sin_port)), Utilities::LOGGER_LEVEL_INFO);
-		SetBlock(false);
-		connected = true;
+		
+		return new Connection(conn);
+	}
+
+	void Connection::Close()
+	{
+		Utilities::detail::core_Logger->log("Closing connection!");
+		connected = false;
+		return Platform::detail::closeSockets(m_socket);
 	}
 
 	void ServerSocket::Close()
 	{
 		Utilities::detail::core_Logger->log("Closing connection!");
-		connected = false;
-		return Platform::detail::closeSockets(m_Connection);
+		return Platform::detail::closeSockets(m_socket);
 	}
 
 	bool ClientSocket::SetBlock(bool blocking)
@@ -134,9 +120,9 @@ namespace Stardust::Network {
 		return Platform::detail::setBlocking(m_socket, blocking);
 	}
 
-	bool ServerSocket::SetBlock(bool blocking)
+	bool Connection::SetBlock(bool blocking)
 	{
-		return Platform::detail::setBlocking(m_Connection, blocking);
+		return Platform::detail::setBlocking(m_socket, blocking);
 	}
 
 	void ClientSocket::Send(size_t size, char* buffer)
@@ -148,9 +134,9 @@ namespace Stardust::Network {
 		}
 	}
 
-	void ServerSocket::Send(size_t size, char* buffer)
+	void Connection::Send(size_t size, char* buffer)
 	{
-		int res = send(m_Connection, buffer, static_cast<int>(size), 0);
+		int res = send(m_socket, buffer, static_cast<int>(size), 0);
 		if (res < 0) {
 			Utilities::detail::core_Logger->log("Failed to send a packet!", Utilities::LOGGER_LEVEL_WARN);
 			Utilities::detail::core_Logger->log("Packet Size: " + std::to_string(size), Utilities::LOGGER_LEVEL_WARN);
@@ -169,17 +155,14 @@ namespace Stardust::Network {
 
 		return connected;
 	}
-	bool ServerSocket::isAlive()
+	bool Connection::isAlive()
 	{
 		bool aconnected = false;
 		char buffer[32] = { 0 };
-		int res = recv(m_Connection, buffer, sizeof(buffer), MSG_PEEK);
+		int res = recv(m_socket, buffer, sizeof(buffer), MSG_PEEK);
 
 		if (res != 0) {
 			aconnected = true;
-		}
-		else {
-			Close();
 		}
 
 		return aconnected && connected;
@@ -251,7 +234,7 @@ namespace Stardust::Network {
 				pIn->buffer->ReadVarInt32(compressedSize);
 
 
-				char byteBuffer[200 KiB];
+				char *byteBuffer = new char[200 KiB];
 
 
 				if(compressedSize > threshold){
@@ -322,12 +305,12 @@ namespace Stardust::Network {
 		}
 	}
 
-	PacketIn* ServerSocket::Recv(bool extended)
+	PacketIn* Connection::Recv(bool extended)
 	{
 
 		std::vector<byte> len;
 		byte newByte;
-		int res = recv(m_Connection, &newByte, 1, MSG_PEEK);
+		int res = recv(m_socket, &newByte, 1, MSG_PEEK);
 
 		if (res > 0) {
 			char data[5] = { 0 };
@@ -335,7 +318,7 @@ namespace Stardust::Network {
 			do {
 				size_t totalReceived = 0;
 				while (1 > totalReceived) {
-					size_t received = recv(m_Connection, &data[dataLen] + totalReceived, static_cast<int>(1 - totalReceived), 0);
+					size_t received = recv(m_socket, &data[dataLen] + totalReceived, static_cast<int>(1 - totalReceived), 0);
 					if (received <= 0) {
 						Platform::delayForMS(1);
 					}
@@ -369,7 +352,7 @@ namespace Stardust::Network {
 			}
 
 			while (totalTaken < length) {
-				int res = recv(m_Connection, b, length, 0);
+				int res = recv(m_socket, b, length, 0);
 				if (res > 0) {
 					totalTaken += res;
 				}
@@ -405,6 +388,21 @@ namespace Stardust::Network {
 		}
 		else {
 			return NULL;
+		}
+	}
+
+	Connection::Connection(int conn) {
+		m_socket = conn;
+		if (m_socket < 0) {
+			throw std::runtime_error("Fatal: Could not accept connection. Errno: " + std::to_string(errno));
+		}
+		SetBlock(false);
+	}
+
+	Connection::~Connection()
+	{
+		if (connected) {
+			Close();
 		}
 	}
 }

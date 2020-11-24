@@ -56,7 +56,7 @@ namespace Stardust::Scripting {
 		if (argc != 1)
 			return luaL_error(L, "Argument error: Platform.delay() takes 1 argument (millis).");
 		
-		int x = luaL_checkinteger(L, 1);
+		int x = static_cast<int>(luaL_checkinteger(L, 1));
 		Platform::delayForMS(x);
 
 		return 0;

@@ -71,8 +71,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>../Stardust/lib/win</OutDir>
-    <IntDir>obj</IntDir>
+    <OutDir>../Stardust/lib/win/</OutDir>
+    <IntDir>obj/</IntDir>
     <IncludePath>$(ProjectDir)../Deps/include;$(ProjectDir)/include;$(ProjectDir)../Platform/include;$(ProjectDir)../Utilities/include;$(ProjectDir)../Core/include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -151,8 +151,10 @@
   <ItemGroup>
     <ClCompile Include="src\InputLib.cpp" />
     <ClCompile Include="src\LoggingLib.cpp" />
+    <ClCompile Include="src\NetDriverLib.cpp" />
     <ClCompile Include="src\RendererLib.cpp" />
     <ClCompile Include="src\StardustScript.cpp" />
+    <ClCompile Include="src\TextureLib.cpp" />
     <ClCompile Include="src\TimerLib.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

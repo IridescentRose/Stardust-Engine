@@ -8,7 +8,7 @@ namespace Stardust::Scripting {
 		if (argc != 1)
 			return luaL_error(L, "Argument error: Input.isPressed() takes 1 argument (key).");
 
-		int x = luaL_checkinteger(L, 1);
+		int x = static_cast<int>(luaL_checkinteger(L, 1));
 		auto r = Utilities::KeyPressed(x);
 
 		lua_pushboolean(L, r);
@@ -20,7 +20,7 @@ namespace Stardust::Scripting {
 		if (argc != 1)
 			return luaL_error(L, "Argument error: Input.isHeld() takes 1 argument (key).");
 
-		int x = luaL_checkinteger(L, 1);
+		int x = static_cast<int>(luaL_checkinteger(L, 1));
 		auto r = Utilities::KeyHold(x);
 
 		lua_pushboolean(L, r);
@@ -32,7 +32,7 @@ namespace Stardust::Scripting {
 		if (argc != 1)
 			return luaL_error(L, "Argument error: Input.strength() takes 1 argument (key).");
 
-		int x = luaL_checkinteger(L, 1);
+		int x = static_cast<int>(luaL_checkinteger(L, 1));
 		auto r = Utilities::KeyStrength(x);
 
 		lua_pushnumber(L, r);
@@ -56,6 +56,7 @@ namespace Stardust::Scripting {
 	lua_pushinteger(L, BIT); \
 	return(1); \
 	} \
+	return 0; \
 }
 	GET_CTRL(lua_input_select, PSP_CTRL_SELECT)
 	GET_CTRL(lua_input_start, PSP_CTRL_START)

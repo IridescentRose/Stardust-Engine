@@ -10,7 +10,7 @@ namespace Stardust::Scripting {
 
 
 		auto num = luaL_checkinteger(L, 1);
-		GFX::g_TextureManager->bindTex(num);
+		GFX::g_TextureManager->bindTex(static_cast<unsigned int>(num));
 
 		return 0;
 	}
@@ -22,7 +22,7 @@ namespace Stardust::Scripting {
 
 
 		auto num = luaL_checkinteger(L, 1);
-		GFX::g_TextureManager->deleteTex(num);
+		GFX::g_TextureManager->deleteTex(static_cast<unsigned int>(num));
 
 		return 0;
 	}
@@ -42,7 +42,7 @@ namespace Stardust::Scripting {
 			repeat = lua_toboolean(L, 4);
 		}
 
-		auto id = GFX::g_TextureManager->loadTex(path, filterMag, filterMin, repeat);
+		auto id = GFX::g_TextureManager->loadTex(path, static_cast<int>(filterMag), static_cast<int>(filterMin), repeat);
 
 		lua_pushinteger(L, id);
 		return 1;

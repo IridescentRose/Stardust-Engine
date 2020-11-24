@@ -500,6 +500,7 @@ namespace Stardust::GFX {
         }
 
         inline auto loadTexFromRAM(uint8_t* buffer, size_t len, int filterMag, int filterMin, bool repeat) -> unsigned int {
+#if CURRENT_PLATFORM == PLATFORM_PSP
             int OutBytesPerPixel = 4;
             int Power2Width = 0;
             int Power2Height = 0;
@@ -564,6 +565,8 @@ namespace Stardust::GFX {
             fullMap.emplace(texCount, Image1);
 
             return texCount++;
+#endif
+            return 0;
         }
 
         /**
