@@ -50,6 +50,22 @@ namespace Stardust::Utilities {
 		**/
 		auto log(std::string message, LoggerLevel level = LOGGER_LEVEL_INFO) -> void;
 
+		inline auto trace(std::string message) -> void {
+			log(message, LOGGER_LEVEL_TRACE);
+		}
+		inline auto debug(std::string message) -> void {
+			log(message, LOGGER_LEVEL_DEBUG);
+		}
+		inline auto info(std::string message) -> void {
+			log(message, LOGGER_LEVEL_INFO);
+		}
+		inline auto warn(std::string message) -> void {
+			log(message, LOGGER_LEVEL_WARN);
+		}
+		inline auto error(std::string message) -> void {
+			log(message, LOGGER_LEVEL_ERROR);
+		}
+
 		/**
 		 * A LoggerLevel to filter by. If it is lower, then the logged messages lower than this will not be included.
 		**/
@@ -58,6 +74,7 @@ namespace Stardust::Utilities {
 		 * Autoflush?
 		 */
 		bool autoFlush;
+		bool toConsole;
 	private:
 		std::ofstream m_file;
 		std::stringstream m_filebuf;

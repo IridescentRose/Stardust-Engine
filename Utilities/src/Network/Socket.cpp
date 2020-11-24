@@ -71,7 +71,7 @@ namespace Stardust::Network {
 
 #if CURRENT_PLATFORM == PLATFORM_PSP
 		int yes = 1;
-		if (setsockopt(m_Connection, IPPROTO_TCP, TCP_NODELAY, &yes, sizeof(yes)) == -1) {
+		if (setsockopt(m_socket, IPPROTO_TCP, TCP_NODELAY, &yes, sizeof(yes)) == -1) {
 			throw std::runtime_error("Fatal: Could not set no delay! Errno " + std::to_string(errno));
 		}
 #endif

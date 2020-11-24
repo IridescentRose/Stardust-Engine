@@ -8,10 +8,13 @@ namespace Stardust::Utilities {
 		currentLevel = 0;
 		m_name = name;
 		autoFlush = false;
+		toConsole = false;
 	}
 	
 	Logger::~Logger() {
-		flushLog();
+		if (!autoFlush) {
+			flushLog();
+		}
 	}
 
 	void Logger::flushLog() {
@@ -23,36 +26,43 @@ namespace Stardust::Utilities {
 		if (level < currentLevel)
 			return;
 
-		m_filebuf << "[" << g_AppTimer.elapsed() << "]";
-		m_filebuf << "[" << m_name << "]";
+		std::stringstream ss;
+		ss << "[" << g_AppTimer.elapsed() << "]";
+		ss << "[" << m_name << "]";
 
 		switch (level) {
 		case LOGGER_LEVEL_TRACE: {
-			m_filebuf << "[TRACE]: ";
+			ss << "[TRACE]: ";
 			break;
 		}
 		case LOGGER_LEVEL_DEBUG: {
-			m_filebuf << "[DEBUG]: ";
+			ss << "[DEBUG]: ";
 			break;
 		}
 		case LOGGER_LEVEL_INFO: {
-			m_filebuf << "[INFO]: ";
+			ss << "[INFO]: ";
 			break;
 		}
 		case LOGGER_LEVEL_WARN: {
-			m_filebuf << "[WARN]: ";
+			ss << "[WARN]: ";
 			break;
 		}
 		case LOGGER_LEVEL_ERROR: {
-			m_filebuf << "[ERROR]: ";
+			ss << "[ERROR]: ";
 			break;
 		}
 
 		}
 
-		m_filebuf << message << std::endl;
+		ss << message;
+
+		m_filebuf << ss.str() << std::endl;
 		if (autoFlush) {
-			m_file << message << std::endl;
+			m_file << ss.str() << std::endl;
+		}
+
+		if (toConsole) {
+			std::cerr << ss.str() << std::endl;
 		}
 	}
 	namespace detail {
