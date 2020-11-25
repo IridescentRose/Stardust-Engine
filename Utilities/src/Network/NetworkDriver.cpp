@@ -26,12 +26,12 @@ namespace Stardust::Network {
 
 	void NetworkDriver::AddPacket(PacketOut* p)
 	{
-		Utilities::detail::core_Logger->log("Clearing Packet Queue", Utilities::LOGGER_LEVEL_DEBUG);
+		Utilities::detail::core_Logger->log("Clearing Packet Queue", Utilities::LOGGER_LEVEL_TRACE);
 		packetQueue.push(p);
 	}
 	void NetworkDriver::ClearPacketQueue()
 	{
-		Utilities::detail::core_Logger->log("Clearing Packet Queue", Utilities::LOGGER_LEVEL_DEBUG);
+		Utilities::detail::core_Logger->log("Clearing Packet Queue", Utilities::LOGGER_LEVEL_TRACE);
 		for (int i = 0; i < packetQueue.size(); i++) {
 			delete packetQueue.front();
 			packetQueue.pop();
@@ -41,7 +41,7 @@ namespace Stardust::Network {
 	void NetworkDriver::SendPackets(bool extendedID)
 	{
 
-		Utilities::detail::core_Logger->log("Sending Network Packet Queue");
+		Utilities::detail::core_Logger->log("Sending Network Packet Queue", Utilities::LOGGER_LEVEL_TRACE);
 
 
 		size_t len = packetQueue.size();
@@ -73,7 +73,7 @@ namespace Stardust::Network {
 				bbuf->WriteBEUInt8(temp);
 			}
 
-			Utilities::detail::core_Logger->log("Sending packet with ID: " + std::to_string(packetQueue.front()->ID), Utilities::LOGGER_LEVEL_DEBUG);
+			Utilities::detail::core_Logger->log("Sending packet with ID: " + std::to_string(packetQueue.front()->ID), Utilities::LOGGER_LEVEL_TRACE);
 			//Send over socket
 			m_Socket->Send(bbuf->GetUsedSpace(), bbuf->m_Buffer);
 
