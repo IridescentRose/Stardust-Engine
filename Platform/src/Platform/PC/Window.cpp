@@ -2,7 +2,9 @@
 #include <stdexcept>
 #include <iostream>
 
+
 namespace Stardust::Platform::PC {
+
 	auto error_callback(int error, const char* str) -> void {
 		std::cout << "ERROR: CODE " << error << " REASON: " << str << std::endl;
 	}

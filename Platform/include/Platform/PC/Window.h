@@ -4,6 +4,7 @@
 #include <string>
 
 namespace Stardust::Platform::PC {
+
 	class Window {
 	public:
 		Window(int width, int height, std::string title, bool fullscreen, bool vsync);

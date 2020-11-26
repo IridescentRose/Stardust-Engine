@@ -10,6 +10,9 @@ namespace Stardust::Utilities {
 
 	std::map<std::string, int> mymap;
 	std::map<std::string, ActionHandler> handles;
+
+	uint8_t kbmap[1024] = { 0 };
+
 #if CURRENT_PLATFORM == PLATFORM_PSP
 	SceCtrlData oldPadData;
 	SceCtrlData newPadData;
@@ -68,8 +71,17 @@ float getY()
 		}
 		return false;
 #else
-		//Filter out phony PSP keys
-			return glfwGetKey(Platform::PC::g_Window->getWindow(), key) == GLFW_PRESS;
+			//Filter out phony PSP keys
+			int res = glfwGetKey(Platform::PC::g_Window->getWindow(), key);
+
+			if ( kbmap[key] != 0 && res == 1) {
+				kbmap[key] = 2;
+			}
+			else {
+				kbmap[key] = res;
+			}
+
+			return kbmap[key] == 1;
 #endif
 		}
 		return false;
@@ -96,8 +108,16 @@ float getY()
 
 		return false;
 #else
-			return glfwGetKey(Platform::PC::g_Window->getWindow(), key) == GLFW_REPEAT;
-		
+			int res = glfwGetKey(Platform::PC::g_Window->getWindow(), key);
+
+			if (kbmap[key] != 0 && res == 1) {
+				kbmap[key] = 2;
+			}
+			else {
+				kbmap[key] = res;
+			}
+
+			return kbmap[key] == 2;
 #endif
 		}
 		return false;
